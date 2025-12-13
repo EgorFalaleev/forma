@@ -1,0 +1,6 @@
+﻿{
+  "name": "Runtime",
+  "references": [
+    "VContainer"
+  ]
+}
