@@ -1,7 +1,7 @@
 ﻿using VContainer;
 using VContainer.Unity;
 
-namespace Bootstrap
+namespace Forma.Runtime.Bootstrap
 {
     public class BootstrapScope : LifetimeScope
     {

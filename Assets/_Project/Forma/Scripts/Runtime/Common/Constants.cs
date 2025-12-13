@@ -1,6 +1,6 @@
 ﻿using UnityEngine.SceneManagement;
 
-namespace Common
+namespace Forma.Runtime.Common
 {
     public static class Constants
     {
