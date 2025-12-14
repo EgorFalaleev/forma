@@ -1,6 +1,17 @@
-﻿{
-  "name": "Runtime",
-  "references": [
-    "VContainer"
-  ]
+{
+    "name": "Runtime",
+    "rootNamespace": "",
+    "references": [
+        "VContainer",
+        "Unity.InputSystem"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }
