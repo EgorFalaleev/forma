@@ -10,7 +10,7 @@ namespace Forma.Runtime.Bootstrap
         public void Start()
         {
             Debug.Log("BootstrapFlow.Start()");
-            
+
             SceneManager.LoadScene(Constants.Scenes.Game);
         }
     }

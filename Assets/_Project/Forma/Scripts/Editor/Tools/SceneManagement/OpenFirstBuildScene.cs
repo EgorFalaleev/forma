@@ -11,9 +11,8 @@ namespace Forma.Editor.Tools.SceneManagement
     [Overlay(typeof(SceneView), "Open first scene")]
     public class OpenFirstBuildSceneToolbar : ToolbarOverlay
     {
-        public OpenFirstBuildSceneToolbar() : base(OpenFirstBuildSceneButton.ID)
-        {
-        }
+        public OpenFirstBuildSceneToolbar() : base(
+            OpenFirstBuildSceneButton.ID) { }
     }
 
     [EditorToolbarElement(ID, typeof(SceneView))]
@@ -25,14 +24,19 @@ namespace Forma.Editor.Tools.SceneManagement
         {
             UpdateButtonText();
             tooltip = "Open first scene from Build scene list";
-            icon = EditorGUIUtility.IconContent("SceneAsset Icon").image as Texture2D;
+
+            icon =
+                EditorGUIUtility.IconContent("SceneAsset Icon").image as
+                    Texture2D;
 
             EditorBuildSettings.sceneListChanged += UpdateButtonText;
             clicked += OpenScene;
         }
 
-        void UpdateButtonText() 
-            => text = GetFirstSceneName();
+        void UpdateButtonText()
+        {
+            text = GetFirstSceneName();
+        }
 
         void OpenScene()
         {
@@ -44,7 +48,8 @@ namespace Forma.Editor.Tools.SceneManagement
 
             string scenePath = EditorBuildSettings.scenes[0].path;
 
-            if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
+            if (EditorSceneManager
+                .SaveCurrentModifiedScenesIfUserWantsTo())
                 EditorSceneManager.OpenScene(scenePath);
         }
 
