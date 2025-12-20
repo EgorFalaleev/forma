@@ -1,6 +1,7 @@
 ﻿using Forma.Runtime.Core.Features.Movement;
 using Forma.Runtime.Core.Player;
 using Forma.Runtime.Services.Input;
+using Forma.Runtime.Services.Time;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -25,7 +26,9 @@ namespace Forma.Runtime.Core
             builder.Register<MoveInputService>(Lifetime.Singleton)
                 .As<BaseInputService>()
                 .As<IMoveInput>();
-            
+
+            builder.Register<UnityTimeService>(Lifetime.Singleton).As<ITimeService>();
+
             builder.Register<MovementController>(Lifetime.Singleton).As<ITickable>();
             builder.RegisterInstance(_playerView).As<IMovableView>();
         }

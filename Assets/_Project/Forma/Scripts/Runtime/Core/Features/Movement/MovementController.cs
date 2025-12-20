@@ -1,4 +1,5 @@
 ﻿using Forma.Runtime.Services.Input;
+using Forma.Runtime.Services.Time;
 using UnityEngine;
 using VContainer.Unity;
 
@@ -8,20 +9,22 @@ namespace Forma.Runtime.Core.Features.Movement
     {
         // TODO get speed from config
         const float SPEED = 10f;
-        
+
         readonly IMoveInput _moveInput;
         readonly IMovableView _movableView;
+        readonly ITimeService _timeService;
 
-        public MovementController(IMoveInput moveInput, IMovableView movableView)
+        public MovementController(IMoveInput moveInput, IMovableView movableView,
+            ITimeService timeService)
         {
             _moveInput = moveInput;
             _movableView = movableView;
+            _timeService = timeService;
         }
 
         public void Tick()
         {
-            // TODO remove get deltaTime from service
-            Vector3 velocity = _moveInput.MoveDirection * SPEED * Time.deltaTime;
+            Vector3 velocity = _moveInput.MoveDirection * SPEED * _timeService.deltaTime;
 
             _movableView.Move(velocity);
         }
