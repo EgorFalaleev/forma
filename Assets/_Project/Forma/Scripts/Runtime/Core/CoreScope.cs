@@ -1,4 +1,5 @@
-﻿using Forma.Runtime.Core.Features.Movement;
+﻿using Forma.Runtime.Core.Enemy;
+using Forma.Runtime.Core.Features.Movement;
 using Forma.Runtime.Core.Player;
 using Forma.Runtime.Services.Input;
 using Forma.Runtime.Services.Time;
@@ -11,6 +12,7 @@ namespace Forma.Runtime.Core
     public class CoreScope : LifetimeScope
     {
         [SerializeField] PlayerView _playerView;
+        [SerializeField] EnemyView[] _enemyViews;
 
         protected override void Configure(IContainerBuilder builder)
         {
@@ -31,6 +33,9 @@ namespace Forma.Runtime.Core
 
             builder.Register<MovementController>(Lifetime.Singleton).As<ITickable>();
             builder.RegisterInstance(_playerView).As<IMovableView>();
+
+            builder.RegisterInstance(_enemyViews);
+            builder.Register<EnemyFactory>(Lifetime.Singleton).AsSelf();
         }
     }
 }
