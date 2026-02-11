@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d73be5f17d3e4d228345171a7c60937b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Runtime::Forma.Runtime.Core.Enemy.EnemyView
+  _characterController: {fileID: 6359456565533014466}
 --- !u!143 &6359456565533014466
 CharacterController:
   m_ObjectHideFlags: 0

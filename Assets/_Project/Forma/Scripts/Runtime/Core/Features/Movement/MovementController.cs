@@ -1,11 +1,10 @@
 ﻿using Forma.Runtime.Services.Input;
 using Forma.Runtime.Services.Time;
 using UnityEngine;
-using VContainer.Unity;
 
 namespace Forma.Runtime.Core.Features.Movement
 {
-    public class MovementController : ITickable
+    public class MovementController : IRuntimeTickable
     {
         // TODO get speed from config
         const float SPEED = 10f;

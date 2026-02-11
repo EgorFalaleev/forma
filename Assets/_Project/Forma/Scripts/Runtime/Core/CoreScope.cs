@@ -1,4 +1,5 @@
-﻿using Forma.Runtime.Core.Enemy;
+﻿using System.Collections.Generic;
+using Forma.Runtime.Core.Enemy;
 using Forma.Runtime.Core.Features.Movement;
 using Forma.Runtime.Core.Player;
 using Forma.Runtime.Services.Input;
@@ -31,11 +32,12 @@ namespace Forma.Runtime.Core
 
             builder.Register<UnityTimeService>(Lifetime.Singleton).As<ITimeService>();
 
-            builder.Register<MovementController>(Lifetime.Singleton).As<ITickable>();
             builder.RegisterInstance(_playerView).As<IMovableView>();
 
-            builder.RegisterInstance(_enemyViews);
+            builder.RegisterInstance(_enemyViews).As<IEnumerable<EnemyView>>();
             builder.Register<EnemyFactory>(Lifetime.Singleton).AsSelf();
+
+            builder.Register<EnemyFlow>(Lifetime.Singleton).AsSelf();
         }
     }
 }
