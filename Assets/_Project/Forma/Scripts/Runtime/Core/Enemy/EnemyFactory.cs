@@ -8,18 +8,13 @@ namespace Forma.Runtime.Core.Enemy
 {
     public class EnemyFactory
     {
-        public IReadOnlyList<IRuntimeTickable> EnemyTickables => _enemyTickables;
-        
         readonly Transform _playerTransform;
         readonly ITimeService _timeService;
-        readonly List<IRuntimeTickable> _enemyTickables;
 
         public EnemyFactory(PlayerView playerView, ITimeService timeService)
         {
             _playerTransform = playerView.transform;
             _timeService = timeService;
-
-            _enemyTickables = new List<IRuntimeTickable>();
         }
 
         public MovementController Create(EnemyView enemyView)
@@ -30,8 +25,6 @@ namespace Forma.Runtime.Core.Enemy
             var movementController =
                 new MovementController(moveInput, enemyView, _timeService);
 
-            _enemyTickables.Add(movementController);
-            
             return movementController;
         }
     }

@@ -11,18 +11,13 @@ namespace Forma.Runtime.Core
     public class CoreFlow : IStartable, ITickable, IDisposable
     {
         readonly IEnumerable<BaseInputService> _inputServices;
-        readonly IEnumerable<EnemyView> _enemyViews;
         readonly PlayerFlow _playerFlow;
-        readonly EnemyFactory _enemyFactory;
         readonly EnemyFlow _enemyFlow;
 
-        public CoreFlow(IEnumerable<BaseInputService> inputServices,
-            IEnumerable<EnemyView> enemyViews, EnemyFactory enemyFactory,
-            EnemyFlow enemyFlow, PlayerFlow playerFlow)
+        public CoreFlow(IEnumerable<BaseInputService> inputServices, EnemyFlow enemyFlow,
+            PlayerFlow playerFlow)
         {
             _inputServices = inputServices;
-            _enemyViews = enemyViews;
-            _enemyFactory = enemyFactory;
             _enemyFlow = enemyFlow;
             _playerFlow = playerFlow;
         }
@@ -32,9 +27,7 @@ namespace Forma.Runtime.Core
             Debug.Log("CoreFlow.Start()");
 
             _playerFlow.Initialize();
-            
-            foreach (EnemyView enemyView in _enemyViews)
-                _enemyFactory.Create(enemyView);
+            _enemyFlow.Initialize();
 
             foreach (BaseInputService inputService in _inputServices)
                 inputService.Enable();
