@@ -18,9 +18,11 @@ namespace Forma.Runtime.Core.Player
             _timeService = timeService;
         }
 
-        public MovementController Create()
+        public Player Create()
         {
-            return new MovementController(_moveInput, _playerView, _timeService);
+            var movementController = new MovementController(_moveInput, _playerView, _timeService);
+
+            return new Player(movementController);
         }
     }
 }

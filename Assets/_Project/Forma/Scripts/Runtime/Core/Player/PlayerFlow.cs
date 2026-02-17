@@ -6,7 +6,7 @@ namespace Forma.Runtime.Core.Player
     {
         readonly PlayerFactory _playerFactory;
 
-        MovementController _movementController;
+        Player _player;
         
         public PlayerFlow(PlayerFactory playerFactory)
         {
@@ -15,12 +15,12 @@ namespace Forma.Runtime.Core.Player
 
         public void Initialize()
         {
-            _movementController = _playerFactory.Create();
+            _player = _playerFactory.Create();
         }
 
         public void Tick()
         {
-            _movementController.Tick();
+            _player.Tick();
         }
     }
 }
