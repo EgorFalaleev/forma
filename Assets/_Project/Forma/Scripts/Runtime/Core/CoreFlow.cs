@@ -43,6 +43,8 @@ namespace Forma.Runtime.Core
         {
             foreach (BaseInputService inputService in _inputServices)
                 inputService.Disable();
+            
+            _playerFlow.Dispose();
         }
     }
 }

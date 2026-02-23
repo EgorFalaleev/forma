@@ -32,7 +32,7 @@ namespace Forma.Runtime.Core
 
             builder.Register<UnityTimeService>(Lifetime.Singleton).As<ITimeService>();
 
-            builder.RegisterInstance(_playerView).As<IMovableView>();
+            builder.RegisterInstance(_playerView);
             builder.Register<PlayerFactory>(Lifetime.Singleton).AsSelf();
             
             builder.RegisterInstance(_enemyViews).As<IEnumerable<EnemyView>>();

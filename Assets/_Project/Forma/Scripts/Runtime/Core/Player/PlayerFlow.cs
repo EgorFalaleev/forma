@@ -1,8 +1,8 @@
-﻿using Forma.Runtime.Core.Features.Movement;
+﻿using System;
 
 namespace Forma.Runtime.Core.Player
 {
-    public class PlayerFlow
+    public class PlayerFlow : IDisposable
     {
         readonly PlayerFactory _playerFactory;
 
@@ -21,6 +21,11 @@ namespace Forma.Runtime.Core.Player
         public void Tick()
         {
             _player.Tick();
+        }
+
+        public void Dispose()
+        {
+            _player?.Dispose();
         }
     }
 }

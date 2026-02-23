@@ -1,18 +1,20 @@
 ﻿using System;
+using Forma.Runtime.Core.Features.Collisions;
 using Forma.Runtime.Core.Features.Movement;
 using UnityEngine;
 
 namespace Forma.Runtime.Core.Player
 {
-    public class PlayerView : MonoBehaviour, IMovableView
+    [RequireComponent(typeof(Collider), typeof(CharacterController))]
+    public class PlayerView : MonoBehaviour, IMovableView, ICollidableView
     {
-        public event Action<Collider> OnPlayerCollided; 
-        
+        public event Action<Collider> OnCollided;
+
         [SerializeField] CharacterController _characterController;
 
         void OnCollisionEnter(Collision other)
         {
-            OnPlayerCollided?.Invoke(other.collider);
+            OnCollided?.Invoke(other.collider);
         }
 
         public void Move(Vector3 velocity)
