@@ -20,7 +20,7 @@ namespace Forma.Runtime.Services.Input
             _moveInputAction.Enable();
 
             _moveInputAction.performed += OnMoveInputActionPerformed;
-            _moveInputAction.canceled += OnMoveInputActionPerformed;
+            _moveInputAction.canceled += OnMoveInputActionCanceled;
         }
 
         public override void Disable()
