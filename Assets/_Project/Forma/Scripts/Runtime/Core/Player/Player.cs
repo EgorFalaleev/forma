@@ -8,11 +8,11 @@ namespace Forma.Runtime.Core.Player
 {
     public class Player : IDisposable
     {
-        readonly MovementController _movementController;
+        readonly IMovementController _movementController;
         readonly IHealth _health;
         readonly ICollisionTriggers _collisionTriggers;
 
-        public Player(MovementController movementController, IHealth health,
+        public Player(IMovementController movementController, IHealth health,
             ICollisionTriggers collisionTriggers)
         {
             _movementController = movementController;
@@ -34,7 +34,7 @@ namespace Forma.Runtime.Core.Player
 
         public void Tick()
         {
-            _movementController.Tick();
+            _movementController.Move();
         }
 
         public void Dispose()

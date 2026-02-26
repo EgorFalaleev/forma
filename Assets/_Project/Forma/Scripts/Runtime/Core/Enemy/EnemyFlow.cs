@@ -7,21 +7,21 @@ namespace Forma.Runtime.Core.Enemy
     {
         readonly EnemyFactory _enemyFactory;
         readonly IEnumerable<EnemyView> _enemyViews;
-        readonly List<MovementController> _movementControllers;
+        readonly List<IMovementController> _movementControllers;
 
         public EnemyFlow(EnemyFactory enemyFactory, IEnumerable<EnemyView> enemyViews)
         {
             _enemyFactory = enemyFactory;
             _enemyViews = enemyViews;
 
-            _movementControllers = new List<MovementController>();
+            _movementControllers = new List<IMovementController>();
         }
 
         public void Initialize()
         {
             foreach (EnemyView enemyView in _enemyViews)
             {
-                MovementController movementController = _enemyFactory.Create(enemyView);
+                IMovementController movementController = _enemyFactory.Create(enemyView);
 
                 _movementControllers.Add(movementController);
             }
@@ -29,9 +29,9 @@ namespace Forma.Runtime.Core.Enemy
 
         public void Tick()
         {
-            foreach (MovementController movementController in _movementControllers)
+            foreach (IMovementController movementController in _movementControllers)
             {
-                movementController.Tick();
+                movementController.Move();
             }
         }
     }

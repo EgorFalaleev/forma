@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Forma.Runtime.Core.Features.Movement
 {
-    public class MovementController : IRuntimeTickable
+    public class MovementController : IMovementController
     {
         // TODO get speed from config
         const float SPEED = 10f;
@@ -21,7 +21,7 @@ namespace Forma.Runtime.Core.Features.Movement
             _timeService = timeService;
         }
 
-        public void Tick()
+        public void Move()
         {
             Vector3 velocity = _moveInput.MoveDirection * SPEED * _timeService.deltaTime;
 

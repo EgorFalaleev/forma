@@ -17,7 +17,7 @@ namespace Forma.Runtime.Core.Enemy
             _timeService = timeService;
         }
 
-        public MovementController Create(EnemyView enemyView)
+        public IMovementController Create(EnemyView enemyView)
         {
             var moveInput = new EnemyMoveInput(target: _playerTransform,
                 self: enemyView.transform);
