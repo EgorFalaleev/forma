@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Forma.Runtime.Core.Enemy;
-using Forma.Runtime.Core.Features.Movement;
 using Forma.Runtime.Core.Player;
 using Forma.Runtime.Services.Input;
 using Forma.Runtime.Services.Time;
@@ -30,11 +29,15 @@ namespace Forma.Runtime.Core
                 .As<BaseInputService>()
                 .As<IMoveInput>();
 
+            builder.Register<ToggleGridInputService>(Lifetime.Singleton)
+                .As<BaseInputService>()
+                .As<IToggleGridInput>();
+
             builder.Register<UnityTimeService>(Lifetime.Singleton).As<ITimeService>();
 
             builder.RegisterInstance(_playerView);
             builder.Register<PlayerFactory>(Lifetime.Singleton).AsSelf();
-            
+
             builder.RegisterInstance(_enemyViews).As<IEnumerable<EnemyView>>();
             builder.Register<EnemyFactory>(Lifetime.Singleton).AsSelf();
 
