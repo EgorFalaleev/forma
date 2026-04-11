@@ -1,0 +1,190 @@
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+
+namespace Forma.Runtime.Core.Features.HexGrid
+{
+    [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
+    public class HexRenderer : MonoBehaviour
+    {
+        public MeshFilter meshFilter;
+        public MeshRenderer meshRenderer;
+        public Material material;
+        public float innerSize = 0.5f;
+        public float outerSize = 1f;
+        public float height;
+        public bool isFlatTopped;
+
+        Mesh _mesh;
+        List<Face> _faces;
+
+        void Awake()
+        {
+            meshFilter = GetComponent<MeshFilter>();
+            meshRenderer = GetComponent<MeshRenderer>();
+
+            _mesh = new Mesh
+            {
+                name = "Hex"
+            };
+
+            meshFilter.mesh = _mesh;
+            meshRenderer.material = material;
+        }
+
+        public void DrawMesh()
+        {
+            DrawFaces();
+            CombineFaces();
+        }
+
+        public void SetMaterial(Material material)
+        {
+            meshRenderer.material = material;
+        }
+
+        void DrawFaces()
+        {
+            _faces = new List<Face>();
+
+            AddFace(innerSize, outerSize, height / 2f, height / 2f); // top faces
+            AddFace(innerSize, outerSize, -height / 2f, -height / 2f); // bottom faces
+            AddFace(outerSize, outerSize, height / 2f, -height / 2f); // outer faces
+            AddFace(innerSize, outerSize, height / 2f, -height / 2f); // inner faces
+        }
+
+        void AddFace(float innerRadius, float outerRadius, float heightA, float heightB)
+        {
+            for (int point = 0; point < 6; point++)
+            {
+                _faces.Add(
+                    CreateFace(
+                        innerRadius,
+                        outerRadius,
+                        heightA,
+                        heightB,
+                        point
+                    )
+                );
+            }
+        }
+
+        void CombineFaces()
+        {
+            var vertices = new List<Vector3>();
+            var triangles = new List<int>();
+            var uvs = new List<Vector2>();
+
+            for (int i = 0; i < _faces.Count; i++)
+            {
+                vertices.AddRange(_faces[i].vertices);
+                uvs.AddRange(_faces[i].uvs);
+
+                int offset = 4 * i;
+
+                triangles.AddRange(
+                    _faces[i]
+                       .triangles
+                       .Select(triangle => triangle + offset)
+                );
+            }
+
+            _mesh.vertices = vertices.ToArray();
+            _mesh.triangles = triangles.ToArray();
+            _mesh.uv = uvs.ToArray();
+            _mesh.RecalculateNormals();
+        }
+
+        Face CreateFace(float innerRadius, float outerRadius, float heightA,
+            float heightB, int point, bool reverse = false)
+        {
+            Vector3 pointA = GetPoint(innerRadius, heightB, point);
+
+            Vector3 pointB = GetPoint(
+                innerRadius,
+                heightB,
+                point < 5
+                    ? point + 1
+                    : 0
+            );
+
+            Vector3 pointC = GetPoint(
+                outerRadius,
+                heightA,
+                point < 5
+                    ? point + 1
+                    : 0
+            );
+
+            Vector3 pointD = GetPoint(outerRadius, heightA, point);
+
+            var vertices = new List<Vector3>
+            {
+                pointA,
+                pointB,
+                pointC,
+                pointD
+            };
+
+            var triangles = new List<int>
+            {
+                0,
+                1,
+                2,
+                2,
+                3,
+                0
+            };
+
+            var uvs = new List<Vector2>
+            {
+                new(0, 0),
+                new(1, 0),
+                new(1, 1),
+                new(0, 1)
+            };
+
+            if (reverse)
+            {
+                vertices.Reverse();
+            }
+
+            return new Face(vertices, triangles, uvs);
+        }
+
+        Vector3 GetPoint(float size, float height, int index)
+        {
+            float segmentDeg = 60 * index;
+
+            float angleDeg = isFlatTopped
+                ? segmentDeg
+                : segmentDeg - 30;
+
+            float angleRad = angleDeg * Mathf.Deg2Rad;
+
+            return new Vector3(
+                size * Mathf.Cos(angleRad),
+                height,
+                size * Mathf.Sin(angleRad)
+            );
+        }
+    }
+
+    public struct Face
+    {
+        public List<Vector3> vertices => _vertices;
+        public List<int> triangles => _triangles;
+        public List<Vector2> uvs => _uvs;
+
+        readonly List<Vector3> _vertices;
+        readonly List<int> _triangles;
+        readonly List<Vector2> _uvs;
+
+        public Face(List<Vector3> vertices, List<int> triangles, List<Vector2> uvs)
+        {
+            _vertices = vertices;
+            _triangles = triangles;
+            _uvs = uvs;
+        }
+    }
+}
