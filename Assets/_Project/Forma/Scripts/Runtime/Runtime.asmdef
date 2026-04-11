@@ -3,7 +3,8 @@
     "rootNamespace": "",
     "references": [
         "VContainer",
-        "Unity.InputSystem"
+        "Unity.InputSystem",
+        "Unity.TextMeshPro"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
