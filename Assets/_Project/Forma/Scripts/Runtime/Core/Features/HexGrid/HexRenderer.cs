@@ -47,13 +47,45 @@ namespace Forma.Runtime.Core.Features.HexGrid
         {
             _faces = new List<Face>();
 
-            AddFace(innerSize, outerSize, height / 2f, height / 2f); // top faces
-            AddFace(innerSize, outerSize, -height / 2f, -height / 2f); // bottom faces
-            AddFace(outerSize, outerSize, height / 2f, -height / 2f); // outer faces
-            AddFace(innerSize, outerSize, height / 2f, -height / 2f); // inner faces
+            // top faces
+            AddFace(
+                innerSize,
+                outerSize,
+                height / 2f,
+                height / 2f,
+                false
+            );
+
+            // bottom faces
+            AddFace(
+                innerSize,
+                outerSize,
+                -height / 2f,
+                -height / 2f,
+                true
+            );
+
+            // outer faces
+            AddFace(
+                outerSize,
+                outerSize,
+                height / 2f,
+                -height / 2f,
+                true
+            );
+
+            // inner faces
+            AddFace(
+                innerSize,
+                innerSize,
+                height / 2f,
+                -height / 2f,
+                false
+            );
         }
 
-        void AddFace(float innerRadius, float outerRadius, float heightA, float heightB)
+        void AddFace(float innerRadius, float outerRadius, float heightA, float heightB,
+            bool reverse)
         {
             for (int point = 0; point < 6; point++)
             {
@@ -63,7 +95,8 @@ namespace Forma.Runtime.Core.Features.HexGrid
                         outerRadius,
                         heightA,
                         heightB,
-                        point
+                        point,
+                        reverse
                     )
                 );
             }
@@ -96,7 +129,7 @@ namespace Forma.Runtime.Core.Features.HexGrid
         }
 
         Face CreateFace(float innerRadius, float outerRadius, float heightA,
-            float heightB, int point, bool reverse = false)
+            float heightB, int point, bool reverse)
         {
             Vector3 pointA = GetPoint(innerRadius, heightB, point);
 
