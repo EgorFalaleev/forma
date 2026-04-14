@@ -202,22 +202,4 @@ namespace Forma.Runtime.Core.Features.HexGrid
             );
         }
     }
-
-    public struct Face
-    {
-        public List<Vector3> vertices => _vertices;
-        public List<int> triangles => _triangles;
-        public List<Vector2> uvs => _uvs;
-
-        readonly List<Vector3> _vertices;
-        readonly List<int> _triangles;
-        readonly List<Vector2> _uvs;
-
-        public Face(List<Vector3> vertices, List<int> triangles, List<Vector2> uvs)
-        {
-            _vertices = vertices;
-            _triangles = triangles;
-            _uvs = uvs;
-        }
-    }
 }

@@ -4,6 +4,8 @@ namespace Forma.Runtime.Core.Features.HexGrid
 {
     public class HexGridLayout : MonoBehaviour
     {
+        const float Sqrt3 = 1.7320508f;
+        
         [Header("Grid settings")]
         [SerializeField] Vector2Int _gridSize;
 
@@ -93,7 +95,7 @@ namespace Forma.Runtime.Core.Features.HexGrid
             {
                 shouldOffset = column % 2 == 0;
                 width = 2f * size;
-                height = Mathf.Sqrt(3) * size;
+                height = Sqrt3 * size;
 
                 horizontalDistance = width * 3f / 4f;
                 verticalDistance = height;
@@ -108,7 +110,7 @@ namespace Forma.Runtime.Core.Features.HexGrid
             else
             {
                 shouldOffset = row % 2 == 0;
-                width = Mathf.Sqrt(3) * size;
+                width = Sqrt3 * size;
                 height = 2f * size;
 
                 horizontalDistance = width;
