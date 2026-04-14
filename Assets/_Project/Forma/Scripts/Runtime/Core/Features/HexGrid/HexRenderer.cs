@@ -1,35 +1,46 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace Forma.Runtime.Core.Features.HexGrid
 {
     [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
     public class HexRenderer : MonoBehaviour
     {
-        public MeshFilter meshFilter;
-        public MeshRenderer meshRenderer;
-        public Material material;
-        public float innerSize = 0.5f;
-        public float outerSize = 1f;
-        public float height;
-        public bool isFlatTopped;
+        MeshFilter _meshFilter;
+        MeshRenderer _meshRenderer;
+        Material _material;
+        float _innerSize = 0.5f;
+        float _outerSize = 1f;
+        float _height;
+        bool _isFlatTopped;
 
         Mesh _mesh;
         List<Face> _faces;
 
-        void Awake()
+        public void Construct(Material material, float innerSize, float outerSize,
+            float height, bool isFlatTopped, bool shouldCastShadows)
         {
-            meshFilter = GetComponent<MeshFilter>();
-            meshRenderer = GetComponent<MeshRenderer>();
-
+            _meshFilter = GetComponent<MeshFilter>();
+            _meshRenderer = GetComponent<MeshRenderer>();
+            
             _mesh = new Mesh
             {
                 name = "Hex"
             };
 
-            meshFilter.mesh = _mesh;
-            meshRenderer.material = material;
+            _meshFilter.mesh = _mesh;
+            _meshRenderer.material = material;
+
+            _innerSize = innerSize;
+            _outerSize = outerSize;
+            _height = height;
+            _isFlatTopped = isFlatTopped;
+
+            _meshRenderer.shadowCastingMode = shouldCastShadows
+                ? ShadowCastingMode.On
+                : ShadowCastingMode.Off;
         }
 
         public void DrawMesh()
@@ -38,48 +49,43 @@ namespace Forma.Runtime.Core.Features.HexGrid
             CombineFaces();
         }
 
-        public void SetMaterial(Material material)
-        {
-            meshRenderer.material = material;
-        }
-
         void DrawFaces()
         {
             _faces = new List<Face>();
 
             // top faces
             AddFace(
-                innerSize,
-                outerSize,
-                height / 2f,
-                height / 2f,
+                _innerSize,
+                _outerSize,
+                _height / 2f,
+                _height / 2f,
                 false
             );
 
             // bottom faces
             AddFace(
-                innerSize,
-                outerSize,
-                -height / 2f,
-                -height / 2f,
+                _innerSize,
+                _outerSize,
+                -_height / 2f,
+                -_height / 2f,
                 true
             );
 
             // outer faces
             AddFace(
-                outerSize,
-                outerSize,
-                height / 2f,
-                -height / 2f,
+                _outerSize,
+                _outerSize,
+                _height / 2f,
+                -_height / 2f,
                 true
             );
 
             // inner faces
             AddFace(
-                innerSize,
-                innerSize,
-                height / 2f,
-                -height / 2f,
+                _innerSize,
+                _innerSize,
+                _height / 2f,
+                -_height / 2f,
                 false
             );
         }
@@ -189,7 +195,7 @@ namespace Forma.Runtime.Core.Features.HexGrid
         {
             float segmentDeg = 60 * index;
 
-            float angleDeg = isFlatTopped
+            float angleDeg = _isFlatTopped
                 ? segmentDeg
                 : segmentDeg - 30;
 

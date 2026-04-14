@@ -665,6 +665,7 @@ MonoBehaviour:
   _outerSize: 2
   _height: 0.5
   _isFlatTopped: 0
+  _shouldCastShadows: 0
   _parent: {fileID: 714831614}
 --- !u!4 &817065617
 Transform:

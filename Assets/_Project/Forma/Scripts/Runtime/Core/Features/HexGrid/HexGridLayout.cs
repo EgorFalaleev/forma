@@ -5,7 +5,7 @@ namespace Forma.Runtime.Core.Features.HexGrid
     public class HexGridLayout : MonoBehaviour
     {
         const float Sqrt3 = 1.7320508f;
-        
+
         [Header("Grid settings")]
         [SerializeField] Vector2Int _gridSize;
 
@@ -16,8 +16,9 @@ namespace Forma.Runtime.Core.Features.HexGrid
         [SerializeField] float _outerSize = 1f;
         [SerializeField] float _height;
         [SerializeField] bool _isFlatTopped;
+        [SerializeField] bool _shouldCastShadows;
         [SerializeField] Transform _parent;
-        
+
         void OnEnable()
         {
             LayoutGrid();
@@ -36,7 +37,7 @@ namespace Forma.Runtime.Core.Features.HexGrid
             Vector2Int centerHex = _gridSize / 2;
             Vector3 centerHexPosition = GetPositionForHexFromCoordinate(centerHex);
             Vector3 offset = _parent.position - centerHexPosition;
-            
+
             for (int y = 0; y < _gridSize.y; y++)
             {
                 for (int x = 0; x < _gridSize.x; x++)
@@ -55,11 +56,15 @@ namespace Forma.Runtime.Core.Features.HexGrid
 
             var hexRenderer = tile.GetComponent<HexRenderer>();
 
-            hexRenderer.isFlatTopped = _isFlatTopped;
-            hexRenderer.outerSize = _outerSize;
-            hexRenderer.innerSize = _innerSize;
-            hexRenderer.height = _height;
-            hexRenderer.SetMaterial(_material);
+            hexRenderer.Construct(
+                _material,
+                _innerSize,
+                _outerSize,
+                _height,
+                _isFlatTopped,
+                _shouldCastShadows
+            );
+
             hexRenderer.DrawMesh();
 
             tile.transform.SetParent(transform, true);
