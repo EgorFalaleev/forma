@@ -14,7 +14,8 @@ namespace Forma.Runtime.Core.Features.HexGrid
         [SerializeField] float _outerSize = 1f;
         [SerializeField] float _height;
         [SerializeField] bool _isFlatTopped;
-
+        [SerializeField] Transform _parent;
+        
         void OnEnable()
         {
             LayoutGrid();
@@ -25,27 +26,41 @@ namespace Forma.Runtime.Core.Features.HexGrid
         {
             DestroyChildren(transform);
 
+            CreateGrid();
+        }
+
+        void CreateGrid()
+        {
+            Vector2Int centerHex = _gridSize / 2;
+            Vector3 centerHexPosition = GetPositionForHexFromCoordinate(centerHex);
+            Vector3 offset = _parent.position - centerHexPosition;
+            
             for (int y = 0; y < _gridSize.y; y++)
             {
                 for (int x = 0; x < _gridSize.x; x++)
                 {
-                    var tile = new GameObject($"Hex {x} {y}", typeof(HexRenderer));
-
-                    tile.transform.position =
-                        GetPositionForHexFromCoordinate(new Vector2Int(x, y));
-
-                    var hexRenderer = tile.GetComponent<HexRenderer>();
-
-                    hexRenderer.isFlatTopped = _isFlatTopped;
-                    hexRenderer.outerSize = _outerSize;
-                    hexRenderer.innerSize = _innerSize;
-                    hexRenderer.height = _height;
-                    hexRenderer.SetMaterial(_material);
-                    hexRenderer.DrawMesh();
-
-                    tile.transform.SetParent(transform, true);
+                    CreateTile(x, y, offset);
                 }
             }
+        }
+
+        void CreateTile(int x, int y, Vector3 offset)
+        {
+            var tile = new GameObject($"Hex {x} {y}", typeof(HexRenderer));
+
+            tile.transform.position =
+                GetPositionForHexFromCoordinate(new Vector2Int(x, y)) + offset;
+
+            var hexRenderer = tile.GetComponent<HexRenderer>();
+
+            hexRenderer.isFlatTopped = _isFlatTopped;
+            hexRenderer.outerSize = _outerSize;
+            hexRenderer.innerSize = _innerSize;
+            hexRenderer.height = _height;
+            hexRenderer.SetMaterial(_material);
+            hexRenderer.DrawMesh();
+
+            tile.transform.SetParent(transform, true);
         }
 
         void DestroyChildren(Transform parent)

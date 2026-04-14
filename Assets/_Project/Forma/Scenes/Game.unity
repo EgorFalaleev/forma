@@ -796,10 +796,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Runtime::Forma.Runtime.Core.Features.HexGrid.HexGridLayout
   _gridSize: {x: 7, y: 7}
   _material: {fileID: 2100000, guid: 40b88d502bb6505448648e264abbd20a, type: 2}
-  _innerSize: 1
+  _innerSize: 1.5
   _outerSize: 2
   _height: 0.5
   _isFlatTopped: 0
+  _parent: {fileID: 714831614}
 --- !u!4 &817065617
 Transform:
   m_ObjectHideFlags: 0
