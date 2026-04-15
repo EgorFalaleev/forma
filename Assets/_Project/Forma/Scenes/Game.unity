@@ -667,6 +667,9 @@ MonoBehaviour:
   _isFlatTopped: 0
   _shouldCastShadows: 0
   _parent: {fileID: 714831614}
+  _dropHeight: 8
+  _tileDuration: 1
+  _delayBetweenRings: 0.03
 --- !u!4 &817065617
 Transform:
   m_ObjectHideFlags: 0

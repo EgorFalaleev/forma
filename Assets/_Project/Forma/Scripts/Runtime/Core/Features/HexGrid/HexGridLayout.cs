@@ -1,4 +1,8 @@
+using System.Collections;
 using UnityEngine;
+using System.Collections.Generic;
+using System.Linq;
+using PrimeTween;
 
 namespace Forma.Runtime.Core.Features.HexGrid
 {
@@ -11,13 +15,17 @@ namespace Forma.Runtime.Core.Features.HexGrid
 
         [Header("Tile settings")]
         [SerializeField] Material _material;
-
         [SerializeField] float _innerSize = 0.5f;
         [SerializeField] float _outerSize = 1f;
         [SerializeField] float _height;
         [SerializeField] bool _isFlatTopped;
         [SerializeField] bool _shouldCastShadows;
         [SerializeField] Transform _parent;
+        
+        [Header("Animation settings")]
+        [SerializeField] float _dropHeight = 8f;
+        [SerializeField] float _tileDuration = 1.5f;
+        [SerializeField] float _delayBetweenRings = 0.1f;
 
         void OnEnable()
         {
@@ -29,25 +37,74 @@ namespace Forma.Runtime.Core.Features.HexGrid
         {
             DestroyChildren(transform);
 
-            CreateGrid();
+            StartCoroutine(CreateGridAnimated());
         }
 
-        void CreateGrid()
+        IEnumerator CreateGridAnimated()
         {
             Vector2Int centerHex = _gridSize / 2;
             Vector3 centerHexPosition = GetPositionForHexFromCoordinate(centerHex);
             Vector3 offset = _parent.position - centerHexPosition;
 
-            for (int y = 0; y < _gridSize.y; y++)
+            Dictionary<int, List<Vector2Int>> rings = CreateGridRings(centerHex);
+            
+            foreach (KeyValuePair<int, List<Vector2Int>> ring in
+                rings.OrderBy(r => r.Key))
             {
-                for (int x = 0; x < _gridSize.x; x++)
-                {
-                    CreateTile(x, y, offset);
-                }
+                AnimateRing(ring.Value, offset);
+
+                yield return new WaitForSeconds(_delayBetweenRings);
             }
         }
 
-        void CreateTile(int x, int y, Vector3 offset)
+        Dictionary<int, List<Vector2Int>> CreateGridRings(Vector2Int centerHex)
+        {
+            var rings = new Dictionary<int, List<Vector2Int>>();
+
+            for (var y = 0; y < _gridSize.y; y++)
+            {
+                for (var x = 0; x < _gridSize.x; x++)
+                {
+                    int ring = Mathf.RoundToInt(
+                        Vector2Int.Distance(new Vector2Int(x, y), centerHex)
+                    );
+
+                    if (!rings.ContainsKey(ring))
+                    {
+                        rings[ring] = new List<Vector2Int>();
+                    }
+
+                    rings[ring]
+                       .Add(new Vector2Int(x, y));
+                }
+            }
+
+            return rings;
+        }
+
+        void AnimateRing(List<Vector2Int> ringCoords, Vector3 offset)
+        {
+            foreach (Vector2Int coord in ringCoords)
+            {
+                GameObject tile = CreateTile(coord.x, coord.y, offset);
+
+                Vector3 targetPos = tile.transform.position;
+                Vector3 startPos = targetPos + Vector3.up * _dropHeight;
+
+                tile.transform.position = startPos;
+
+                Tween.Position(
+                    tile.transform,
+                    new TweenSettings<Vector3>(
+                        targetPos,
+                        _tileDuration,
+                        Ease.OutBounce
+                    )
+                );
+            }
+        }
+
+        GameObject CreateTile(int x, int y, Vector3 offset)
         {
             var tile = new GameObject($"Hex {x} {y}", typeof(HexRenderer));
 
@@ -68,11 +125,13 @@ namespace Forma.Runtime.Core.Features.HexGrid
             hexRenderer.DrawMesh();
 
             tile.transform.SetParent(transform, true);
+
+            return tile;
         }
 
         void DestroyChildren(Transform parent)
         {
-            for (int i = 0; i < parent.childCount; i++)
+            for (var i = 0; i < parent.childCount; i++)
             {
                 Destroy(
                     parent.GetChild(i)
