@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6acdd0965c5b414083ca638a882f976f, type: 3}
+  m_Name: HexGrid
+  m_EditorClassIdentifier: Runtime::Forma.Runtime.Core.Features.HexGrid.Data.HexGridData
+  <GridSize>k__BackingField: {x: 11, y: 11}
+  <IsFlatTopped>k__BackingField: 0
+  <ShouldCastShadows>k__BackingField: 0
+  <HexTileData>k__BackingField: {fileID: 11400000, guid: 5c1909b05c107c043a1ad419703e7ad4, type: 2}
+  <HexGridAnimationData>k__BackingField: {fileID: 11400000, guid: d1ee461adbb836446829ccb09db66372, type: 2}

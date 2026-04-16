@@ -659,17 +659,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fb59bf04dbe43ceb9c4a2f36e829bdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Runtime::Forma.Runtime.Core.Features.HexGrid.HexGridLayout
-  _gridSize: {x: 15, y: 15}
-  _material: {fileID: 2100000, guid: 40b88d502bb6505448648e264abbd20a, type: 2}
-  _innerSize: 1.5
-  _outerSize: 2
-  _height: 0.5
-  _isFlatTopped: 0
-  _shouldCastShadows: 0
+  _hexGridData: {fileID: 11400000, guid: 8fad15143544b2444a78c42a13c9294b, type: 2}
   _parent: {fileID: 714831614}
-  _dropHeight: 8
-  _tileDuration: 1
-  _delayBetweenRings: 0.03
 --- !u!4 &817065617
 Transform:
   m_ObjectHideFlags: 0

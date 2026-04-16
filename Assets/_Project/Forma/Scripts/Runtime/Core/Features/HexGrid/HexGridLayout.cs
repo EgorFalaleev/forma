@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using Forma.Runtime.Core.Features.HexGrid.Data;
 using PrimeTween;
 
 namespace Forma.Runtime.Core.Features.HexGrid
@@ -10,22 +11,12 @@ namespace Forma.Runtime.Core.Features.HexGrid
     {
         const float Sqrt3 = 1.7320508f;
 
-        [Header("Grid settings")]
-        [SerializeField] Vector2Int _gridSize;
+        [SerializeField] HexGridData _hexGridData;
 
-        [Header("Tile settings")]
-        [SerializeField] Material _material;
-        [SerializeField] float _innerSize = 0.5f;
-        [SerializeField] float _outerSize = 1f;
-        [SerializeField] float _height;
-        [SerializeField] bool _isFlatTopped;
-        [SerializeField] bool _shouldCastShadows;
+        HexTileData HexTileData => _hexGridData.HexTileData;
+        HexGridAnimationData HexGridAnimationData => _hexGridData.HexGridAnimationData;
+
         [SerializeField] Transform _parent;
-        
-        [Header("Animation settings")]
-        [SerializeField] float _dropHeight = 8f;
-        [SerializeField] float _tileDuration = 1.5f;
-        [SerializeField] float _delayBetweenRings = 0.1f;
 
         void OnEnable()
         {
@@ -42,18 +33,18 @@ namespace Forma.Runtime.Core.Features.HexGrid
 
         IEnumerator CreateGridAnimated()
         {
-            Vector2Int centerHex = _gridSize / 2;
+            Vector2Int centerHex = _hexGridData.GridSize / 2;
             Vector3 centerHexPosition = GetPositionForHexFromCoordinate(centerHex);
             Vector3 offset = _parent.position - centerHexPosition;
 
             Dictionary<int, List<Vector2Int>> rings = CreateGridRings(centerHex);
-            
+
             foreach (KeyValuePair<int, List<Vector2Int>> ring in
                 rings.OrderBy(r => r.Key))
             {
                 AnimateRing(ring.Value, offset);
 
-                yield return new WaitForSeconds(_delayBetweenRings);
+                yield return new WaitForSeconds(HexGridAnimationData.DelayBetweenRings);
             }
         }
 
@@ -61,9 +52,11 @@ namespace Forma.Runtime.Core.Features.HexGrid
         {
             var rings = new Dictionary<int, List<Vector2Int>>();
 
-            for (var y = 0; y < _gridSize.y; y++)
+            Vector2Int gridSize = _hexGridData.GridSize;
+
+            for (var y = 0; y < gridSize.y; y++)
             {
-                for (var x = 0; x < _gridSize.x; x++)
+                for (var x = 0; x < gridSize.x; x++)
                 {
                     int ring = Mathf.RoundToInt(
                         Vector2Int.Distance(new Vector2Int(x, y), centerHex)
@@ -89,7 +82,9 @@ namespace Forma.Runtime.Core.Features.HexGrid
                 GameObject tile = CreateTile(coord.x, coord.y, offset);
 
                 Vector3 targetPos = tile.transform.position;
-                Vector3 startPos = targetPos + Vector3.up * _dropHeight;
+
+                Vector3 startPos =
+                    targetPos + Vector3.up * HexGridAnimationData.DropHeight;
 
                 tile.transform.position = startPos;
 
@@ -97,8 +92,8 @@ namespace Forma.Runtime.Core.Features.HexGrid
                     tile.transform,
                     new TweenSettings<Vector3>(
                         targetPos,
-                        _tileDuration,
-                        Ease.OutBounce
+                        HexGridAnimationData.TileDuration,
+                        HexGridAnimationData.Easing
                     )
                 );
             }
@@ -114,12 +109,12 @@ namespace Forma.Runtime.Core.Features.HexGrid
             var hexRenderer = tile.GetComponent<HexRenderer>();
 
             hexRenderer.Construct(
-                _material,
-                _innerSize,
-                _outerSize,
-                _height,
-                _isFlatTopped,
-                _shouldCastShadows
+                HexTileData.Material,
+                HexTileData.InnerSize,
+                HexTileData.OuterSize,
+                HexTileData.Height,
+                HexTileData.IsFlatTopped,
+                HexTileData.ShouldCastShadows
             );
 
             hexRenderer.DrawMesh();
@@ -153,9 +148,9 @@ namespace Forma.Runtime.Core.Features.HexGrid
             float horizontalDistance;
             float verticalDistance;
             float offset;
-            float size = _outerSize;
+            float size = HexTileData.OuterSize;
 
-            if (_isFlatTopped)
+            if (HexTileData.IsFlatTopped)
             {
                 shouldOffset = column % 2 == 0;
                 width = 2f * size;
