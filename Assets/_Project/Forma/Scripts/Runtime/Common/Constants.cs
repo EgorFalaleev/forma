@@ -12,5 +12,10 @@ namespace Forma.Runtime.Common
             public static readonly int Game =
                 SceneUtility.GetBuildIndexByScenePath("Game");
         }
+
+        public static class Math
+        {
+            public const float Sqrt3 = 1.7320508f;
+        }
     }
 }

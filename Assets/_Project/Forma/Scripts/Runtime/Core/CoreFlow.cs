@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Forma.Runtime.Core.Enemy;
+using Forma.Runtime.Core.Features.HexGrid;
 using Forma.Runtime.Core.Player;
 using Forma.Runtime.Services.Input;
 using UnityEngine;
@@ -13,13 +14,15 @@ namespace Forma.Runtime.Core
         readonly IEnumerable<BaseInputService> _inputServices;
         readonly PlayerFlow _playerFlow;
         readonly EnemyFlow _enemyFlow;
+        readonly HexGridFlow _hexGridFlow;
 
         public CoreFlow(IEnumerable<BaseInputService> inputServices, EnemyFlow enemyFlow,
-            PlayerFlow playerFlow)
+            PlayerFlow playerFlow, HexGridFlow hexGridFlow)
         {
             _inputServices = inputServices;
             _enemyFlow = enemyFlow;
             _playerFlow = playerFlow;
+            _hexGridFlow = hexGridFlow;
         }
 
         public void Start()
@@ -28,6 +31,7 @@ namespace Forma.Runtime.Core
 
             _playerFlow.Initialize();
             _enemyFlow.Initialize();
+            _hexGridFlow.Initialize();
 
             foreach (BaseInputService inputService in _inputServices)
                 inputService.Enable();
@@ -45,6 +49,7 @@ namespace Forma.Runtime.Core
                 inputService.Disable();
             
             _playerFlow.Dispose();
+            _hexGridFlow.Dispose();
         }
     }
 }

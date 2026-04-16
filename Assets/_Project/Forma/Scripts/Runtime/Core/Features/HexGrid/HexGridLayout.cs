@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using Forma.Runtime.Common;
 using Forma.Runtime.Core.Features.HexGrid.Data;
 using PrimeTween;
 
@@ -9,22 +10,20 @@ namespace Forma.Runtime.Core.Features.HexGrid
 {
     public class HexGridLayout : MonoBehaviour
     {
-        const float Sqrt3 = 1.7320508f;
-
-        [SerializeField] HexGridData _hexGridData;
+        HexGridData _hexGridData;
+        Transform _parent;
 
         HexTileData HexTileData => _hexGridData.HexTileData;
         HexGridAnimationData HexGridAnimationData => _hexGridData.HexGridAnimationData;
 
-        [SerializeField] Transform _parent;
-
-        void OnEnable()
+        public void Initialize(HexGridData hexGridData, Transform parent)
         {
-            LayoutGrid();
+            _hexGridData = hexGridData;
+            _parent = parent;
         }
-
+        
         [ContextMenu("Draw hex grid")]
-        void LayoutGrid()
+        public void LayoutGrid()
         {
             DestroyChildren(transform);
 
@@ -154,7 +153,7 @@ namespace Forma.Runtime.Core.Features.HexGrid
             {
                 shouldOffset = column % 2 == 0;
                 width = 2f * size;
-                height = Sqrt3 * size;
+                height = Constants.Math.Sqrt3 * size;
 
                 horizontalDistance = width * 3f / 4f;
                 verticalDistance = height;
@@ -169,7 +168,7 @@ namespace Forma.Runtime.Core.Features.HexGrid
             else
             {
                 shouldOffset = row % 2 == 0;
-                width = Sqrt3 * size;
+                width = Constants.Math.Sqrt3 * size;
                 height = 2f * size;
 
                 horizontalDistance = width;

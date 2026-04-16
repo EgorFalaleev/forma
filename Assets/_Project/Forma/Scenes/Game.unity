@@ -630,52 +630,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 718133775}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &817065615
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 817065617}
-  - component: {fileID: 817065616}
-  m_Layer: 0
-  m_Name: HexGridLayout
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &817065616
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 817065615}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1fb59bf04dbe43ceb9c4a2f36e829bdc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Runtime::Forma.Runtime.Core.Features.HexGrid.HexGridLayout
-  _hexGridData: {fileID: 11400000, guid: 8fad15143544b2444a78c42a13c9294b, type: 2}
-  _parent: {fileID: 714831614}
---- !u!4 &817065617
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 817065615}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &959889565
 GameObject:
   m_ObjectHideFlags: 0
@@ -832,6 +786,7 @@ MonoBehaviour:
   - {fileID: 984061319173565803}
   - {fileID: 2033243314}
   - {fileID: 1738265450}
+  _hexGridData: {fileID: 11400000, guid: 8fad15143544b2444a78c42a13c9294b, type: 2}
 --- !u!4 &1005497273
 Transform:
   m_ObjectHideFlags: 0
@@ -1209,4 +1164,3 @@ SceneRoots:
   - {fileID: 714831614}
   - {fileID: 1241942858}
   - {fileID: 1602009109}
-  - {fileID: 817065617}
