@@ -8,6 +8,8 @@ namespace Forma.Runtime.Core.Features.HexGrid
         readonly HexGridLayout _hexGridLayout;
         readonly IToggleGridInput _toggleGridInput;
 
+        bool _isGridActive;
+        
         public HexGrid(HexGridLayout hexGridLayout, IToggleGridInput toggleGridInput)
         {
             _hexGridLayout = hexGridLayout;
@@ -18,7 +20,16 @@ namespace Forma.Runtime.Core.Features.HexGrid
 
         void ToggleGrid()
         {
-            _hexGridLayout.LayoutGrid();
+            if (!_isGridActive)
+            {
+                _hexGridLayout.SpawnGrid();
+            }
+            else
+            {
+                _hexGridLayout.DespawnGrid();
+            }
+
+            _isGridActive = !_isGridActive;
         }
 
         public void Dispose()

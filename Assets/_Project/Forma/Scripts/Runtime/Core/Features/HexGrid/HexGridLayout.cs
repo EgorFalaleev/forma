@@ -14,20 +14,93 @@ namespace Forma.Runtime.Core.Features.HexGrid
         Transform _parent;
 
         HexTileData HexTileData => _hexGridData.HexTileData;
-        HexGridAnimationData HexGridAnimationData => _hexGridData.HexGridAnimationData;
+
+        HexGridAnimationData GridSpawnAnimationData
+            => _hexGridData.GridSpawnAnimationData;
+
+        HexGridAnimationData GridDespawnAnimationData
+            => _hexGridData.GridDespawnAnimationData;
 
         public void Initialize(HexGridData hexGridData, Transform parent)
         {
             _hexGridData = hexGridData;
             _parent = parent;
         }
-        
-        [ContextMenu("Draw hex grid")]
-        public void LayoutGrid()
-        {
-            DestroyChildren(transform);
 
+        public void SpawnGrid()
+        {
             StartCoroutine(CreateGridAnimated());
+        }
+
+        public void DespawnGrid()
+        {
+            StartCoroutine(DestroyGridAnimated());
+        }
+
+        IEnumerator DestroyGridAnimated()
+        {
+            Vector2Int centerHex = _hexGridData.GridSize / 2;
+
+            Dictionary<int, List<Transform>> rings = GroupChildrenByRing(centerHex);
+
+            foreach (KeyValuePair<int, List<Transform>> ring in rings.OrderByDescending(
+                ring => ring.Key
+            ))
+            {
+                AnimateRingDespawn(ring.Value);
+
+                yield return new WaitForSeconds(GridDespawnAnimationData.DelayBetweenRings);
+            }
+
+            yield return new WaitForSeconds(GridDespawnAnimationData.TileDuration);
+
+            DestroyChildren(transform);
+        }
+
+        void AnimateRingDespawn(List<Transform> tiles)
+        {
+            foreach (Transform tile in tiles)
+            {
+                Vector3 startPos = tile.position;
+
+                Vector3 targetPos =
+                    startPos + Vector3.up * GridDespawnAnimationData.DropHeight;
+
+                Tween
+                   .Position(
+                        tile,
+                        new TweenSettings<Vector3>(
+                            targetPos,
+                            GridDespawnAnimationData.TileDuration,
+                            GridDespawnAnimationData.Easing
+                        )
+                    )
+                   .OnComplete(() => tile.gameObject.SetActive(false));
+            }
+        }
+
+        Dictionary<int, List<Transform>> GroupChildrenByRing(Vector2Int centerHex)
+        {
+            var rings = new Dictionary<int, List<Transform>>();
+
+            foreach (Transform child in transform)
+            {
+                var tileCoords = child.GetComponent<HexCoordinates>();
+
+                int ring = Mathf.RoundToInt(
+                    Vector2Int.Distance(tileCoords.Coordinates, centerHex)
+                );
+
+                if (!rings.ContainsKey(ring))
+                {
+                    rings[ring] = new List<Transform>();
+                }
+
+                rings[ring]
+                   .Add(child.transform);
+            }
+
+            return rings;
         }
 
         IEnumerator CreateGridAnimated()
@@ -36,14 +109,15 @@ namespace Forma.Runtime.Core.Features.HexGrid
             Vector3 centerHexPosition = GetPositionForHexFromCoordinate(centerHex);
             Vector3 offset = _parent.position - centerHexPosition;
 
-            Dictionary<int, List<Vector2Int>> rings = CreateGridRings(centerHex);
+            Dictionary<int, List<Vector2Int>> coordRings = CreateGridRings(centerHex);
 
-            foreach (KeyValuePair<int, List<Vector2Int>> ring in
-                rings.OrderBy(r => r.Key))
+            foreach (KeyValuePair<int, List<Vector2Int>> ring in coordRings.OrderBy(
+                r => r.Key
+            ))
             {
                 AnimateRing(ring.Value, offset);
 
-                yield return new WaitForSeconds(HexGridAnimationData.DelayBetweenRings);
+                yield return new WaitForSeconds(GridSpawnAnimationData.DelayBetweenRings);
             }
         }
 
@@ -78,34 +152,35 @@ namespace Forma.Runtime.Core.Features.HexGrid
         {
             foreach (Vector2Int coord in ringCoords)
             {
-                GameObject tile = CreateTile(coord.x, coord.y, offset);
+                HexRenderer tile = CreateTile(coord, offset);
 
-                Vector3 targetPos = tile.transform.position;
+                Transform tileTransform = tile.transform;
+                Vector3 targetPos = tileTransform.position;
 
                 Vector3 startPos =
-                    targetPos + Vector3.up * HexGridAnimationData.DropHeight;
+                    targetPos + Vector3.up * GridSpawnAnimationData.DropHeight;
 
-                tile.transform.position = startPos;
+                tileTransform.position = startPos;
 
                 Tween.Position(
-                    tile.transform,
+                    tileTransform,
                     new TweenSettings<Vector3>(
                         targetPos,
-                        HexGridAnimationData.TileDuration,
-                        HexGridAnimationData.Easing
+                        GridSpawnAnimationData.TileDuration,
+                        GridSpawnAnimationData.Easing
                     )
                 );
             }
         }
 
-        GameObject CreateTile(int x, int y, Vector3 offset)
+        HexRenderer CreateTile(Vector2Int coords, Vector3 offset)
         {
-            var tile = new GameObject($"Hex {x} {y}", typeof(HexRenderer));
+            var tileGo = new GameObject($"Hex {coords.x} {coords.y}");
 
-            tile.transform.position =
-                GetPositionForHexFromCoordinate(new Vector2Int(x, y)) + offset;
+            tileGo.transform.position = GetPositionForHexFromCoordinate(coords) + offset;
 
-            var hexRenderer = tile.GetComponent<HexRenderer>();
+            var hexRenderer = tileGo.AddComponent<HexRenderer>();
+            var hexCoords = tileGo.AddComponent<HexCoordinates>();
 
             hexRenderer.Construct(
                 HexTileData.Material,
@@ -116,11 +191,13 @@ namespace Forma.Runtime.Core.Features.HexGrid
                 HexTileData.ShouldCastShadows
             );
 
+            hexCoords.Construct(coords);
+
             hexRenderer.DrawMesh();
 
-            tile.transform.SetParent(transform, true);
+            tileGo.transform.SetParent(transform, true);
 
-            return tile;
+            return hexRenderer;
         }
 
         void DestroyChildren(Transform parent)

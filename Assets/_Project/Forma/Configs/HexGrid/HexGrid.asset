@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: HexGrid
   m_EditorClassIdentifier: Runtime::Forma.Runtime.Core.Features.HexGrid.Data.HexGridData
   <GridSize>k__BackingField: {x: 11, y: 11}
-  <IsFlatTopped>k__BackingField: 0
-  <ShouldCastShadows>k__BackingField: 0
   <HexTileData>k__BackingField: {fileID: 11400000, guid: 5c1909b05c107c043a1ad419703e7ad4, type: 2}
-  <HexGridAnimationData>k__BackingField: {fileID: 11400000, guid: d1ee461adbb836446829ccb09db66372, type: 2}
+  <GridSpawnAnimationData>k__BackingField: {fileID: 11400000, guid: d1ee461adbb836446829ccb09db66372, type: 2}
+  <GridDespawnAnimationData>k__BackingField: {fileID: 11400000, guid: 6a33f30cd08157e41b7a923f79f7fea2, type: 2}

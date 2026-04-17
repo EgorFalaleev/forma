@@ -7,6 +7,7 @@ namespace Forma.Runtime.Core.Features.HexGrid.Data
     {
         [field: SerializeField] public Vector2Int GridSize { get; private set; }
         [field: SerializeField] public HexTileData HexTileData { get; private set; }
-        [field: SerializeField] public HexGridAnimationData HexGridAnimationData { get; private set; }
+        [field: SerializeField] public HexGridAnimationData GridSpawnAnimationData { get; private set; }
+        [field: SerializeField] public HexGridAnimationData GridDespawnAnimationData { get; private set; }
     }
 }
