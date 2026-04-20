@@ -45,11 +45,11 @@ namespace Forma.Runtime.Core.Features.HexGrid
 
         public void DrawMesh()
         {
-            DrawFaces();
+            ConfigureFaces();
             CombineFaces();
         }
 
-        void DrawFaces()
+        void ConfigureFaces()
         {
             _faces = new List<Face>();
 
