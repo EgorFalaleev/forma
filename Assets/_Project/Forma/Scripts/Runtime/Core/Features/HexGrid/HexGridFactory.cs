@@ -29,13 +29,13 @@ namespace Forma.Runtime.Core.Features.HexGrid
             IEnumerable<HexTileData> tiles =
                 hexGridBuilder.CalculateHexGrid(_targetProvider.Target.position);
 
-            var hexTileFactory = new HexTileFactory();
+            var hexViewFactory = new HexViewFactory();
 
-            var hexRenderers = new Dictionary<Vector2Int, HexRenderer>();
+            var hexRenderers = new Dictionary<Vector2Int, HexView>();
 
             foreach (HexTileData tile in tiles)
             {
-                HexRenderer hexView = hexTileFactory.Create(
+                HexView hexView = hexViewFactory.Create(
                     tile,
                     hexGridGo.transform,
                     _hexGridConfig.HexTileConfig

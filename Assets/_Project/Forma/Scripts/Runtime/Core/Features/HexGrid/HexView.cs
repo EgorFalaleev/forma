@@ -6,7 +6,7 @@ using UnityEngine.Rendering;
 namespace Forma.Runtime.Core.Features.HexGrid
 {
     [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
-    public class HexRenderer : MonoBehaviour
+    public class HexView : MonoBehaviour
     {
         MeshFilter _meshFilter;
         MeshRenderer _meshRenderer;

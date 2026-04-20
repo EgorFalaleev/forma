@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace Forma.Runtime.Core.Features.HexGrid
 {
-    public class HexTileFactory
+    public class HexViewFactory
     {
-        public HexRenderer Create(HexTileData hexTileData, Transform parent,
+        public HexView Create(HexTileData hexTileData, Transform parent,
             HexTileConfig hexTileConfig)
         {
             var tileGo = new GameObject(
@@ -14,7 +14,7 @@ namespace Forma.Runtime.Core.Features.HexGrid
 
             tileGo.transform.position = hexTileData.Position;
 
-            var hexRenderer = tileGo.AddComponent<HexRenderer>();
+            var hexRenderer = tileGo.AddComponent<HexView>();
 
             hexRenderer.Construct(
                 hexTileConfig.Material,

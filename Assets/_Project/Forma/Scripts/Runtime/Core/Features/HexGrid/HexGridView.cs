@@ -6,11 +6,11 @@ namespace Forma.Runtime.Core.Features.HexGrid
 {
     public class HexGridView : MonoBehaviour
     {
-        Dictionary<Vector2Int, HexRenderer> _tiles;
+        Dictionary<Vector2Int, HexView> _tiles;
         HexGridAnimator _animator;
 
         public void Initialize(HexGridAnimator animator,
-            Dictionary<Vector2Int, HexRenderer> tiles)
+            Dictionary<Vector2Int, HexView> tiles)
         {
             _tiles = tiles;
             _animator = animator;

@@ -39,7 +39,7 @@ namespace Forma.Runtime.Core.Features.HexGrid
             );
         }
 
-        public IEnumerator PlaySpawn(IReadOnlyDictionary<Vector2Int, HexRenderer> tiles)
+        public IEnumerator PlaySpawn(IReadOnlyDictionary<Vector2Int, HexView> tiles)
         {
             foreach (KeyValuePair<int, List<Vector2Int>> ring in _ringsOrderedAsc)
             {
@@ -49,7 +49,7 @@ namespace Forma.Runtime.Core.Features.HexGrid
             }
         }
 
-        public IEnumerator PlayDespawn(IReadOnlyDictionary<Vector2Int, HexRenderer> tiles)
+        public IEnumerator PlayDespawn(IReadOnlyDictionary<Vector2Int, HexView> tiles)
         {
             foreach (KeyValuePair<int, List<Vector2Int>> ring in _ringsOrderedDesc)
             {
@@ -87,11 +87,11 @@ namespace Forma.Runtime.Core.Features.HexGrid
         }
 
         void AnimateRingSpawn(List<Vector2Int> ringCoords,
-            IReadOnlyDictionary<Vector2Int, HexRenderer> tiles)
+            IReadOnlyDictionary<Vector2Int, HexView> tiles)
         {
             foreach (Vector2Int coord in ringCoords)
             {
-                HexRenderer tile = tiles[coord];
+                HexView tile = tiles[coord];
 
                 tile.gameObject.SetActive(true);
 
@@ -115,11 +115,11 @@ namespace Forma.Runtime.Core.Features.HexGrid
         }
 
         void AnimateRingDespawn(List<Vector2Int> tileCoords,
-            IReadOnlyDictionary<Vector2Int, HexRenderer> tiles)
+            IReadOnlyDictionary<Vector2Int, HexView> tiles)
         {
             foreach (Vector2Int coord in tileCoords)
             {
-                HexRenderer tile = tiles[coord];
+                HexView tile = tiles[coord];
 
                 Transform tileTransform = tile.transform;
                 Vector3 startPos = tileTransform.position;
