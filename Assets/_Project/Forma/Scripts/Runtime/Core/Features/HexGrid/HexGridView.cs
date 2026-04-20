@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Forma.Runtime.Core.Features.HexGrid.Data;
 
 namespace Forma.Runtime.Core.Features.HexGrid
@@ -16,19 +17,19 @@ namespace Forma.Runtime.Core.Features.HexGrid
             _animator = animator;
         }
 
-        public void SpawnGrid(IEnumerable<HexTileData> tileDatas)
+        public async UniTask SpawnGrid(IEnumerable<HexTileData> tileDatas)
         {
             foreach (HexTileData tile in tileDatas)
             {
                 _tiles[tile.Coordinates].transform.position = tile.Position;
             }
 
-            StartCoroutine(_animator.PlaySpawn(_tiles));
+            await _animator.PlaySpawn(_tiles);
         }
 
-        public void DespawnGrid()
+        public async UniTask DespawnGrid()
         {
-            StartCoroutine(_animator.PlayDespawn(_tiles));
+            await _animator.PlayDespawn(_tiles);
         }
     }
 }

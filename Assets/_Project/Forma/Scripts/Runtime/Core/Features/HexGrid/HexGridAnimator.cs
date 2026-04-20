@@ -1,6 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using Cysharp.Threading.Tasks;
 using Forma.Runtime.Core.Features.HexGrid.Data;
 using PrimeTween;
 using UnityEngine;
@@ -10,8 +10,6 @@ namespace Forma.Runtime.Core.Features.HexGrid
     public class HexGridAnimator
     {
         readonly HexGridConfig _hexGridConfig;
-        readonly WaitForSeconds _waitForDelayBetweenRingsSpawn;
-        readonly WaitForSeconds _waitForDelayBetweenRingsDespawn;
         readonly List<KeyValuePair<int, List<Vector2Int>>> _ringsOrderedAsc;
         readonly List<KeyValuePair<int, List<Vector2Int>>> _ringsOrderedDesc;
 
@@ -29,34 +27,38 @@ namespace Forma.Runtime.Core.Features.HexGrid
             _ringsOrderedDesc = rings
                .OrderByDescending(r => r.Key)
                .ToList();
-
-            _waitForDelayBetweenRingsSpawn = new WaitForSeconds(
-                _hexGridConfig.GridSpawnAnimationConfig.DelayBetweenRings
-            );
-
-            _waitForDelayBetweenRingsDespawn = new WaitForSeconds(
-                _hexGridConfig.GridDespawnAnimationConfig.DelayBetweenRings
-            );
         }
 
-        public IEnumerator PlaySpawn(IReadOnlyDictionary<Vector2Int, HexView> tiles)
+        public async UniTask PlaySpawn(IReadOnlyDictionary<Vector2Int, HexView> tiles)
         {
             foreach (KeyValuePair<int, List<Vector2Int>> ring in _ringsOrderedAsc)
             {
                 AnimateRingSpawn(ring.Value, tiles);
 
-                yield return _waitForDelayBetweenRingsSpawn;
+                await UniTask.WaitForSeconds(
+                    _hexGridConfig.GridSpawnAnimationConfig.DelayBetweenRings
+                );
             }
+
+            await UniTask.WaitForSeconds(
+                _hexGridConfig.GridSpawnAnimationConfig.TileDuration
+            );
         }
 
-        public IEnumerator PlayDespawn(IReadOnlyDictionary<Vector2Int, HexView> tiles)
+        public async UniTask PlayDespawn(IReadOnlyDictionary<Vector2Int, HexView> tiles)
         {
             foreach (KeyValuePair<int, List<Vector2Int>> ring in _ringsOrderedDesc)
             {
                 AnimateRingDespawn(ring.Value, tiles);
 
-                yield return _waitForDelayBetweenRingsDespawn;
+                await UniTask.WaitForSeconds(
+                    _hexGridConfig.GridDespawnAnimationConfig.DelayBetweenRings
+                );
             }
+
+            await UniTask.WaitForSeconds(
+                _hexGridConfig.GridDespawnAnimationConfig.TileDuration
+            );
         }
 
         Dictionary<int, List<Vector2Int>> CreateGridRings(Vector2Int centerHex)
