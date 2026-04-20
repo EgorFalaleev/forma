@@ -71,9 +71,9 @@ namespace Forma.Runtime.Core.Features.HexGrid
             {
                 for (var x = 0; x < gridSize.x; x++)
                 {
-                    int ring = Mathf.RoundToInt(
-                        Vector2Int.Distance(new Vector2Int(x, y), centerHex)
-                    );
+                    var hexCoord = new Vector2Int(x, y);
+
+                    int ring = Mathf.RoundToInt(Vector2Int.Distance(hexCoord, centerHex));
 
                     if (!rings.ContainsKey(ring))
                     {
@@ -81,7 +81,7 @@ namespace Forma.Runtime.Core.Features.HexGrid
                     }
 
                     rings[ring]
-                       .Add(new Vector2Int(x, y));
+                       .Add(hexCoord);
                 }
             }
 
