@@ -2,28 +2,18 @@
 
 namespace Forma.Runtime.Core.Features.HexGrid.Data
 {
-    [CreateAssetMenu(menuName = "Forma/Configs/HexGrid/Tile")]
-    public class HexTileData : ScriptableObject
+    public readonly struct HexTileData
     {
-        [field: SerializeField] public Material Material { get; private set; }
-        [field: SerializeField] public float InnerSize { get; private set; } = 1.5f;
-        [field: SerializeField] public float OuterSize { get; private set; } = 2f;
+        public Vector2Int Coordinates => _coordinates;
+        public Vector3 Position => _position;
+        
+        readonly Vector2Int _coordinates;
+        readonly Vector3 _position;
 
-        [field: SerializeField]
-        [field: Range(0f, 20f)]
-        public float Height { get; private set; } = 0.5f;
-
-        [field: SerializeField] public bool IsFlatTopped { get; private set; }
-        [field: SerializeField] public bool ShouldCastShadows { get; private set; }
-
-        void OnValidate()
+        public HexTileData(Vector2Int coordinates, Vector3 position)
         {
-            if (InnerSize > OuterSize)
-            {
-                Debug.LogWarning(
-                    "Inner size is greater than outer size. Mesh will be inverted"
-                );
-            }
+            _coordinates = coordinates;
+            _position = position;
         }
     }
 }

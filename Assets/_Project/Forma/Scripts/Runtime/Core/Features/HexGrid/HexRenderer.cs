@@ -116,14 +116,14 @@ namespace Forma.Runtime.Core.Features.HexGrid
 
             for (int i = 0; i < _faces.Count; i++)
             {
-                vertices.AddRange(_faces[i].vertices);
-                uvs.AddRange(_faces[i].uvs);
+                vertices.AddRange(_faces[i].Vertices);
+                uvs.AddRange(_faces[i].Uvs);
 
                 int offset = 4 * i;
 
                 triangles.AddRange(
                     _faces[i]
-                       .triangles
+                       .Triangles
                        .Select(triangle => triangle + offset)
                 );
             }

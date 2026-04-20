@@ -786,7 +786,7 @@ MonoBehaviour:
   - {fileID: 984061319173565803}
   - {fileID: 2033243314}
   - {fileID: 1738265450}
-  _hexGridData: {fileID: 11400000, guid: 8fad15143544b2444a78c42a13c9294b, type: 2}
+  _hexGridConfig: {fileID: 11400000, guid: 8fad15143544b2444a78c42a13c9294b, type: 2}
 --- !u!4 &1005497273
 Transform:
   m_ObjectHideFlags: 0

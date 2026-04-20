@@ -5,9 +5,9 @@ namespace Forma.Runtime.Core.Features.HexGrid
 {
     public readonly struct Face
     {
-        public IEnumerable<Vector3> vertices => _vertices;
-        public IEnumerable<int> triangles => _triangles;
-        public IEnumerable<Vector2> uvs => _uvs;
+        public IEnumerable<Vector3> Vertices => _vertices;
+        public IEnumerable<int> Triangles => _triangles;
+        public IEnumerable<Vector2> Uvs => _uvs;
 
         readonly List<Vector3> _vertices;
         readonly List<int> _triangles;

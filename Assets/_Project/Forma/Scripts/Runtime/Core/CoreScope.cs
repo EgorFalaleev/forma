@@ -16,7 +16,7 @@ namespace Forma.Runtime.Core
     {
         [SerializeField] PlayerView _playerView;
         [SerializeField] EnemyView[] _enemyViews;
-        [SerializeField] HexGridData _hexGridData;
+        [SerializeField] HexGridConfig _hexGridConfig;
 
         protected override void Configure(IContainerBuilder builder)
         {
@@ -44,7 +44,7 @@ namespace Forma.Runtime.Core
                .As<ITimeService>();
 
             builder.RegisterInstance(_playerView);
-            builder.RegisterInstance(_hexGridData);
+            builder.RegisterInstance(_hexGridConfig);
 
             builder
                .Register<PlayerFactory>(Lifetime.Singleton)
