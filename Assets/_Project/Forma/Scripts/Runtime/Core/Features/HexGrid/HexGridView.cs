@@ -34,7 +34,7 @@ namespace Forma.Runtime.Core.Features.HexGrid
             await _animator.PlayDespawn(_tiles);
         }
 
-        public bool TrySelectHexAt(Vector2 screenPosition, out HexView hexView)
+        public bool TrySelectHexTileAt(Vector2 screenPosition, out HexView hexView)
         {
             hexView = null;
             

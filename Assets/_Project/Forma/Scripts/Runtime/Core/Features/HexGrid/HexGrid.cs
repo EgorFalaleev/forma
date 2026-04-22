@@ -32,13 +32,13 @@ namespace Forma.Runtime.Core.Features.HexGrid
             _hexClickInput = hexClickInput;
 
             _toggleGridInput.OnGridModeToggled += OnToggleGrid;
-            _hexClickInput.OnClicked += OnHexClicked;
+            _hexClickInput.OnClicked += OnHexTileClicked;
         }
 
         public void Dispose()
         {
             _toggleGridInput.OnGridModeToggled -= OnToggleGrid;
-            _hexClickInput.OnClicked -= OnHexClicked;
+            _hexClickInput.OnClicked -= OnHexTileClicked;
         }
 
         void OnToggleGrid()
@@ -47,9 +47,9 @@ namespace Forma.Runtime.Core.Features.HexGrid
                .Forget();
         }
 
-        void OnHexClicked(Vector2 screenPosition)
+        void OnHexTileClicked(Vector2 screenPosition)
         {
-            TryClickHex(screenPosition)
+            TryClickHexTile(screenPosition)
                .Forget();
         }
 
@@ -79,16 +79,16 @@ namespace Forma.Runtime.Core.Features.HexGrid
             _isGridAnimating = false;
         }
 
-        async UniTask TryClickHex(Vector2 screenPosition)
+        async UniTask TryClickHexTile(Vector2 screenPosition)
         {
             if (!_isGridActive || _isGridAnimating)
             {
                 return;
             }
 
-            if (_hexGridView.TrySelectHexAt(screenPosition, out HexView hexView))
+            if (_hexGridView.TrySelectHexTileAt(screenPosition, out HexView hexView))
             {
-                await _hexTileSelector.ClickHex(hexView);
+                await _hexTileSelector.ClickHexTile(hexView);
             }
         }
     }

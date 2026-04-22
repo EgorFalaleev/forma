@@ -14,7 +14,7 @@ namespace Forma.Runtime.Core.Features.HexGrid
             _animator = animator;
         }
 
-        public async UniTask ClickHex(HexView hexView)
+        public async UniTask ClickHexTile(HexView hexView)
         {
             if (_isTileAnimating)
             {
@@ -23,16 +23,16 @@ namespace Forma.Runtime.Core.Features.HexGrid
 
             if (hexView == _selectedHex)
             {
-                await DeselectHex();
+                await DeselectTile();
                 return;
             }
 
             if (_selectedHex != null)
             {
-                await DeselectHex();
+                await DeselectTile();
             }
 
-            await SelectHex(hexView);
+            await SelectTile(hexView);
         }
 
         public void Cleanup()
@@ -44,7 +44,7 @@ namespace Forma.Runtime.Core.Features.HexGrid
             }
         }
 
-        async UniTask SelectHex(HexView hexView)
+        async UniTask SelectTile(HexView hexView)
         {
             _isTileAnimating = true;
             _selectedHex = hexView;
@@ -54,7 +54,7 @@ namespace Forma.Runtime.Core.Features.HexGrid
             _isTileAnimating = false;
         }
 
-        async UniTask DeselectHex()
+        async UniTask DeselectTile()
         {
             _isTileAnimating = true;
 
