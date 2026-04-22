@@ -28,6 +28,37 @@ namespace Forma.Runtime.Core
 
         void Register(IContainerBuilder builder)
         {
+            builder.RegisterInstance(_playerView);
+            builder.RegisterInstance(_hexGridConfig);
+
+            builder
+               .RegisterInstance(_enemyViews)
+               .As<IEnumerable<EnemyView>>();
+
+            RegisterInput(builder);
+            RegisterServices(builder);
+            RegisterFactories(builder);
+            RegisterFlows(builder);
+        }
+
+        void RegisterServices(IContainerBuilder builder)
+        {
+            builder
+               .Register<UnityTimeService>(Lifetime.Singleton)
+               .As<ITimeService>();
+
+            builder
+               .Register<PlayerTargetProvider>(Lifetime.Singleton)
+               .As<ITargetProvider>()
+               .WithParameter(_playerView.transform);
+
+            builder
+               .Register<CameraProvider>(Lifetime.Singleton)
+               .As<ICameraProvider>();
+        }
+
+        void RegisterInput(IContainerBuilder builder)
+        {
             builder.Register<InputActions>(Lifetime.Singleton);
 
             builder
@@ -41,53 +72,39 @@ namespace Forma.Runtime.Core
                .As<IToggleGridInput>();
 
             builder
-              .Register<HexClickInputService>(Lifetime.Singleton)
-              .As<BaseInputService>()
-              .As<IHexClickInput>();
+               .Register<HexClickInputService>(Lifetime.Singleton)
+               .As<BaseInputService>()
+               .As<IHexClickInput>();
+        }
 
-            builder
-               .Register<UnityTimeService>(Lifetime.Singleton)
-               .As<ITimeService>();
+        void RegisterFactories(IContainerBuilder builder)
+        {
+           builder
+             .Register<PlayerFactory>(Lifetime.Singleton)
+             .AsSelf();
 
-            builder.RegisterInstance(_playerView);
-            builder.RegisterInstance(_hexGridConfig);
+           builder
+             .Register<EnemyFactory>(Lifetime.Singleton)
+             .AsSelf();
 
-            builder
-               .Register<PlayerFactory>(Lifetime.Singleton)
-               .AsSelf();
+           builder
+             .Register<HexGridFactory>(Lifetime.Singleton)
+             .AsSelf();
+        }
 
-            builder
-               .RegisterInstance(_enemyViews)
-               .As<IEnumerable<EnemyView>>();
+        void RegisterFlows(IContainerBuilder builder)
+        {
+           builder
+             .Register<PlayerFlow>(Lifetime.Singleton)
+             .AsSelf();
 
-            builder
-               .Register<EnemyFactory>(Lifetime.Singleton)
-               .AsSelf();
+           builder
+             .Register<EnemyFlow>(Lifetime.Singleton)
+             .AsSelf();
 
-            builder
-              .Register<HexGridFactory>(Lifetime.Singleton)
-              .AsSelf();
-
-            builder
-               .Register<PlayerTargetProvider>(Lifetime.Singleton)
-               .As<ITargetProvider>()
-               .WithParameter(_playerView.transform);
-
-            builder
-              .Register<CameraProvider>(Lifetime.Singleton)
-              .As<ICameraProvider>();
-
-            builder
-               .Register<PlayerFlow>(Lifetime.Singleton)
-               .AsSelf();
-
-            builder
-               .Register<EnemyFlow>(Lifetime.Singleton)
-               .AsSelf();
-
-            builder
-              .Register<HexGridFlow>(Lifetime.Singleton)
-              .AsSelf();
+           builder
+             .Register<HexGridFlow>(Lifetime.Singleton)
+             .AsSelf();
         }
     }
 }
