@@ -8,9 +8,10 @@ namespace Forma.Runtime.Core.Features.HexGrid
     [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
     public class HexView : MonoBehaviour
     {
+        static readonly int EmissionColor = Shader.PropertyToID("_EmissionColor");
+        
         MeshFilter _meshFilter;
         MeshRenderer _meshRenderer;
-        Material _material;
         float _innerSize = 0.5f;
         float _outerSize = 1f;
         float _height;
@@ -18,20 +19,21 @@ namespace Forma.Runtime.Core.Features.HexGrid
 
         Mesh _mesh;
         List<Face> _faces;
+        MaterialPropertyBlock _materialPropertyBlock;
 
         public void Construct(Material material, float innerSize, float outerSize,
             float height, bool isFlatTopped, bool shouldCastShadows)
         {
             _meshFilter = GetComponent<MeshFilter>();
             _meshRenderer = GetComponent<MeshRenderer>();
-            
+
             _mesh = new Mesh
             {
                 name = "Hex"
             };
 
             _meshFilter.mesh = _mesh;
-            _meshRenderer.material = material;
+            _meshRenderer.sharedMaterial = material;
 
             _innerSize = innerSize;
             _outerSize = outerSize;
@@ -41,12 +43,20 @@ namespace Forma.Runtime.Core.Features.HexGrid
             _meshRenderer.shadowCastingMode = shouldCastShadows
                 ? ShadowCastingMode.On
                 : ShadowCastingMode.Off;
+
+            _materialPropertyBlock = new MaterialPropertyBlock();
         }
 
         public void DrawMesh()
         {
             ConfigureFaces();
             CombineFaces();
+        }
+
+        public void UpdateEmissionColor(Color color)
+        {
+            _materialPropertyBlock.SetColor(EmissionColor, color);
+            _meshRenderer.SetPropertyBlock(_materialPropertyBlock);
         }
 
         void ConfigureFaces()

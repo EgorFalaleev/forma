@@ -71,6 +71,7 @@ namespace Forma.Runtime.Core.Features.HexGrid
             }
             else
             {
+                _hexTileSelector.Cleanup();
                 await _hexGridView.DespawnGrid();
             }
 

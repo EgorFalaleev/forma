@@ -35,11 +35,20 @@ namespace Forma.Runtime.Core.Features.HexGrid
             await SelectHex(hexView);
         }
 
+        public void Cleanup()
+        {
+            if (_selectedHex != null)
+            {
+                _animator.Reset(_selectedHex);
+                _selectedHex = null;
+            }
+        }
+
         async UniTask SelectHex(HexView hexView)
         {
             _isTileAnimating = true;
             _selectedHex = hexView;
-            
+
             await _animator.SelectTile(hexView);
 
             _isTileAnimating = false;
@@ -48,9 +57,9 @@ namespace Forma.Runtime.Core.Features.HexGrid
         async UniTask DeselectHex()
         {
             _isTileAnimating = true;
-            
+
             await _animator.DeselectTile(_selectedHex);
-            
+
             _selectedHex = null;
             _isTileAnimating = false;
         }
