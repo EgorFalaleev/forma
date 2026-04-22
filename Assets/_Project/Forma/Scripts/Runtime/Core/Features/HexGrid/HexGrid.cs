@@ -67,6 +67,8 @@ namespace Forma.Runtime.Core.Features.HexGrid
 
             _isGridAnimating = true;
 
+            _hexTileSelector.Cleanup();
+
             if (!_isGridActive)
             {
                 IEnumerable<HexTileData> gridPositions =
@@ -76,7 +78,6 @@ namespace Forma.Runtime.Core.Features.HexGrid
             }
             else
             {
-                _hexTileSelector.Cleanup();
                 await _hexGridView.DespawnGrid();
             }
 

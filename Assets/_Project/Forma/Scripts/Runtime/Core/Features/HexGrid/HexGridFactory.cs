@@ -16,7 +16,6 @@ namespace Forma.Runtime.Core.Features.HexGrid
         readonly IToggleGridInput _toggleGridInput;
         readonly IHexClickInput _hexClickInput;
         readonly ICameraProvider _cameraProvider;
-        readonly HexViewFactory _hexViewFactory;
 
         public HexGridFactory(HexGridConfig hexGridConfig, ITargetProvider targetProvider,
             IToggleGridInput toggleGridInput, IHexClickInput hexClickInput,
@@ -27,8 +26,6 @@ namespace Forma.Runtime.Core.Features.HexGrid
             _toggleGridInput = toggleGridInput;
             _hexClickInput = hexClickInput;
             _cameraProvider = cameraProvider;
-
-            _hexViewFactory = new HexViewFactory();
         }
 
         public HexGrid Create()
@@ -40,20 +37,21 @@ namespace Forma.Runtime.Core.Features.HexGrid
             IEnumerable<HexTileData> tiles =
                 hexGridBuilder.CalculateHexGrid(_targetProvider.Target.position);
 
-            var hexRenderers = new Dictionary<Vector2Int, HexView>();
+            var hexViews = new Dictionary<Vector2Int, HexView>();
+            var hexViewFactory = new HexViewFactory();
 
             foreach (HexTileData tile in tiles)
             {
-                HexView hexView = CreateTile(tile, hexGridGo.transform);
+                HexView hexView = CreateTile(hexViewFactory, tile, hexGridGo.transform);
 
-                hexRenderers.Add(tile.Coordinates, hexView);
+                hexViews.Add(tile.Coordinates, hexView);
             }
 
             var hexGridAnimator = new HexGridAnimator(_hexGridConfig);
 
             var hexGridView = hexGridGo.AddComponent<HexGridView>();
 
-            hexGridView.Initialize(hexGridAnimator, hexRenderers, _cameraProvider.Camera);
+            hexGridView.Initialize(hexGridAnimator, hexViews, _cameraProvider.Camera);
 
             var hexTileAnimator =
                 new HexTileAnimator(_hexGridConfig.HexTileConfig.AnimationConfig);
@@ -72,9 +70,9 @@ namespace Forma.Runtime.Core.Features.HexGrid
             return hexGrid;
         }
 
-        HexView CreateTile(HexTileData tile, Transform parent)
+        HexView CreateTile(HexViewFactory hexViewFactory, HexTileData tile, Transform parent)
         {
-            HexView hexView = _hexViewFactory.Create(
+            HexView hexView = hexViewFactory.Create(
                 tile,
                 parent,
                 _hexGridConfig.HexTileConfig
