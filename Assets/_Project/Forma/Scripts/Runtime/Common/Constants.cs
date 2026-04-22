@@ -1,4 +1,5 @@
-﻿using UnityEngine.SceneManagement;
+﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Forma.Runtime.Common
 {
@@ -11,6 +12,16 @@ namespace Forma.Runtime.Common
 
             public static readonly int Game =
                 SceneUtility.GetBuildIndexByScenePath("Game");
+        }
+
+        public static class Math
+        {
+            public const float Sqrt3 = 1.7320508f;
+        }
+
+        public static class Layers
+        {
+            public static readonly int HexGrid = LayerMask.NameToLayer("HexGrid");
         }
     }
 }

@@ -3,7 +3,10 @@
     "rootNamespace": "",
     "references": [
         "VContainer",
-        "Unity.InputSystem"
+        "Unity.InputSystem",
+        "Unity.TextMeshPro",
+        "PrimeTween.Runtime",
+        "UniTask"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
