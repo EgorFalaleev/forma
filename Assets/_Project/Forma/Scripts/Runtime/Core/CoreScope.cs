@@ -3,6 +3,7 @@ using Forma.Runtime.Core.Enemy;
 using Forma.Runtime.Core.Features.HexGrid;
 using Forma.Runtime.Core.Features.HexGrid.Data;
 using Forma.Runtime.Core.Player;
+using Forma.Runtime.Services.CameraProvider;
 using Forma.Runtime.Services.Input;
 using Forma.Runtime.Services.TargetProvider;
 using Forma.Runtime.Services.Time;
@@ -40,6 +41,11 @@ namespace Forma.Runtime.Core
                .As<IToggleGridInput>();
 
             builder
+              .Register<HexClickInputService>(Lifetime.Singleton)
+              .As<BaseInputService>()
+              .As<IHexClickInput>();
+
+            builder
                .Register<UnityTimeService>(Lifetime.Singleton)
                .As<ITimeService>();
 
@@ -66,6 +72,10 @@ namespace Forma.Runtime.Core
                .Register<PlayerTargetProvider>(Lifetime.Singleton)
                .As<ITargetProvider>()
                .WithParameter(_playerView.transform);
+
+            builder
+              .Register<CameraProvider>(Lifetime.Singleton)
+              .As<ICameraProvider>();
 
             builder
                .Register<PlayerFlow>(Lifetime.Singleton)

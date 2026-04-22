@@ -27,6 +27,8 @@ namespace Forma.Runtime.Core.Features.HexGrid
 
             hexRenderer.DrawMesh();
 
+            tileGo.AddComponent<BoxCollider>();
+            
             tileGo.transform.SetParent(parent, true);
 
             return hexRenderer;

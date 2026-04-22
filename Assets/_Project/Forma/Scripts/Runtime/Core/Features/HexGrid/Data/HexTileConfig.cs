@@ -15,6 +15,7 @@ namespace Forma.Runtime.Core.Features.HexGrid.Data
 
         [field: SerializeField] public bool IsFlatTopped { get; private set; }
         [field: SerializeField] public bool ShouldCastShadows { get; private set; }
+        [field: SerializeField] public HexTileAnimationConfig AnimationConfig { get; private set; }
 
         void OnValidate()
         {

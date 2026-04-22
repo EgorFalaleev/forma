@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Forma.Runtime.Core.Features.HexGrid.Data;
+using Forma.Runtime.Services.CameraProvider;
 using Forma.Runtime.Services.Input;
 using Forma.Runtime.Services.TargetProvider;
 using UnityEngine;
@@ -11,13 +12,18 @@ namespace Forma.Runtime.Core.Features.HexGrid
         readonly HexGridConfig _hexGridConfig;
         readonly ITargetProvider _targetProvider;
         readonly IToggleGridInput _toggleGridInput;
+        readonly IHexClickInput _hexClickInput;
+        readonly ICameraProvider _cameraProvider;
 
         public HexGridFactory(HexGridConfig hexGridConfig, ITargetProvider targetProvider,
-            IToggleGridInput toggleGridInput)
+            IToggleGridInput toggleGridInput, IHexClickInput hexClickInput,
+            ICameraProvider cameraProvider)
         {
             _hexGridConfig = hexGridConfig;
             _targetProvider = targetProvider;
             _toggleGridInput = toggleGridInput;
+            _hexClickInput = hexClickInput;
+            _cameraProvider = cameraProvider;
         }
 
         public HexGrid Create()
@@ -50,13 +56,20 @@ namespace Forma.Runtime.Core.Features.HexGrid
 
             var hexGridView = hexGridGo.AddComponent<HexGridView>();
 
-            hexGridView.Initialize(hexGridAnimator, hexRenderers);
+            hexGridView.Initialize(hexGridAnimator, hexRenderers, _cameraProvider.Camera);
+
+            var hexTileAnimator =
+                new HexTileAnimator(_hexGridConfig.HexTileConfig.AnimationConfig);
+
+            var hexTileSelector = new HexTileSelector(hexTileAnimator);
 
             var hexGrid = new HexGrid(
                 hexGridView,
                 hexGridBuilder,
+                hexTileSelector,
                 _toggleGridInput,
-                _targetProvider
+                _targetProvider,
+                _hexClickInput
             );
 
             return hexGrid;
