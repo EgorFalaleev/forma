@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Forma.Runtime.Core.Features.HexGrid.Data;
+using Forma.Runtime.Core.Features.HexGrid.Views;
 using Forma.Runtime.Services.Input;
 using Forma.Runtime.Services.TargetProvider;
 using UnityEngine;
@@ -30,7 +31,10 @@ namespace Forma.Runtime.Core.Features.HexGrid
             _toggleGridInput = toggleGridInput;
             _targetProvider = targetProvider;
             _hexClickInput = hexClickInput;
+        }
 
+        public void Subscribe()
+        {
             _toggleGridInput.OnGridModeToggled += OnToggleGrid;
             _hexClickInput.OnClicked += OnHexTileClicked;
         }

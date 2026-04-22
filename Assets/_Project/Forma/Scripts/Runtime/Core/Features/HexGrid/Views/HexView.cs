@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
+using Forma.Runtime.Core.Features.HexGrid.Data;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-namespace Forma.Runtime.Core.Features.HexGrid
+namespace Forma.Runtime.Core.Features.HexGrid.Views
 {
     [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
     public class HexView : MonoBehaviour
@@ -18,7 +19,7 @@ namespace Forma.Runtime.Core.Features.HexGrid
         bool _isFlatTopped;
 
         Mesh _mesh;
-        List<Face> _faces;
+        List<HexTileFace> _faces;
         MaterialPropertyBlock _materialPropertyBlock;
 
         public void Construct(Material material, float innerSize, float outerSize,
@@ -61,7 +62,7 @@ namespace Forma.Runtime.Core.Features.HexGrid
 
         void ConfigureFaces()
         {
-            _faces = new List<Face>();
+            _faces = new List<HexTileFace>();
 
             // top faces
             AddFace(
@@ -144,7 +145,7 @@ namespace Forma.Runtime.Core.Features.HexGrid
             _mesh.RecalculateNormals();
         }
 
-        Face CreateFace(float innerRadius, float outerRadius, float heightA,
+        HexTileFace CreateFace(float innerRadius, float outerRadius, float heightA,
             float heightB, int point, bool reverse)
         {
             Vector3 pointA = GetPoint(innerRadius, heightB, point);
@@ -198,7 +199,7 @@ namespace Forma.Runtime.Core.Features.HexGrid
                 vertices.Reverse();
             }
 
-            return new Face(vertices, triangles, uvs);
+            return new HexTileFace(vertices, triangles, uvs);
         }
 
         Vector3 GetPoint(float size, float height, int index)

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Forma.Runtime.Core.Features.HexGrid.Data
+namespace Forma.Runtime.Core.Features.HexGrid.Configs
 {
     [CreateAssetMenu(menuName = "Forma/Configs/HexGrid/Tile")]
     public class HexTileConfig : ScriptableObject

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Forma.Runtime.Core.Features.HexGrid
+namespace Forma.Runtime.Core.Features.HexGrid.Data
 {
-    public readonly struct Face
+    public readonly struct HexTileFace
     {
         public IEnumerable<Vector3> Vertices => _vertices;
         public IEnumerable<int> Triangles => _triangles;
@@ -13,7 +13,7 @@ namespace Forma.Runtime.Core.Features.HexGrid
         readonly List<int> _triangles;
         readonly List<Vector2> _uvs;
 
-        public Face(List<Vector3> vertices, List<int> triangles, List<Vector2> uvs)
+        public HexTileFace(List<Vector3> vertices, List<int> triangles, List<Vector2> uvs)
         {
             _vertices = vertices;
             _triangles = triangles;

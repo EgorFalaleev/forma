@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Forma.Runtime.Common;
+using Forma.Runtime.Core.Features.HexGrid.Configs;
 using Forma.Runtime.Core.Features.HexGrid.Data;
 using UnityEngine;
 

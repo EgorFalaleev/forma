@@ -1,5 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
-using Forma.Runtime.Core.Features.HexGrid.Data;
+using Forma.Runtime.Core.Features.HexGrid.Configs;
+using Forma.Runtime.Core.Features.HexGrid.Views;
 using PrimeTween;
 using UnityEngine;
 

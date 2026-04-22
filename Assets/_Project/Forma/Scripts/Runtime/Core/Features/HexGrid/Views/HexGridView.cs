@@ -1,9 +1,9 @@
-using UnityEngine;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Forma.Runtime.Core.Features.HexGrid.Data;
+using UnityEngine;
 
-namespace Forma.Runtime.Core.Features.HexGrid
+namespace Forma.Runtime.Core.Features.HexGrid.Views
 {
     public class HexGridView : MonoBehaviour
     {

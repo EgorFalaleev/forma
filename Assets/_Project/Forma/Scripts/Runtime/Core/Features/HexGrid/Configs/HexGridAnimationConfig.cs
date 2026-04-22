@@ -1,7 +1,7 @@
 ﻿using PrimeTween;
 using UnityEngine;
 
-namespace Forma.Runtime.Core.Features.HexGrid.Data
+namespace Forma.Runtime.Core.Features.HexGrid.Configs
 {
     [CreateAssetMenu(menuName = "Forma/Configs/HexGrid/Animation")]
     public class HexGridAnimationConfig : ScriptableObject

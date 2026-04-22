@@ -1,4 +1,6 @@
-﻿using Forma.Runtime.Core.Features.HexGrid.Data;
+﻿using Forma.Runtime.Core.Features.HexGrid.Configs;
+using Forma.Runtime.Core.Features.HexGrid.Data;
+using Forma.Runtime.Core.Features.HexGrid.Views;
 using UnityEngine;
 
 namespace Forma.Runtime.Core.Features.HexGrid
