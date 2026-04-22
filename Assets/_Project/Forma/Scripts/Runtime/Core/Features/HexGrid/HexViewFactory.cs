@@ -1,4 +1,5 @@
-﻿using Forma.Runtime.Core.Features.HexGrid.Configs;
+﻿using Forma.Runtime.Common;
+using Forma.Runtime.Core.Features.HexGrid.Configs;
 using Forma.Runtime.Core.Features.HexGrid.Data;
 using Forma.Runtime.Core.Features.HexGrid.Views;
 using UnityEngine;
@@ -15,10 +16,11 @@ namespace Forma.Runtime.Core.Features.HexGrid
             );
 
             tileGo.transform.position = hexTileData.Position;
+            tileGo.layer = Constants.Layers.HexGrid;
 
-            var hexRenderer = tileGo.AddComponent<HexView>();
+            var hexView = tileGo.AddComponent<HexView>();
 
-            hexRenderer.Construct(
+            hexView.Construct(
                 hexTileConfig.Material,
                 hexTileConfig.InnerSize,
                 hexTileConfig.OuterSize,
@@ -27,13 +29,13 @@ namespace Forma.Runtime.Core.Features.HexGrid
                 hexTileConfig.ShouldCastShadows
             );
 
-            hexRenderer.DrawMesh();
+            hexView.DrawMesh();
 
             tileGo.AddComponent<BoxCollider>();
             
             tileGo.transform.SetParent(parent, true);
 
-            return hexRenderer;
+            return hexView;
         }
     }
 }

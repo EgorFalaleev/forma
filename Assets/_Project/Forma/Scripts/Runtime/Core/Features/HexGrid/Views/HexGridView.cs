@@ -34,13 +34,14 @@ namespace Forma.Runtime.Core.Features.HexGrid.Views
             await _animator.PlayDespawn(_tiles);
         }
 
-        public bool TrySelectHexTileAt(Vector2 screenPosition, out HexView hexView)
+        public bool TrySelectHexTileAt(Vector2 screenPosition, int layerMask,
+            out HexView hexView)
         {
             hexView = null;
-            
+
             Ray ray = _camera.ScreenPointToRay(screenPosition);
 
-            if (Physics.Raycast(ray, out RaycastHit hit))
+            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, layerMask))
             {
                 if (hit.collider.TryGetComponent(out HexView collidedHexView))
                 {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using Forma.Runtime.Common;
 using Forma.Runtime.Core.Features.HexGrid.Data;
 using Forma.Runtime.Core.Features.HexGrid.Views;
 using Forma.Runtime.Services.Input;
@@ -90,7 +91,11 @@ namespace Forma.Runtime.Core.Features.HexGrid
                 return;
             }
 
-            if (_hexGridView.TrySelectHexTileAt(screenPosition, out HexView hexView))
+            if (_hexGridView.TrySelectHexTileAt(
+                screenPosition,
+                1 << Constants.Layers.HexGrid,
+                out HexView hexView
+            ))
             {
                 await _hexTileSelector.ClickHexTile(hexView);
             }
