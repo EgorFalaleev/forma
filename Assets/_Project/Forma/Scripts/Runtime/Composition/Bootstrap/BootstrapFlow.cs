@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using VContainer.Unity;
 
-namespace Forma.Runtime.Bootstrap
+namespace Forma.Runtime.Composition.Bootstrap
 {
     public class BootstrapFlow : IStartable
     {

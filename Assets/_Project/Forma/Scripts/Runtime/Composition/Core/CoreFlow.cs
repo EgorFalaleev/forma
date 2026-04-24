@@ -7,7 +7,7 @@ using Forma.Runtime.Services.Input;
 using UnityEngine;
 using VContainer.Unity;
 
-namespace Forma.Runtime.Core
+namespace Forma.Runtime.Composition.Core
 {
     public class CoreFlow : IStartable, ITickable, IDisposable
     {

@@ -16,7 +16,7 @@ using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
-namespace Forma.Runtime.Core
+namespace Forma.Runtime.Composition.Core
 {
     public class CoreScope : LifetimeScope
     {
