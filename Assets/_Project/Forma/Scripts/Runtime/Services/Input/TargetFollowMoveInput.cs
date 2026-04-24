@@ -1,10 +1,9 @@
-﻿using Forma.Runtime.Services.Input;
-using Forma.Runtime.Services.TargetProvider;
+﻿using Forma.Runtime.Services.TargetProvider;
 using UnityEngine;
 
-namespace Forma.Runtime.Core.Enemy
+namespace Forma.Runtime.Services.Input
 {
-    public class EnemyMoveInput : IMoveInput
+    public class TargetFollowMoveInput : IMoveInput
     {
         public Vector3 MoveDirection
             => (_targetProvider.Target.position - _self.position).normalized;
@@ -12,7 +11,7 @@ namespace Forma.Runtime.Core.Enemy
         readonly ITargetProvider _targetProvider;
         readonly Transform _self;
 
-        public EnemyMoveInput(ITargetProvider targetProvider, Transform self)
+        public TargetFollowMoveInput(ITargetProvider targetProvider, Transform self)
         {
             _targetProvider = targetProvider;
             _self = self;

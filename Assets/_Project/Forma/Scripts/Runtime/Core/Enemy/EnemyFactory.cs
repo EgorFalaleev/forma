@@ -1,6 +1,7 @@
 ﻿using Forma.Runtime.Core.Enemy.Configs;
 using Forma.Runtime.Core.Enemy.Views;
 using Forma.Runtime.Core.Features.Movement;
+using Forma.Runtime.Services.Input;
 using Forma.Runtime.Services.TargetProvider;
 using Forma.Runtime.Services.Time;
 using UnityEngine;
@@ -29,7 +30,7 @@ namespace Forma.Runtime.Core.Enemy
 
             enemyView.Initialize(_enemyConfig.Damage.Amount);
             
-            var moveInput = new EnemyMoveInput(
+            var moveInput = new TargetFollowMoveInput(
                 _targetProvider,
                 self: enemyView.transform
             );
