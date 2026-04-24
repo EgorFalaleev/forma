@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Forma.Runtime.Services.TargetProvider
+namespace Forma.Runtime.Core.Common
 {
     public interface ITargetProvider
     {

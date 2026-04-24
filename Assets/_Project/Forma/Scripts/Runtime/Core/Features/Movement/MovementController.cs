@@ -1,6 +1,4 @@
 ﻿using Forma.Runtime.Core.Features.Movement.Configs;
-using Forma.Runtime.Services.Input;
-using Forma.Runtime.Services.Time;
 using UnityEngine;
 
 namespace Forma.Runtime.Core.Features.Movement
@@ -25,7 +23,7 @@ namespace Forma.Runtime.Core.Features.Movement
         {
             Vector3 velocity = _moveInput.MoveDirection
               * _movementConfig.Speed
-              * _timeService.deltaTime;
+              * _timeService.DeltaTime;
 
             _movableView.Move(velocity);
         }

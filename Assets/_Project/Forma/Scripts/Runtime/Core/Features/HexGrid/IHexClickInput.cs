@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Forma.Runtime.Services.Input
+namespace Forma.Runtime.Core.Features.HexGrid
 {
     public interface IHexClickInput
     {

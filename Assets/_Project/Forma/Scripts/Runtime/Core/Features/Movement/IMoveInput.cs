@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Forma.Runtime.Services.Input
+namespace Forma.Runtime.Core.Features.Movement
 {
     public interface IMoveInput
     {

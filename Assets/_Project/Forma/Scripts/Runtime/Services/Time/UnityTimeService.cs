@@ -1,7 +1,9 @@
-﻿namespace Forma.Runtime.Services.Time
+﻿using Forma.Runtime.Core.Features.Movement;
+
+namespace Forma.Runtime.Services.Time
 {
     public class UnityTimeService : ITimeService
     {
-        public float deltaTime => UnityEngine.Time.deltaTime;
+        public float DeltaTime => UnityEngine.Time.deltaTime;
     }
 }

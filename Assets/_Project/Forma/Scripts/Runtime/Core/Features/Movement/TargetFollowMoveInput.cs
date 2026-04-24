@@ -1,5 +1,4 @@
-﻿using Forma.Runtime.Services.Input;
-using Forma.Runtime.Services.TargetProvider;
+﻿using Forma.Runtime.Core.Common;
 using UnityEngine;
 
 namespace Forma.Runtime.Core.Features.Movement

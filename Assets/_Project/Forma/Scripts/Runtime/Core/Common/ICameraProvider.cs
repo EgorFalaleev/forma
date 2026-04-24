@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Forma.Runtime.Services.CameraProvider
+namespace Forma.Runtime.Core.Common
 {
     public interface ICameraProvider
     {

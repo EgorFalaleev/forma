@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Forma.Runtime.Common;
+using Forma.Runtime.Core.Common;
 using Forma.Runtime.Core.Features.HexGrid.Data;
 using Forma.Runtime.Core.Features.HexGrid.Views;
-using Forma.Runtime.Services.Input;
-using Forma.Runtime.Services.TargetProvider;
 using UnityEngine;
 
 namespace Forma.Runtime.Core.Features.HexGrid
