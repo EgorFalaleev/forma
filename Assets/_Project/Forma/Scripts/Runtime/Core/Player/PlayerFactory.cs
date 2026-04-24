@@ -37,7 +37,8 @@ namespace Forma.Runtime.Core.Player
             IMovementController movementController = new MovementController(
                 _moveInput,
                 playerView,
-                _timeService
+                _timeService,
+                _playerConfig.Movement
             );
 
             var health = new PlayerHealth(_playerConfig.Health.MaxHealth);

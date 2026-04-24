@@ -1,4 +1,5 @@
 ﻿using Forma.Runtime.Core.Enemy;
+using Forma.Runtime.Core.Enemy.Configs;
 using Forma.Runtime.Core.Enemy.Views;
 using Forma.Runtime.Core.Features.HexGrid;
 using Forma.Runtime.Core.Features.HexGrid.Configs;
@@ -21,6 +22,7 @@ namespace Forma.Runtime.Core
         [SerializeField] EnemyView _enemyViewPrefab;
         [SerializeField] HexGridConfig _hexGridConfig;
         [SerializeField] PlayerConfig _playerConfig;
+        [SerializeField] EnemyConfig _enemyConfig;
 
         protected override void Configure(IContainerBuilder builder)
         {
@@ -41,6 +43,7 @@ namespace Forma.Runtime.Core
 
             builder.RegisterInstance(_hexGridConfig);
             builder.RegisterInstance(_playerConfig);
+            builder.RegisterInstance(_enemyConfig);
 
             RegisterInput(builder);
             RegisterServices(builder);

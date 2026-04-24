@@ -38,7 +38,8 @@ namespace Forma.Runtime.Core.Enemy
             var movementController = new MovementController(
                 moveInput,
                 enemyView,
-                _timeService
+                _timeService,
+                _enemyConfig.Movement
             );
 
             var enemy = new Enemy(movementController);

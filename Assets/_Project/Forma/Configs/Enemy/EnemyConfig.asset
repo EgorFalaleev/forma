@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: EnemyConfig
   m_EditorClassIdentifier: Runtime::Forma.Runtime.Core.Enemy.Configs.EnemyConfig
   <Damage>k__BackingField: {fileID: 11400000, guid: 30a440310a16dc847b8f93f91c02936d, type: 2}
+  <Movement>k__BackingField: {fileID: 11400000, guid: 75f007424ecfcfb4da89939caca94096, type: 2}
