@@ -4,7 +4,9 @@ using UnityEngine;
 
 namespace Forma.Runtime.Services.TargetProvider
 {
-    public class PlayerTargetProvider : ITargetProvider
+    public class PlayerTargetProvider
+        : ITargetProvider,
+          ITargetSetter
     {
         public Transform Target
         {
@@ -20,10 +22,9 @@ namespace Forma.Runtime.Services.TargetProvider
         }
 
         Transform _player;
-
         bool _isInitialized;
 
-        public void Initialize(Transform target)
+        public void SetTarget(Transform target)
         {
             if (_isInitialized)
             {

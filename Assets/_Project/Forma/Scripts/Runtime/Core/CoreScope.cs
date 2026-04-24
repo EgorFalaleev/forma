@@ -60,9 +60,9 @@ namespace Forma.Runtime.Core
                .As<ITimeService>();
 
             builder
-               .Register<PlayerTargetProvider>(Lifetime.Singleton)
-               .As<ITargetProvider>()
-               .AsSelf();
+              .Register<PlayerTargetProvider>(Lifetime.Singleton)
+              .As<ITargetProvider>()
+              .As<ITargetSetter>();
 
             builder
                .Register<CameraProvider>(Lifetime.Singleton)
@@ -91,6 +91,10 @@ namespace Forma.Runtime.Core
 
         void RegisterFactories(IContainerBuilder builder)
         {
+            builder
+               .Register<PlayerViewFactory>(Lifetime.Singleton)
+               .AsSelf();
+
             builder
                .Register<PlayerFactory>(Lifetime.Singleton)
                .AsSelf();
