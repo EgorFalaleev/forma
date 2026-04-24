@@ -2,7 +2,7 @@
 
 namespace Forma.Runtime.Core.Features.Health.Configs
 {
-    [CreateAssetMenu(menuName = "Forma/Configs/Health/HealthConfig")]
+    [CreateAssetMenu(menuName = "Forma/Configs/Health")]
     public class HealthConfig : ScriptableObject
     {
         [field: Min(0)]

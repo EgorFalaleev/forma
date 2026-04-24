@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Forma.Runtime.Core.Player.Configs
 {
-    [CreateAssetMenu(menuName = "Forma/Configs/Player/PlayerConfig")]
+    [CreateAssetMenu(menuName = "Forma/Configs/Player")]
     public class PlayerConfig : ScriptableObject
     {
         [field: SerializeField] public HealthConfig Health { get; private set; }
