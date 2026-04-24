@@ -1,16 +1,38 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Forma.Runtime.Services.TargetProvider
 {
     public class PlayerTargetProvider : ITargetProvider
     {
-        public Transform Target => _player;
+        public Transform Target
+        {
+            get
+            {
+                if (!_isInitialized)
+                {
+                    throw new Exception("Player does not exist");
+                }
+
+                return _player;
+            }
+        }
 
         Transform _player;
 
-        public PlayerTargetProvider(Transform player)
+        bool _isInitialized;
+
+        public void Initialize(Transform target)
         {
-            _player = player;
+            if (_isInitialized)
+            {
+                Debug.LogWarning(
+                    $"{nameof(PlayerTargetProvider)}: Trying to initialize with existing player"
+                );
+            }
+
+            _player = target;
+            _isInitialized = true;
         }
     }
 }

@@ -1,37 +1,31 @@
 ﻿using System.Collections.Generic;
-using Forma.Runtime.Core.Features.Movement;
 
 namespace Forma.Runtime.Core.Enemy
 {
     public class EnemyFlow
     {
         readonly EnemyFactory _enemyFactory;
-        readonly IEnumerable<EnemyView> _enemyViews;
-        readonly List<IMovementController> _movementControllers;
+        readonly List<Enemy> _enemies;
 
-        public EnemyFlow(EnemyFactory enemyFactory, IEnumerable<EnemyView> enemyViews)
+        public EnemyFlow(EnemyFactory enemyFactory)
         {
             _enemyFactory = enemyFactory;
-            _enemyViews = enemyViews;
 
-            _movementControllers = new List<IMovementController>();
+            _enemies = new List<Enemy>();
         }
 
         public void Initialize()
         {
-            foreach (EnemyView enemyView in _enemyViews)
-            {
-                IMovementController movementController = _enemyFactory.Create(enemyView);
+            Enemy enemy = _enemyFactory.Create();
 
-                _movementControllers.Add(movementController);
-            }
+            _enemies.Add(enemy);
         }
 
         public void Tick()
         {
-            foreach (IMovementController movementController in _movementControllers)
+            foreach (Enemy enemy in _enemies)
             {
-                movementController.Move();
+                enemy.Tick();
             }
         }
     }

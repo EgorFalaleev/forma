@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Forma.Runtime.Core.Enemy.Configs;
+using Forma.Runtime.Core.Enemy.Views;
 using Forma.Runtime.Core.Features.Movement;
-using Forma.Runtime.Core.Player;
+using Forma.Runtime.Services.TargetProvider;
 using Forma.Runtime.Services.Time;
 using UnityEngine;
 
@@ -8,24 +9,40 @@ namespace Forma.Runtime.Core.Enemy
 {
     public class EnemyFactory
     {
-        readonly Transform _playerTransform;
+        readonly EnemyView _enemyViewPrefab;
+        readonly ITargetProvider _targetProvider;
         readonly ITimeService _timeService;
+        readonly EnemyConfig _enemyConfig;
 
-        public EnemyFactory(PlayerView playerView, ITimeService timeService)
+        public EnemyFactory(EnemyView enemyViewPrefab, ITargetProvider targetProvider,
+            ITimeService timeService, EnemyConfig enemyConfig)
         {
-            _playerTransform = playerView.transform;
+            _enemyViewPrefab = enemyViewPrefab;
+            _targetProvider = targetProvider;
             _timeService = timeService;
+            _enemyConfig = enemyConfig;
         }
 
-        public IMovementController Create(EnemyView enemyView)
+        public Enemy Create()
         {
-            var moveInput = new EnemyMoveInput(target: _playerTransform,
-                self: enemyView.transform);
+            EnemyView enemyView = Object.Instantiate(_enemyViewPrefab);
 
-            var movementController =
-                new MovementController(moveInput, enemyView, _timeService);
+            enemyView.Initialize(_enemyConfig.Damage.Amount);
+            
+            var moveInput = new EnemyMoveInput(
+                _targetProvider,
+                self: enemyView.transform
+            );
 
-            return movementController;
+            var movementController = new MovementController(
+                moveInput,
+                enemyView,
+                _timeService
+            );
+
+            var enemy = new Enemy(movementController);
+
+            return enemy;
         }
     }
 }

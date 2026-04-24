@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
-using Forma.Runtime.Core.Enemy;
+﻿using Forma.Runtime.Core.Enemy;
+using Forma.Runtime.Core.Enemy.Views;
 using Forma.Runtime.Core.Features.HexGrid;
 using Forma.Runtime.Core.Features.HexGrid.Configs;
 using Forma.Runtime.Core.Player;
+using Forma.Runtime.Core.Player.Configs;
+using Forma.Runtime.Core.Player.Views;
 using Forma.Runtime.Services.CameraProvider;
 using Forma.Runtime.Services.Input;
 using Forma.Runtime.Services.TargetProvider;
@@ -15,9 +17,10 @@ namespace Forma.Runtime.Core
 {
     public class CoreScope : LifetimeScope
     {
-        [SerializeField] PlayerView _playerView;
-        [SerializeField] EnemyView[] _enemyViews;
+        [SerializeField] PlayerView _playerViewPrefab;
+        [SerializeField] EnemyView _enemyViewPrefab;
         [SerializeField] HexGridConfig _hexGridConfig;
+        [SerializeField] PlayerConfig _playerConfig;
 
         protected override void Configure(IContainerBuilder builder)
         {
@@ -28,12 +31,16 @@ namespace Forma.Runtime.Core
 
         void Register(IContainerBuilder builder)
         {
-            builder.RegisterInstance(_playerView);
-            builder.RegisterInstance(_hexGridConfig);
+            builder
+               .RegisterInstance(_playerViewPrefab)
+               .As<PlayerView>();
 
             builder
-               .RegisterInstance(_enemyViews)
-               .As<IEnumerable<EnemyView>>();
+               .RegisterInstance(_enemyViewPrefab)
+               .As<EnemyView>();
+
+            builder.RegisterInstance(_hexGridConfig);
+            builder.RegisterInstance(_playerConfig);
 
             RegisterInput(builder);
             RegisterServices(builder);
@@ -50,7 +57,7 @@ namespace Forma.Runtime.Core
             builder
                .Register<PlayerTargetProvider>(Lifetime.Singleton)
                .As<ITargetProvider>()
-               .WithParameter(_playerView.transform);
+               .AsSelf();
 
             builder
                .Register<CameraProvider>(Lifetime.Singleton)
@@ -79,32 +86,32 @@ namespace Forma.Runtime.Core
 
         void RegisterFactories(IContainerBuilder builder)
         {
-           builder
-             .Register<PlayerFactory>(Lifetime.Singleton)
-             .AsSelf();
+            builder
+               .Register<PlayerFactory>(Lifetime.Singleton)
+               .AsSelf();
 
-           builder
-             .Register<EnemyFactory>(Lifetime.Singleton)
-             .AsSelf();
+            builder
+               .Register<EnemyFactory>(Lifetime.Singleton)
+               .AsSelf();
 
-           builder
-             .Register<HexGridFactory>(Lifetime.Singleton)
-             .AsSelf();
+            builder
+               .Register<HexGridFactory>(Lifetime.Singleton)
+               .AsSelf();
         }
 
         void RegisterFlows(IContainerBuilder builder)
         {
-           builder
-             .Register<PlayerFlow>(Lifetime.Singleton)
-             .AsSelf();
+            builder
+               .Register<PlayerFlow>(Lifetime.Singleton)
+               .AsSelf();
 
-           builder
-             .Register<EnemyFlow>(Lifetime.Singleton)
-             .AsSelf();
+            builder
+               .Register<EnemyFlow>(Lifetime.Singleton)
+               .AsSelf();
 
-           builder
-             .Register<HexGridFlow>(Lifetime.Singleton)
-             .AsSelf();
+            builder
+               .Register<HexGridFlow>(Lifetime.Singleton)
+               .AsSelf();
         }
     }
 }

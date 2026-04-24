@@ -1,8 +1,7 @@
 ﻿using System;
+using Forma.Runtime.Core.Features.Damage;
 using Forma.Runtime.Core.Features.Health;
 using Forma.Runtime.Core.Features.Movement;
-using Forma.Runtime.Services.Collisions;
-using Forma.Runtime.Services.Collisions.Types;
 
 namespace Forma.Runtime.Core.Player
 {
@@ -10,26 +9,16 @@ namespace Forma.Runtime.Core.Player
     {
         readonly IMovementController _movementController;
         readonly IHealth _health;
-        readonly ICollisionTriggers _collisionTriggers;
+        readonly IDamageReceiver _damageReceiver;
 
         public Player(IMovementController movementController, IHealth health,
-            ICollisionTriggers collisionTriggers)
+            IDamageReceiver damageReceiver)
         {
             _movementController = movementController;
             _health = health;
-            _collisionTriggers = collisionTriggers;
-
-            _collisionTriggers.OnCollision += OnPlayerCollided;
-        }
-
-        void OnPlayerCollided(ICollision collision)
-        {
-            switch (collision)
-            {
-                case DamageCollision damageCollision:
-                    TakeDamage(damageCollision.Damage);
-                    break;
-            }
+            _damageReceiver = damageReceiver;
+            
+            _damageReceiver.OnDamageReceived += TakeDamage;
         }
 
         public void Tick()
@@ -39,8 +28,7 @@ namespace Forma.Runtime.Core.Player
 
         public void Dispose()
         {
-            _collisionTriggers.OnCollision -= OnPlayerCollided;
-            _collisionTriggers.Dispose();
+            _damageReceiver.OnDamageReceived -= TakeDamage;
         }
 
         void TakeDamage(int damage)
