@@ -1,10 +1,13 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System;
+using Cysharp.Threading.Tasks;
 using Forma.Runtime.Core.Features.HexGrid.Views;
 
 namespace Forma.Runtime.Core.Features.HexGrid
 {
     public class HexTileSelector
     {
+        public event Action<HexView> OnHexSelected; 
+        
         readonly HexTileAnimator _animator;
 
         HexView _selectedHex;
@@ -48,8 +51,10 @@ namespace Forma.Runtime.Core.Features.HexGrid
         async UniTask SelectTile(HexView hexView)
         {
             _isTileAnimating = true;
+            
             _selectedHex = hexView;
-
+            OnHexSelected?.Invoke(_selectedHex);
+            
             await _animator.SelectTile(hexView);
 
             _isTileAnimating = false;
@@ -62,6 +67,8 @@ namespace Forma.Runtime.Core.Features.HexGrid
             await _animator.DeselectTile(_selectedHex);
 
             _selectedHex = null;
+            OnHexSelected?.Invoke(null);
+            
             _isTileAnimating = false;
         }
     }

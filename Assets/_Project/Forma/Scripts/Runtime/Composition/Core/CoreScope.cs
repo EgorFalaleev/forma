@@ -10,7 +10,6 @@ using Forma.Runtime.Core.Player.Configs;
 using Forma.Runtime.Core.Player.Views;
 using Forma.Runtime.Services.CameraProvider;
 using Forma.Runtime.Services.Input;
-using Forma.Runtime.Services.TargetProvider;
 using Forma.Runtime.Services.Time;
 using UnityEngine;
 using VContainer;
@@ -60,13 +59,18 @@ namespace Forma.Runtime.Composition.Core
                .As<ITimeService>();
 
             builder
-              .Register<PlayerTargetProvider>(Lifetime.Singleton)
-              .As<ITargetProvider>()
-              .As<ITargetSetter>();
+               .Register<PlayerTargetProvider>(Lifetime.Singleton)
+               .As<ITargetProvider>()
+               .As<ITargetSetter>();
 
             builder
                .Register<CameraProvider>(Lifetime.Singleton)
                .As<ICameraProvider>();
+
+            builder
+               .Register<HexSelectionProvider>(Lifetime.Singleton)
+               .As<IHexSelectionProvider>()
+               .As<IHexSelectionSetter>();
         }
 
         void RegisterInput(IContainerBuilder builder)

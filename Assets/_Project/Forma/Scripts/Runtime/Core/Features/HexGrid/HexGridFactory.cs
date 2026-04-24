@@ -14,16 +14,18 @@ namespace Forma.Runtime.Core.Features.HexGrid
         readonly IToggleGridInput _toggleGridInput;
         readonly IHexClickInput _hexClickInput;
         readonly ICameraProvider _cameraProvider;
+        readonly IHexSelectionSetter _hexSelectionSetter;
 
         public HexGridFactory(HexGridConfig hexGridConfig, ITargetProvider targetProvider,
             IToggleGridInput toggleGridInput, IHexClickInput hexClickInput,
-            ICameraProvider cameraProvider)
+            ICameraProvider cameraProvider, IHexSelectionSetter hexSelectionSetter)
         {
             _hexGridConfig = hexGridConfig;
             _targetProvider = targetProvider;
             _toggleGridInput = toggleGridInput;
             _hexClickInput = hexClickInput;
             _cameraProvider = cameraProvider;
+            _hexSelectionSetter = hexSelectionSetter;
         }
 
         public HexGrid Create()
@@ -62,13 +64,15 @@ namespace Forma.Runtime.Core.Features.HexGrid
                 hexTileSelector,
                 _toggleGridInput,
                 _targetProvider,
-                _hexClickInput
+                _hexClickInput,
+                _hexSelectionSetter
             );
 
             return hexGrid;
         }
 
-        HexView CreateTile(HexViewFactory hexViewFactory, HexTileData tile, Transform parent)
+        HexView CreateTile(HexViewFactory hexViewFactory, HexTileData tile,
+            Transform parent)
         {
             HexView hexView = hexViewFactory.Create(
                 tile,
