@@ -5,6 +5,7 @@ using Forma.Runtime.Core.Enemy.Views;
 using Forma.Runtime.Core.Features.HexGrid;
 using Forma.Runtime.Core.Features.HexGrid.Configs;
 using Forma.Runtime.Core.Features.Movement;
+using Forma.Runtime.Core.Features.Turret;
 using Forma.Runtime.Core.Player;
 using Forma.Runtime.Core.Player.Configs;
 using Forma.Runtime.Core.Player.Views;
@@ -91,6 +92,11 @@ namespace Forma.Runtime.Composition.Core
                .Register<HexClickInputService>(Lifetime.Singleton)
                .As<BaseInputService>()
                .As<IHexClickInput>();
+
+            builder
+               .Register<TurretInputService>(Lifetime.Singleton)
+               .As<BaseInputService>()
+               .As<ITurretInput>();
         }
 
         void RegisterFactories(IContainerBuilder builder)
