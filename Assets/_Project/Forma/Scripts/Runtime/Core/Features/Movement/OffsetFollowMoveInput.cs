@@ -5,8 +5,9 @@ namespace Forma.Runtime.Core.Features.Movement
 {
     public class OffsetFollowMoveInput : IMoveInput
     {
-        public Vector3 MoveDirection
-            => (_targetProvider.Target.position + _offset - _origin.position).normalized;
+        const float SqrDistanceThreshold = 0.01f;
+
+        public Vector3 MoveDirection => CalculateMoveDirection();
 
         readonly ITargetProvider _targetProvider;
         readonly Transform _origin;
@@ -18,6 +19,16 @@ namespace Forma.Runtime.Core.Features.Movement
             _targetProvider = targetProvider;
             _origin = origin;
             _offset = offset;
+        }
+
+        Vector3 CalculateMoveDirection()
+        {
+            Vector3 targetToOrigin =
+                _targetProvider.Target.position + _offset - _origin.position;
+
+            return targetToOrigin.sqrMagnitude < SqrDistanceThreshold
+                ? Vector3.zero
+                : targetToOrigin.normalized;
         }
     }
 }
