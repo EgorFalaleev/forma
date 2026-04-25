@@ -37,13 +37,16 @@ namespace Forma.Runtime.Core.Features.HexGrid
 
             _toggleGridInput.OnGridModeToggled += OnToggleGrid;
             _hexClickInput.OnClicked += OnHexTileClicked;
-            _hexTileSelector.OnHexSelected += UpdateSelectedHex;
+            _hexTileSelector.OnHexSelected += OnHexSelected;
+            _hexTileSelector.OnHexDeselected += OnHexDeselected;
         }
 
         public void Dispose()
         {
             _toggleGridInput.OnGridModeToggled -= OnToggleGrid;
             _hexClickInput.OnClicked -= OnHexTileClicked;
+            _hexTileSelector.OnHexSelected -= OnHexSelected;
+            _hexTileSelector.OnHexDeselected -= OnHexDeselected;
         }
 
         void OnToggleGrid()
@@ -58,16 +61,14 @@ namespace Forma.Runtime.Core.Features.HexGrid
                .Forget();
         }
 
-        void UpdateSelectedHex(HexView hexView)
+        void OnHexSelected(HexView hexView)
         {
-            if (hexView == null)
-            {
-                _hexSelectionSetter.SetSelectedHexPosition(null);
-            }
-            else
-            {
-                _hexSelectionSetter.SetSelectedHexPosition(hexView.transform.position);
-            }
+            _hexSelectionSetter.SetSelectedHexPosition(hexView.transform.position);
+        }
+
+        void OnHexDeselected()
+        {
+            _hexSelectionSetter.SetSelectedHexPosition(null);
         }
 
         async UniTaskVoid ToggleGrid()

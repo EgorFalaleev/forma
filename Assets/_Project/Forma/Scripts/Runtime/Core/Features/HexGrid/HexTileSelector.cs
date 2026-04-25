@@ -7,6 +7,7 @@ namespace Forma.Runtime.Core.Features.HexGrid
     public class HexTileSelector
     {
         public event Action<HexView> OnHexSelected; 
+        public event Action OnHexDeselected; 
         
         readonly HexTileAnimator _animator;
 
@@ -45,6 +46,8 @@ namespace Forma.Runtime.Core.Features.HexGrid
             {
                 _animator.Reset(_selectedHex);
                 _selectedHex = null;
+                
+                OnHexDeselected?.Invoke();
             }
         }
 
@@ -67,7 +70,7 @@ namespace Forma.Runtime.Core.Features.HexGrid
             await _animator.DeselectTile(_selectedHex);
 
             _selectedHex = null;
-            OnHexSelected?.Invoke(null);
+            OnHexDeselected?.Invoke();
             
             _isTileAnimating = false;
         }
