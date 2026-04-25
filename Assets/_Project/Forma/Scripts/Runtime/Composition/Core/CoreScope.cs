@@ -6,6 +6,7 @@ using Forma.Runtime.Core.Features.HexGrid;
 using Forma.Runtime.Core.Features.HexGrid.Configs;
 using Forma.Runtime.Core.Features.Movement;
 using Forma.Runtime.Core.Features.Turret;
+using Forma.Runtime.Core.Features.Turret.Configs;
 using Forma.Runtime.Core.Player;
 using Forma.Runtime.Core.Player.Configs;
 using Forma.Runtime.Core.Player.Views;
@@ -22,9 +23,11 @@ namespace Forma.Runtime.Composition.Core
     {
         [SerializeField] PlayerView _playerViewPrefab;
         [SerializeField] EnemyView _enemyViewPrefab;
+        [SerializeField] TurretView _turretViewPrefab;
         [SerializeField] HexGridConfig _hexGridConfig;
         [SerializeField] PlayerConfig _playerConfig;
         [SerializeField] EnemyConfig _enemyConfig;
+        [SerializeField] TurretConfig _turretConfig;
 
         protected override void Configure(IContainerBuilder builder)
         {
@@ -43,12 +46,18 @@ namespace Forma.Runtime.Composition.Core
                .RegisterInstance(_enemyViewPrefab)
                .As<EnemyView>();
 
+            builder
+               .RegisterInstance(_turretViewPrefab)
+               .As<TurretView>();
+
             builder.RegisterInstance(_hexGridConfig);
             builder.RegisterInstance(_playerConfig);
             builder.RegisterInstance(_enemyConfig);
+            builder.RegisterInstance(_turretConfig);
 
             RegisterInput(builder);
             RegisterServices(builder);
+            RegisterGameplayFeatures(builder);
             RegisterFactories(builder);
             RegisterFlows(builder);
         }
@@ -72,6 +81,13 @@ namespace Forma.Runtime.Composition.Core
                .Register<HexSelectionProvider>(Lifetime.Singleton)
                .As<IHexSelectionProvider>()
                .As<IHexSelectionSetter>();
+        }
+
+        void RegisterGameplayFeatures(IContainerBuilder builder)
+        {
+           builder
+             .Register<TurretPlacer>(Lifetime.Singleton)
+             .AsSelf();
         }
 
         void RegisterInput(IContainerBuilder builder)
@@ -116,6 +132,14 @@ namespace Forma.Runtime.Composition.Core
             builder
                .Register<HexGridFactory>(Lifetime.Singleton)
                .AsSelf();
+
+            builder
+               .Register<TurretViewFactory>(Lifetime.Singleton)
+               .AsSelf();
+
+            builder
+               .Register<TurretFactory>(Lifetime.Singleton)
+               .AsSelf();
         }
 
         void RegisterFlows(IContainerBuilder builder)
@@ -130,6 +154,10 @@ namespace Forma.Runtime.Composition.Core
 
             builder
                .Register<HexGridFlow>(Lifetime.Singleton)
+               .AsSelf();
+
+            builder
+               .Register<TurretFlow>(Lifetime.Singleton)
                .AsSelf();
         }
     }

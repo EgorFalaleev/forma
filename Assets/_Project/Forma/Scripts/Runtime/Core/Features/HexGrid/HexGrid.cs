@@ -60,7 +60,14 @@ namespace Forma.Runtime.Core.Features.HexGrid
 
         void UpdateSelectedHex(HexView hexView)
         {
-            _hexSelectionSetter.SetSelectedHexPosition(hexView.transform.position);
+            if (hexView == null)
+            {
+                _hexSelectionSetter.SetSelectedHexPosition(null);
+            }
+            else
+            {
+                _hexSelectionSetter.SetSelectedHexPosition(hexView.transform.position);
+            }
         }
 
         async UniTaskVoid ToggleGrid()
