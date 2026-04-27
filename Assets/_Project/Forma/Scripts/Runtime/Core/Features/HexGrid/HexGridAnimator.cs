@@ -2,6 +2,7 @@
 using System.Linq;
 using Cysharp.Threading.Tasks;
 using Forma.Runtime.Core.Features.HexGrid.Configs;
+using Forma.Runtime.Core.Features.HexGrid.Data;
 using Forma.Runtime.Core.Features.HexGrid.Views;
 using PrimeTween;
 using UnityEngine;
@@ -11,15 +12,15 @@ namespace Forma.Runtime.Core.Features.HexGrid
     public class HexGridAnimator
     {
         readonly HexGridConfig _hexGridConfig;
-        readonly List<KeyValuePair<int, List<Vector2Int>>> _ringsOrderedAsc;
-        readonly List<KeyValuePair<int, List<Vector2Int>>> _ringsOrderedDesc;
+        readonly List<KeyValuePair<int, List<HexCubeCoord>>> _ringsOrderedAsc;
+        readonly List<KeyValuePair<int, List<HexCubeCoord>>> _ringsOrderedDesc;
 
-        public HexGridAnimator(HexGridConfig hexGridConfig)
+        public HexGridAnimator(HexGridConfig hexGridConfig,
+            IEnumerable<HexCubeCoord> coords, HexCubeCoord centerCoord)
         {
             _hexGridConfig = hexGridConfig;
 
-            Dictionary<int, List<Vector2Int>> rings =
-                CreateGridRings(_hexGridConfig.GridSize / 2);
+            Dictionary<int, List<HexCubeCoord>> rings = GroupByRing(coords, centerCoord);
 
             _ringsOrderedAsc = rings
                .OrderBy(r => r.Key)
@@ -30,9 +31,9 @@ namespace Forma.Runtime.Core.Features.HexGrid
                .ToList();
         }
 
-        public async UniTask PlaySpawn(IReadOnlyDictionary<Vector2Int, HexView> tiles)
+        public async UniTask PlaySpawn(IReadOnlyDictionary<HexCubeCoord, HexView> tiles)
         {
-            foreach (KeyValuePair<int, List<Vector2Int>> ring in _ringsOrderedAsc)
+            foreach (KeyValuePair<int, List<HexCubeCoord>> ring in _ringsOrderedAsc)
             {
                 AnimateRingSpawn(ring.Value, tiles);
 
@@ -46,9 +47,9 @@ namespace Forma.Runtime.Core.Features.HexGrid
             );
         }
 
-        public async UniTask PlayDespawn(IReadOnlyDictionary<Vector2Int, HexView> tiles)
+        public async UniTask PlayDespawn(IReadOnlyDictionary<HexCubeCoord, HexView> tiles)
         {
-            foreach (KeyValuePair<int, List<Vector2Int>> ring in _ringsOrderedDesc)
+            foreach (KeyValuePair<int, List<HexCubeCoord>> ring in _ringsOrderedDesc)
             {
                 AnimateRingDespawn(ring.Value, tiles);
 
@@ -62,37 +63,28 @@ namespace Forma.Runtime.Core.Features.HexGrid
             );
         }
 
-        Dictionary<int, List<Vector2Int>> CreateGridRings(Vector2Int centerHex)
+        static Dictionary<int, List<HexCubeCoord>> GroupByRing(
+            IEnumerable<HexCubeCoord> coords, HexCubeCoord center)
         {
-            var rings = new Dictionary<int, List<Vector2Int>>();
+            var rings = new Dictionary<int, List<HexCubeCoord>>();
 
-            Vector2Int gridSize = _hexGridConfig.GridSize;
-
-            for (var y = 0; y < gridSize.y; y++)
+            foreach (HexCubeCoord coord in coords)
             {
-                for (var x = 0; x < gridSize.x; x++)
-                {
-                    var hexCoord = new Vector2Int(x, y);
+                int ring = HexCubeCoord.Distance(coord, center);
 
-                    int ring = Mathf.RoundToInt(Vector2Int.Distance(hexCoord, centerHex));
+                if (!rings.ContainsKey(ring))
+                    rings[ring] = new List<HexCubeCoord>();
 
-                    if (!rings.ContainsKey(ring))
-                    {
-                        rings[ring] = new List<Vector2Int>();
-                    }
-
-                    rings[ring]
-                       .Add(hexCoord);
-                }
+                rings[ring].Add(coord);
             }
 
             return rings;
         }
 
-        void AnimateRingSpawn(List<Vector2Int> ringCoords,
-            IReadOnlyDictionary<Vector2Int, HexView> tiles)
+        void AnimateRingSpawn(List<HexCubeCoord> ringCoords,
+            IReadOnlyDictionary<HexCubeCoord, HexView> tiles)
         {
-            foreach (Vector2Int coord in ringCoords)
+            foreach (HexCubeCoord coord in ringCoords)
             {
                 HexView tile = tiles[coord];
 
@@ -117,10 +109,10 @@ namespace Forma.Runtime.Core.Features.HexGrid
             }
         }
 
-        void AnimateRingDespawn(List<Vector2Int> tileCoords,
-            IReadOnlyDictionary<Vector2Int, HexView> tiles)
+        void AnimateRingDespawn(List<HexCubeCoord> tileCoords,
+            IReadOnlyDictionary<HexCubeCoord, HexView> tiles)
         {
-            foreach (Vector2Int coord in tileCoords)
+            foreach (HexCubeCoord coord in tileCoords)
             {
                 HexView tile = tiles[coord];
 

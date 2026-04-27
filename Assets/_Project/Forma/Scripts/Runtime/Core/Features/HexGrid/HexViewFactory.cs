@@ -11,14 +11,12 @@ namespace Forma.Runtime.Core.Features.HexGrid
         public HexView Create(HexTileData hexTileData, Transform parent,
             HexTileConfig hexTileConfig)
         {
-            var tileGo = new GameObject(
-                $"Hex {hexTileData.Coordinates.x} {hexTileData.Coordinates.y}"
-            );
-
-            tileGo.transform.position = hexTileData.Position;
+            var tileGo = new GameObject($"Hex {hexTileData.Coordinates}");
             tileGo.layer = Constants.Layers.HexGrid;
 
             var hexView = tileGo.AddComponent<HexView>();
+
+            hexView.SetGridPosition(hexTileData.Position);
 
             hexView.Construct(
                 hexTileConfig.Material,

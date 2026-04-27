@@ -11,6 +11,8 @@ namespace Forma.Runtime.Core.Features.HexGrid.Views
     {
         static readonly int EmissionColor = Shader.PropertyToID("_EmissionColor");
         
+        public Vector3 GridPosition { get; private set; }
+
         MeshFilter _meshFilter;
         MeshRenderer _meshRenderer;
         float _innerSize = 0.5f;
@@ -46,6 +48,12 @@ namespace Forma.Runtime.Core.Features.HexGrid.Views
                 : ShadowCastingMode.Off;
 
             _materialPropertyBlock = new MaterialPropertyBlock();
+        }
+
+        public void SetGridPosition(Vector3 position)
+        {
+            GridPosition = position;
+            transform.position = position;
         }
 
         public void DrawMesh()
