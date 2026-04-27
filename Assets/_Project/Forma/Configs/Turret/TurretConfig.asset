@@ -13,3 +13,5 @@ MonoBehaviour:
   m_Name: TurretConfig
   m_EditorClassIdentifier: Core::Forma.Runtime.Core.Features.Turret.Configs.TurretConfig
   <Movement>k__BackingField: {fileID: 11400000, guid: 93749cc393a1a36488e87601dca38c76, type: 2}
+  <SpawnOffset>k__BackingField: {x: 0, y: 3, z: 0}
+  <Animation>k__BackingField: {fileID: 11400000, guid: 7dd210575f21dd24ea664f1b8107bfec, type: 2}

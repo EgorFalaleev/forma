@@ -96,6 +96,10 @@ namespace Forma.Runtime.Composition.Core
                .AsSelf();
 
             builder
+               .Register<TurretViewAnimator>(Lifetime.Singleton)
+               .AsSelf();
+
+            builder
                .Register<TurretPlacer>(Lifetime.Singleton)
                .AsSelf();
         }

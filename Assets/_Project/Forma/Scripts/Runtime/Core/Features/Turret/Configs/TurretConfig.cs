@@ -7,5 +7,9 @@ namespace Forma.Runtime.Core.Features.Turret.Configs
     public class TurretConfig : ScriptableObject
     {
         [field: SerializeField] public MovementConfig Movement { get; private set; }
+        [field: SerializeField] public Vector3 SpawnOffset { get; private set; }
+
+        [field: SerializeField]
+        public TurretAnimationConfig Animation { get; private set; }
     }
 }
