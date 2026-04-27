@@ -118,6 +118,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PlaceTurret"",
+                    ""type"": ""Button"",
+                    ""id"": ""ad3b6e4e-6ff5-468a-9159-0f1267b0a8eb"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -274,6 +283,17 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""action"": ""ClickHex"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7d78a06a-134e-4e42-91d6-6f80856a9d5a"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PlaceTurret"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -285,6 +305,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_ToggleGrid = m_Player.FindAction("ToggleGrid", throwIfNotFound: true);
         m_Player_ClickHex = m_Player.FindAction("ClickHex", throwIfNotFound: true);
+        m_Player_PlaceTurret = m_Player.FindAction("PlaceTurret", throwIfNotFound: true);
     }
 
     ~@InputActions()
@@ -368,6 +389,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_ToggleGrid;
     private readonly InputAction m_Player_ClickHex;
+    private readonly InputAction m_Player_PlaceTurret;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -391,6 +413,10 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/ClickHex".
         /// </summary>
         public InputAction @ClickHex => m_Wrapper.m_Player_ClickHex;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/PlaceTurret".
+        /// </summary>
+        public InputAction @PlaceTurret => m_Wrapper.m_Player_PlaceTurret;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -426,6 +452,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @ClickHex.started += instance.OnClickHex;
             @ClickHex.performed += instance.OnClickHex;
             @ClickHex.canceled += instance.OnClickHex;
+            @PlaceTurret.started += instance.OnPlaceTurret;
+            @PlaceTurret.performed += instance.OnPlaceTurret;
+            @PlaceTurret.canceled += instance.OnPlaceTurret;
         }
 
         /// <summary>
@@ -446,6 +475,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @ClickHex.started -= instance.OnClickHex;
             @ClickHex.performed -= instance.OnClickHex;
             @ClickHex.canceled -= instance.OnClickHex;
+            @PlaceTurret.started -= instance.OnPlaceTurret;
+            @PlaceTurret.performed -= instance.OnPlaceTurret;
+            @PlaceTurret.canceled -= instance.OnPlaceTurret;
         }
 
         /// <summary>
@@ -507,5 +539,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnClickHex(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "PlaceTurret" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnPlaceTurret(InputAction.CallbackContext context);
     }
 }

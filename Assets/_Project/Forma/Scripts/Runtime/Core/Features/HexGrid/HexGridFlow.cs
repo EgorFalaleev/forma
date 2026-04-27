@@ -16,7 +16,6 @@ namespace Forma.Runtime.Core.Features.HexGrid
         public void Initialize()
         {
             _hexGrid = _hexGridFactory.Create();
-            _hexGrid.Subscribe();
         }
 
         public void Dispose()

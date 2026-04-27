@@ -17,13 +17,15 @@ namespace Forma.Runtime.Core.Features.HexGrid
         readonly IToggleGridInput _toggleGridInput;
         readonly ITargetProvider _targetProvider;
         readonly IHexClickInput _hexClickInput;
+        readonly IHexSelectionSetter _hexSelectionSetter;
 
         bool _isGridActive;
         bool _isGridAnimating;
 
         public HexGrid(HexGridView hexGridView, HexGridBuilder builder,
             HexTileSelector hexTileSelector, IToggleGridInput toggleGridInput,
-            ITargetProvider targetProvider, IHexClickInput hexClickInput)
+            ITargetProvider targetProvider, IHexClickInput hexClickInput,
+            IHexSelectionSetter hexSelectionSetter)
         {
             _hexGridView = hexGridView;
             _builder = builder;
@@ -31,18 +33,20 @@ namespace Forma.Runtime.Core.Features.HexGrid
             _toggleGridInput = toggleGridInput;
             _targetProvider = targetProvider;
             _hexClickInput = hexClickInput;
-        }
+            _hexSelectionSetter = hexSelectionSetter;
 
-        public void Subscribe()
-        {
             _toggleGridInput.OnGridModeToggled += OnToggleGrid;
             _hexClickInput.OnClicked += OnHexTileClicked;
+            _hexTileSelector.OnHexSelected += OnHexSelected;
+            _hexTileSelector.OnHexDeselected += OnHexDeselected;
         }
 
         public void Dispose()
         {
             _toggleGridInput.OnGridModeToggled -= OnToggleGrid;
             _hexClickInput.OnClicked -= OnHexTileClicked;
+            _hexTileSelector.OnHexSelected -= OnHexSelected;
+            _hexTileSelector.OnHexDeselected -= OnHexDeselected;
         }
 
         void OnToggleGrid()
@@ -55,6 +59,16 @@ namespace Forma.Runtime.Core.Features.HexGrid
         {
             TryClickHexTile(screenPosition)
                .Forget();
+        }
+
+        void OnHexSelected(HexView hexView)
+        {
+            _hexSelectionSetter.SetSelectedHexPosition(hexView.transform.position);
+        }
+
+        void OnHexDeselected()
+        {
+            _hexSelectionSetter.SetSelectedHexPosition(null);
         }
 
         async UniTaskVoid ToggleGrid()

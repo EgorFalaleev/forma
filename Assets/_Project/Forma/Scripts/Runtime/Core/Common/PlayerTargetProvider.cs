@@ -1,8 +1,7 @@
 ﻿using System;
-using Forma.Runtime.Core.Common;
 using UnityEngine;
 
-namespace Forma.Runtime.Services.TargetProvider
+namespace Forma.Runtime.Core.Common
 {
     public class PlayerTargetProvider
         : ITargetProvider,

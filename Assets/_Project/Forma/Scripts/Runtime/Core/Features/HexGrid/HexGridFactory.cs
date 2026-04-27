@@ -14,16 +14,21 @@ namespace Forma.Runtime.Core.Features.HexGrid
         readonly IToggleGridInput _toggleGridInput;
         readonly IHexClickInput _hexClickInput;
         readonly ICameraProvider _cameraProvider;
+        readonly IHexSelectionSetter _hexSelectionSetter;
+        readonly HexTileSelector _hexTileSelector;
 
         public HexGridFactory(HexGridConfig hexGridConfig, ITargetProvider targetProvider,
             IToggleGridInput toggleGridInput, IHexClickInput hexClickInput,
-            ICameraProvider cameraProvider)
+            ICameraProvider cameraProvider, IHexSelectionSetter hexSelectionSetter,
+            HexTileSelector hexTileSelector)
         {
             _hexGridConfig = hexGridConfig;
             _targetProvider = targetProvider;
             _toggleGridInput = toggleGridInput;
             _hexClickInput = hexClickInput;
             _cameraProvider = cameraProvider;
+            _hexSelectionSetter = hexSelectionSetter;
+            _hexTileSelector = hexTileSelector;
         }
 
         public HexGrid Create()
@@ -51,24 +56,21 @@ namespace Forma.Runtime.Core.Features.HexGrid
 
             hexGridView.Initialize(hexGridAnimator, hexViews, _cameraProvider.Camera);
 
-            var hexTileAnimator =
-                new HexTileAnimator(_hexGridConfig.HexTileConfig.AnimationConfig);
-
-            var hexTileSelector = new HexTileSelector(hexTileAnimator);
-
             var hexGrid = new HexGrid(
                 hexGridView,
                 hexGridBuilder,
-                hexTileSelector,
+                _hexTileSelector,
                 _toggleGridInput,
                 _targetProvider,
-                _hexClickInput
+                _hexClickInput,
+                _hexSelectionSetter
             );
 
             return hexGrid;
         }
 
-        HexView CreateTile(HexViewFactory hexViewFactory, HexTileData tile, Transform parent)
+        HexView CreateTile(HexViewFactory hexViewFactory, HexTileData tile,
+            Transform parent)
         {
             HexView hexView = hexViewFactory.Create(
                 tile,
