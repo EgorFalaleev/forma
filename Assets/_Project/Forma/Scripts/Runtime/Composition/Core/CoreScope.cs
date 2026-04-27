@@ -85,9 +85,19 @@ namespace Forma.Runtime.Composition.Core
 
         void RegisterGameplayFeatures(IContainerBuilder builder)
         {
-           builder
-             .Register<TurretPlacer>(Lifetime.Singleton)
-             .AsSelf();
+            builder
+               .Register<HexTileAnimator>(Lifetime.Singleton)
+               .AsSelf()
+               .WithParameter(_hexGridConfig.HexTileConfig.AnimationConfig);
+
+            builder
+               .Register<HexTileSelector>(Lifetime.Singleton)
+               .As<IHexTileDeselector>()
+               .AsSelf();
+
+            builder
+               .Register<TurretPlacer>(Lifetime.Singleton)
+               .AsSelf();
         }
 
         void RegisterInput(IContainerBuilder builder)

@@ -4,7 +4,7 @@ using Forma.Runtime.Core.Features.HexGrid.Views;
 
 namespace Forma.Runtime.Core.Features.HexGrid
 {
-    public class HexTileSelector
+    public class HexTileSelector : IHexTileDeselector
     {
         public event Action<HexView> OnHexSelected; 
         public event Action OnHexDeselected; 
@@ -51,6 +51,18 @@ namespace Forma.Runtime.Core.Features.HexGrid
             }
         }
 
+        public async UniTask DeselectTile()
+        {
+            _isTileAnimating = true;
+
+            await _animator.DeselectTile(_selectedHex);
+
+            _selectedHex = null;
+            OnHexDeselected?.Invoke();
+            
+            _isTileAnimating = false;
+        }
+
         async UniTask SelectTile(HexView hexView)
         {
             _isTileAnimating = true;
@@ -60,18 +72,6 @@ namespace Forma.Runtime.Core.Features.HexGrid
             
             await _animator.SelectTile(hexView);
 
-            _isTileAnimating = false;
-        }
-
-        async UniTask DeselectTile()
-        {
-            _isTileAnimating = true;
-
-            await _animator.DeselectTile(_selectedHex);
-
-            _selectedHex = null;
-            OnHexDeselected?.Invoke();
-            
             _isTileAnimating = false;
         }
     }
