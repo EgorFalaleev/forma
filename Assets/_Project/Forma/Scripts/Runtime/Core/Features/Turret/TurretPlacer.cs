@@ -75,6 +75,8 @@ namespace Forma.Runtime.Core.Features.Turret
 
                 Turret turret = _turretFactory.Create(turretView, selectedHexPosition);
 
+                _turretViewAnimator.PlayInfiniteRotation(turretView);
+                
                 OnTurretPlaced?.Invoke(turret);
 
                 _isPlacing = false;
