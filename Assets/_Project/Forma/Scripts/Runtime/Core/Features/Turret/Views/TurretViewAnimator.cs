@@ -3,7 +3,7 @@ using Forma.Runtime.Core.Features.Turret.Configs;
 using PrimeTween;
 using UnityEngine;
 
-namespace Forma.Runtime.Core.Features.Turret
+namespace Forma.Runtime.Core.Features.Turret.Views
 {
     public class TurretViewAnimator
     {

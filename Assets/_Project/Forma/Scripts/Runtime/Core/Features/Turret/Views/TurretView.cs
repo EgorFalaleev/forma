@@ -1,7 +1,7 @@
 ﻿using Forma.Runtime.Core.Features.Movement;
 using UnityEngine;
 
-namespace Forma.Runtime.Core.Features.Turret
+namespace Forma.Runtime.Core.Features.Turret.Views
 {
     public class TurretView : MonoBehaviour, IMovableView
     {

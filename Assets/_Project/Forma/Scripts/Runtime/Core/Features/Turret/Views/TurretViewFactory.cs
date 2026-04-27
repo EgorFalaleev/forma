@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Forma.Runtime.Core.Features.Turret
+namespace Forma.Runtime.Core.Features.Turret.Views
 {
     public class TurretViewFactory
     {

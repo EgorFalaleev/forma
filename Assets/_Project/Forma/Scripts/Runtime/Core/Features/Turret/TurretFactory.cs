@@ -1,6 +1,7 @@
 ﻿using Forma.Runtime.Core.Common;
 using Forma.Runtime.Core.Features.Movement;
 using Forma.Runtime.Core.Features.Turret.Configs;
+using Forma.Runtime.Core.Features.Turret.Views;
 using UnityEngine;
 
 namespace Forma.Runtime.Core.Features.Turret

@@ -2,6 +2,7 @@
 using Cysharp.Threading.Tasks;
 using Forma.Runtime.Core.Features.HexGrid;
 using Forma.Runtime.Core.Features.Turret.Configs;
+using Forma.Runtime.Core.Features.Turret.Views;
 using UnityEngine;
 
 namespace Forma.Runtime.Core.Features.Turret
