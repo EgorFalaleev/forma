@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6acdd0965c5b414083ca638a882f976f, type: 3}
   m_Name: HexGrid
   m_EditorClassIdentifier: Runtime::Forma.Runtime.Core.Features.HexGrid.Data.HexGridData
-  <GridSize>k__BackingField: {x: 11, y: 11}
+  <Radius>k__BackingField: 5
   <HexTileConfig>k__BackingField: {fileID: 11400000, guid: 5c1909b05c107c043a1ad419703e7ad4, type: 2}
   <GridSpawnAnimationConfig>k__BackingField: {fileID: 11400000, guid: d1ee461adbb836446829ccb09db66372, type: 2}
   <GridDespawnAnimationConfig>k__BackingField: {fileID: 11400000, guid: 6a33f30cd08157e41b7a923f79f7fea2, type: 2}

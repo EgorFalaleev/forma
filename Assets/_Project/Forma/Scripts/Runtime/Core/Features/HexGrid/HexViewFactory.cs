@@ -16,8 +16,6 @@ namespace Forma.Runtime.Core.Features.HexGrid
 
             var hexView = tileGo.AddComponent<HexView>();
 
-            hexView.SetGridPosition(hexTileData.Position);
-
             hexView.Construct(
                 hexTileConfig.Material,
                 hexTileConfig.InnerSize,

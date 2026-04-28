@@ -10,8 +10,6 @@ namespace Forma.Runtime.Core.Features.HexGrid.Views
     public class HexView : MonoBehaviour
     {
         static readonly int EmissionColor = Shader.PropertyToID("_EmissionColor");
-        
-        public Vector3 GridPosition { get; private set; }
 
         MeshFilter _meshFilter;
         MeshRenderer _meshRenderer;
@@ -19,7 +17,6 @@ namespace Forma.Runtime.Core.Features.HexGrid.Views
         float _outerSize = 1f;
         float _height;
         bool _isFlatTopped;
-
         Mesh _mesh;
         List<HexTileFace> _faces;
         MaterialPropertyBlock _materialPropertyBlock;
@@ -48,12 +45,6 @@ namespace Forma.Runtime.Core.Features.HexGrid.Views
                 : ShadowCastingMode.Off;
 
             _materialPropertyBlock = new MaterialPropertyBlock();
-        }
-
-        public void SetGridPosition(Vector3 position)
-        {
-            GridPosition = position;
-            transform.position = position;
         }
 
         public void DrawMesh()

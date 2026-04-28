@@ -7,12 +7,12 @@ namespace Forma.Runtime.Core.Features.HexGrid.Views
 {
     public class HexGridView : MonoBehaviour
     {
-        Dictionary<HexCubeCoord, HexView> _tiles;
+        Dictionary<HexCubeCoordinates, HexView> _tiles;
         HexGridAnimator _animator;
         Camera _camera;
 
         public void Initialize(HexGridAnimator animator,
-            Dictionary<HexCubeCoord, HexView> tiles, Camera camera)
+            Dictionary<HexCubeCoordinates, HexView> tiles, Camera camera)
         {
             _tiles = tiles;
             _animator = animator;
@@ -22,14 +22,11 @@ namespace Forma.Runtime.Core.Features.HexGrid.Views
         public void UpdatePositions(IEnumerable<HexTileData> tileDatas)
         {
             foreach (HexTileData tile in tileDatas)
-                _tiles[tile.Coordinates].SetGridPosition(tile.Position);
+                _tiles[tile.Coordinates].transform.position = tile.Position;
         }
 
         public async UniTask SpawnGrid()
         {
-            foreach (HexView tile in _tiles.Values)
-                tile.transform.position = tile.GridPosition;
-
             await _animator.PlaySpawn(_tiles);
         }
 

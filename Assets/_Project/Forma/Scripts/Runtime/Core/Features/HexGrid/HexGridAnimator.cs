@@ -12,15 +12,16 @@ namespace Forma.Runtime.Core.Features.HexGrid
     public class HexGridAnimator
     {
         readonly HexGridConfig _hexGridConfig;
-        readonly List<KeyValuePair<int, List<HexCubeCoord>>> _ringsOrderedAsc;
-        readonly List<KeyValuePair<int, List<HexCubeCoord>>> _ringsOrderedDesc;
+        readonly List<KeyValuePair<int, List<HexCubeCoordinates>>> _ringsOrderedAsc;
+        readonly List<KeyValuePair<int, List<HexCubeCoordinates>>> _ringsOrderedDesc;
 
         public HexGridAnimator(HexGridConfig hexGridConfig,
-            IEnumerable<HexCubeCoord> coords, HexCubeCoord centerCoord)
+            IEnumerable<HexCubeCoordinates> coords, HexCubeCoordinates centerCoord)
         {
             _hexGridConfig = hexGridConfig;
 
-            Dictionary<int, List<HexCubeCoord>> rings = GroupByRing(coords, centerCoord);
+            Dictionary<int, List<HexCubeCoordinates>> rings =
+                GroupByRing(coords, centerCoord);
 
             _ringsOrderedAsc = rings
                .OrderBy(r => r.Key)
@@ -31,9 +32,10 @@ namespace Forma.Runtime.Core.Features.HexGrid
                .ToList();
         }
 
-        public async UniTask PlaySpawn(IReadOnlyDictionary<HexCubeCoord, HexView> tiles)
+        public async UniTask PlaySpawn(
+            IReadOnlyDictionary<HexCubeCoordinates, HexView> tiles)
         {
-            foreach (KeyValuePair<int, List<HexCubeCoord>> ring in _ringsOrderedAsc)
+            foreach (KeyValuePair<int, List<HexCubeCoordinates>> ring in _ringsOrderedAsc)
             {
                 AnimateRingSpawn(ring.Value, tiles);
 
@@ -47,9 +49,10 @@ namespace Forma.Runtime.Core.Features.HexGrid
             );
         }
 
-        public async UniTask PlayDespawn(IReadOnlyDictionary<HexCubeCoord, HexView> tiles)
+        public async UniTask PlayDespawn(
+            IReadOnlyDictionary<HexCubeCoordinates, HexView> tiles)
         {
-            foreach (KeyValuePair<int, List<HexCubeCoord>> ring in _ringsOrderedDesc)
+            foreach (KeyValuePair<int, List<HexCubeCoordinates>> ring in _ringsOrderedDesc)
             {
                 AnimateRingDespawn(ring.Value, tiles);
 
@@ -63,28 +66,28 @@ namespace Forma.Runtime.Core.Features.HexGrid
             );
         }
 
-        static Dictionary<int, List<HexCubeCoord>> GroupByRing(
-            IEnumerable<HexCubeCoord> coords, HexCubeCoord center)
+        Dictionary<int, List<HexCubeCoordinates>> GroupByRing(
+            IEnumerable<HexCubeCoordinates> coords, HexCubeCoordinates center)
         {
-            var rings = new Dictionary<int, List<HexCubeCoord>>();
+            var rings = new Dictionary<int, List<HexCubeCoordinates>>();
 
-            foreach (HexCubeCoord coord in coords)
+            foreach (HexCubeCoordinates coord in coords)
             {
-                int ring = HexCubeCoord.Distance(coord, center);
+                int ring = HexCubeCoordinates.Distance(coord, center);
 
-                if (!rings.ContainsKey(ring))
-                    rings[ring] = new List<HexCubeCoord>();
+                if (!rings.TryGetValue(ring, out List<HexCubeCoordinates> coordinates))
+                    rings[ring] = coordinates = new List<HexCubeCoordinates>();
 
-                rings[ring].Add(coord);
+                coordinates.Add(coord);
             }
 
             return rings;
         }
 
-        void AnimateRingSpawn(List<HexCubeCoord> ringCoords,
-            IReadOnlyDictionary<HexCubeCoord, HexView> tiles)
+        void AnimateRingSpawn(List<HexCubeCoordinates> ringCoords,
+            IReadOnlyDictionary<HexCubeCoordinates, HexView> tiles)
         {
-            foreach (HexCubeCoord coord in ringCoords)
+            foreach (HexCubeCoordinates coord in ringCoords)
             {
                 HexView tile = tiles[coord];
 
@@ -109,10 +112,10 @@ namespace Forma.Runtime.Core.Features.HexGrid
             }
         }
 
-        void AnimateRingDespawn(List<HexCubeCoord> tileCoords,
-            IReadOnlyDictionary<HexCubeCoord, HexView> tiles)
+        void AnimateRingDespawn(List<HexCubeCoordinates> tileCoords,
+            IReadOnlyDictionary<HexCubeCoordinates, HexView> tiles)
         {
-            foreach (HexCubeCoord coord in tileCoords)
+            foreach (HexCubeCoordinates coord in tileCoords)
             {
                 HexView tile = tiles[coord];
 

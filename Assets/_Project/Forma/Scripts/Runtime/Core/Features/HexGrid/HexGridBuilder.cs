@@ -10,33 +10,29 @@ namespace Forma.Runtime.Core.Features.HexGrid
     {
         readonly HexGridConfig _hexGridConfig;
 
-        public HexCubeCoord CenterCoord { get; }
-
         public HexGridBuilder(HexGridConfig hexGridConfig)
         {
             _hexGridConfig = hexGridConfig;
-            CenterCoord = HexCubeCoord.FromOffset(
-                hexGridConfig.GridSize / 2,
-                hexGridConfig.HexTileConfig.IsFlatTopped
-            );
         }
 
         public IEnumerable<HexTileData> CalculateHexGrid(Vector3 gridCenterPosition)
         {
             var tiles = new List<HexTileData>();
 
-            Vector2Int gridSize = _hexGridConfig.GridSize;
-            bool isFlatTopped = _hexGridConfig.HexTileConfig.IsFlatTopped;
+            int radius = _hexGridConfig.Radius;
 
-            Vector3 centerHexPosition = GetPositionFromCube(CenterCoord);
-            Vector3 originOffset = gridCenterPosition - centerHexPosition;
-
-            for (int y = 0; y < gridSize.y; y++)
+            for (int q = -radius; q <= radius; q++)
             {
-                for (int x = 0; x < gridSize.x; x++)
+                int rMin = Mathf.Max(-radius, -q - radius);
+                int rMax = Mathf.Min(radius, -q + radius);
+
+                for (int r = rMin; r <= rMax; r++)
                 {
-                    HexCubeCoord cubeCoord = HexCubeCoord.FromOffset(new Vector2Int(x, y), isFlatTopped);
-                    Vector3 tilePosition = GetPositionFromCube(cubeCoord) + originOffset;
+                    var cubeCoord = new HexCubeCoordinates(q, r);
+
+                    Vector3 tilePosition =
+                        GetPositionFromCube(cubeCoord) + gridCenterPosition;
+
                     tiles.Add(new HexTileData(cubeCoord, tilePosition));
                 }
             }
@@ -44,19 +40,27 @@ namespace Forma.Runtime.Core.Features.HexGrid
             return tiles;
         }
 
-        Vector3 GetPositionFromCube(HexCubeCoord coord)
+        Vector3 GetPositionFromCube(HexCubeCoordinates coord)
         {
             float size = _hexGridConfig.HexTileConfig.OuterSize;
-            float x, z;
+
+            float x;
+            float z;
 
             if (_hexGridConfig.HexTileConfig.IsFlatTopped)
             {
                 x = size * 1.5f * coord.Q;
-                z = size * (Constants.Math.Sqrt3 / 2f * coord.Q + Constants.Math.Sqrt3 * coord.R);
+
+                z = size
+                  * (Constants.Math.Sqrt3 / 2f * coord.Q
+                      + Constants.Math.Sqrt3 * coord.R);
             }
             else
             {
-                x = size * (Constants.Math.Sqrt3 * coord.Q + Constants.Math.Sqrt3 / 2f * coord.R);
+                x = size
+                  * (Constants.Math.Sqrt3 * coord.Q
+                      + Constants.Math.Sqrt3 / 2f * coord.R);
+
                 z = size * 1.5f * coord.R;
             }
 
