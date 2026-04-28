@@ -87,7 +87,8 @@ namespace Forma.Runtime.Core.Features.HexGrid
                 IEnumerable<HexTileData> gridPositions =
                     _builder.CalculateHexGrid(_targetProvider.Target.position);
 
-                await _hexGridView.SpawnGrid(gridPositions);
+                _hexGridView.UpdatePositions(gridPositions);
+                await _hexGridView.SpawnGrid();
             }
             else
             {

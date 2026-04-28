@@ -10,14 +10,13 @@ namespace Forma.Runtime.Core.Features.HexGrid.Views
     public class HexView : MonoBehaviour
     {
         static readonly int EmissionColor = Shader.PropertyToID("_EmissionColor");
-        
+
         MeshFilter _meshFilter;
         MeshRenderer _meshRenderer;
         float _innerSize = 0.5f;
         float _outerSize = 1f;
         float _height;
         bool _isFlatTopped;
-
         Mesh _mesh;
         List<HexTileFace> _faces;
         MaterialPropertyBlock _materialPropertyBlock;

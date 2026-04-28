@@ -14,84 +14,57 @@ namespace Forma.Runtime.Core.Features.HexGrid
         {
             _hexGridConfig = hexGridConfig;
         }
-        
+
         public IEnumerable<HexTileData> CalculateHexGrid(Vector3 gridCenterPosition)
         {
             var tiles = new List<HexTileData>();
-            
-            Vector2Int gridSize = _hexGridConfig.GridSize;
-            
-            Vector2Int centerHex = gridSize / 2;
-            Vector3 centerHexPosition = GetPositionForHexFromCoordinate(centerHex);
-            Vector3 offset = gridCenterPosition - centerHexPosition;
-            
-            for (int y = 0; y < gridSize.y; y++)
+
+            int radius = _hexGridConfig.Radius;
+
+            for (int q = -radius; q <= radius; q++)
             {
-                for (int x = 0; x < gridSize.x; x++)
+                int rMin = Mathf.Max(-radius, -q - radius);
+                int rMax = Mathf.Min(radius, -q + radius);
+
+                for (int r = rMin; r <= rMax; r++)
                 {
-                    var tileCoordinates = new Vector2Int(x, y);
+                    var cubeCoord = new HexCubeCoordinates(q, r);
 
                     Vector3 tilePosition =
-                        GetPositionForHexFromCoordinate(tileCoordinates) + offset;
+                        GetPositionFromCube(cubeCoord) + gridCenterPosition;
 
-                    var tileData = new HexTileData(tileCoordinates, tilePosition);
-                    
-                    tiles.Add(tileData);
+                    tiles.Add(new HexTileData(cubeCoord, tilePosition));
                 }
             }
 
             return tiles;
         }
-        
-        Vector3 GetPositionForHexFromCoordinate(Vector2Int coordinate)
-        {
-            int column = coordinate.x;
-            int row = coordinate.y;
 
-            float width;
-            float height;
-            float xPosition;
-            float yPosition;
-            bool shouldOffset;
-            float horizontalDistance;
-            float verticalDistance;
-            float offset;
+        Vector3 GetPositionFromCube(HexCubeCoordinates coord)
+        {
             float size = _hexGridConfig.HexTileConfig.OuterSize;
+
+            float x;
+            float z;
 
             if (_hexGridConfig.HexTileConfig.IsFlatTopped)
             {
-                shouldOffset = column % 2 == 0;
-                width = 2f * size;
-                height = Constants.Math.Sqrt3 * size;
+                x = size * 1.5f * coord.Q;
 
-                horizontalDistance = width * 3f / 4f;
-                verticalDistance = height;
-
-                offset = shouldOffset
-                    ? height / 2f
-                    : 0;
-
-                xPosition = column * horizontalDistance;
-                yPosition = row * verticalDistance - offset;
+                z = size
+                  * (Constants.Math.Sqrt3 / 2f * coord.Q
+                      + Constants.Math.Sqrt3 * coord.R);
             }
             else
             {
-                shouldOffset = row % 2 == 0;
-                width = Constants.Math.Sqrt3 * size;
-                height = 2f * size;
+                x = size
+                  * (Constants.Math.Sqrt3 * coord.Q
+                      + Constants.Math.Sqrt3 / 2f * coord.R);
 
-                horizontalDistance = width;
-                verticalDistance = height * 3f / 4f;
-
-                offset = shouldOffset
-                    ? width / 2f
-                    : 0;
-
-                xPosition = column * horizontalDistance + offset;
-                yPosition = row * verticalDistance;
+                z = size * 1.5f * coord.R;
             }
 
-            return new Vector3(xPosition, 0, -yPosition);
+            return new Vector3(x, 0, -z);
         }
     }
 }

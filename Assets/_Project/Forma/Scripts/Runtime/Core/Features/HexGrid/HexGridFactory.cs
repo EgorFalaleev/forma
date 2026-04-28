@@ -40,17 +40,18 @@ namespace Forma.Runtime.Core.Features.HexGrid
             IEnumerable<HexTileData> tiles =
                 hexGridBuilder.CalculateHexGrid(_targetProvider.Target.position);
 
-            var hexViews = new Dictionary<Vector2Int, HexView>();
+            var hexViews = new Dictionary<HexCubeCoordinates, HexView>();
             var hexViewFactory = new HexViewFactory();
 
             foreach (HexTileData tile in tiles)
             {
                 HexView hexView = CreateTile(hexViewFactory, tile, hexGridGo.transform);
-
                 hexViews.Add(tile.Coordinates, hexView);
             }
 
-            var hexGridAnimator = new HexGridAnimator(_hexGridConfig);
+            var hexGridAnimator = new HexGridAnimator(
+                _hexGridConfig, hexViews.Keys, new HexCubeCoordinates(0, 0)
+            );
 
             var hexGridView = hexGridGo.AddComponent<HexGridView>();
 
