@@ -8,10 +8,10 @@ namespace Forma.Runtime.Core.Features.HexGrid
 {
     public class HexViewFactory
     {
-        public HexView Create(HexTileData hexTileData, Transform parent,
+        public HexView Create(HexCubeCoordinates coordinates, Transform parent,
             HexTileConfig hexTileConfig)
         {
-            var tileGo = new GameObject($"Hex {hexTileData.Coordinates}");
+            var tileGo = new GameObject($"Hex {coordinates}");
             tileGo.layer = Constants.Layers.HexGrid;
 
             var hexView = tileGo.AddComponent<HexView>();

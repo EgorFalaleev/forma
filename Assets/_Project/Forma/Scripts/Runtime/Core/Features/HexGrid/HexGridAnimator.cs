@@ -52,7 +52,8 @@ namespace Forma.Runtime.Core.Features.HexGrid
         public async UniTask PlayDespawn(
             IReadOnlyDictionary<HexCubeCoordinates, HexView> tiles)
         {
-            foreach (KeyValuePair<int, List<HexCubeCoordinates>> ring in _ringsOrderedDesc)
+            foreach (KeyValuePair<int, List<HexCubeCoordinates>> ring in
+                _ringsOrderedDesc)
             {
                 AnimateRingDespawn(ring.Value, tiles);
 

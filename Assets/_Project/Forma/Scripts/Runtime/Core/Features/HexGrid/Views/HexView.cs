@@ -59,6 +59,11 @@ namespace Forma.Runtime.Core.Features.HexGrid.Views
             _meshRenderer.SetPropertyBlock(_materialPropertyBlock);
         }
 
+        public void UpdatePosition(Vector3 position)
+        {
+            transform.position = position;
+        }
+
         void ConfigureFaces()
         {
             _faces = new List<HexTileFace>();

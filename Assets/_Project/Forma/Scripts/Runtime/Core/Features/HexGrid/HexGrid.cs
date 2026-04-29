@@ -18,6 +18,7 @@ namespace Forma.Runtime.Core.Features.HexGrid
         readonly ITargetProvider _targetProvider;
         readonly IHexClickInput _hexClickInput;
         readonly IHexSelectionSetter _hexSelectionSetter;
+        readonly HexTileRegistry _hexTileRegistry;
 
         bool _isGridActive;
         bool _isGridAnimating;
@@ -25,7 +26,7 @@ namespace Forma.Runtime.Core.Features.HexGrid
         public HexGrid(HexGridView hexGridView, HexGridBuilder builder,
             HexTileSelector hexTileSelector, IToggleGridInput toggleGridInput,
             ITargetProvider targetProvider, IHexClickInput hexClickInput,
-            IHexSelectionSetter hexSelectionSetter)
+            IHexSelectionSetter hexSelectionSetter, HexTileRegistry hexTileRegistry)
         {
             _hexGridView = hexGridView;
             _builder = builder;
@@ -34,6 +35,7 @@ namespace Forma.Runtime.Core.Features.HexGrid
             _targetProvider = targetProvider;
             _hexClickInput = hexClickInput;
             _hexSelectionSetter = hexSelectionSetter;
+            _hexTileRegistry = hexTileRegistry;
 
             _toggleGridInput.OnGridModeToggled += OnToggleGrid;
             _hexClickInput.OnClicked += OnHexTileClicked;
@@ -87,12 +89,18 @@ namespace Forma.Runtime.Core.Features.HexGrid
                 IEnumerable<HexTileData> gridPositions =
                     _builder.CalculateHexGrid(_targetProvider.Target.position);
 
-                _hexGridView.UpdatePositions(gridPositions);
-                await _hexGridView.SpawnGrid();
+                foreach (HexTileData hexTileData in gridPositions)
+                {
+                    _hexTileRegistry
+                       .GetView(hexTileData.Coordinates)
+                       .UpdatePosition(hexTileData.Position);
+                }
+
+                await _hexGridView.SpawnGrid(_hexTileRegistry.Tiles);
             }
             else
             {
-                await _hexGridView.DespawnGrid();
+                await _hexGridView.DespawnGrid(_hexTileRegistry.Tiles);
             }
 
             _isGridActive = !_isGridActive;

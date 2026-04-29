@@ -19,6 +19,23 @@ namespace Forma.Runtime.Core.Features.HexGrid
         {
             var tiles = new List<HexTileData>();
 
+            IEnumerable<HexCubeCoordinates> coordinates = CalculateHexCoordinates();
+
+            foreach (HexCubeCoordinates coordinate in coordinates)
+            {
+                Vector3 tilePosition =
+                    GetPositionFromCube(coordinate) + gridCenterPosition;
+
+                tiles.Add(new HexTileData(coordinate, tilePosition));
+            }
+
+            return tiles;
+        }
+
+        public IEnumerable<HexCubeCoordinates> CalculateHexCoordinates()
+        {
+            var coordinates = new List<HexCubeCoordinates>();
+
             int radius = _hexGridConfig.Radius;
 
             for (int q = -radius; q <= radius; q++)
@@ -30,14 +47,11 @@ namespace Forma.Runtime.Core.Features.HexGrid
                 {
                     var cubeCoord = new HexCubeCoordinates(q, r);
 
-                    Vector3 tilePosition =
-                        GetPositionFromCube(cubeCoord) + gridCenterPosition;
-
-                    tiles.Add(new HexTileData(cubeCoord, tilePosition));
+                    coordinates.Add(cubeCoord);
                 }
             }
 
-            return tiles;
+            return coordinates;
         }
 
         Vector3 GetPositionFromCube(HexCubeCoordinates coord)
