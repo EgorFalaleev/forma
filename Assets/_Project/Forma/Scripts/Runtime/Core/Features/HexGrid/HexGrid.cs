@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Forma.Runtime.Common;
 using Forma.Runtime.Core.Common;
+using Forma.Runtime.Core.Features.HexGrid.Configs;
 using Forma.Runtime.Core.Features.HexGrid.Data;
 using Forma.Runtime.Core.Features.HexGrid.Views;
 using UnityEngine;
@@ -19,6 +20,8 @@ namespace Forma.Runtime.Core.Features.HexGrid
         readonly IHexClickInput _hexClickInput;
         readonly IHexSelectionSetter _hexSelectionSetter;
         readonly HexTileRegistry _hexTileRegistry;
+        readonly HexOccupancyController _hexOccupancyController;
+        readonly HexTileConfig _hexTileConfig;
 
         bool _isGridActive;
         bool _isGridAnimating;
@@ -26,7 +29,8 @@ namespace Forma.Runtime.Core.Features.HexGrid
         public HexGrid(HexGridView hexGridView, HexGridBuilder builder,
             HexTileSelector hexTileSelector, IToggleGridInput toggleGridInput,
             ITargetProvider targetProvider, IHexClickInput hexClickInput,
-            IHexSelectionSetter hexSelectionSetter, HexTileRegistry hexTileRegistry)
+            IHexSelectionSetter hexSelectionSetter, HexTileRegistry hexTileRegistry,
+            HexOccupancyController hexOccupancyController, HexTileConfig hexTileConfig)
         {
             _hexGridView = hexGridView;
             _builder = builder;
@@ -36,6 +40,8 @@ namespace Forma.Runtime.Core.Features.HexGrid
             _hexClickInput = hexClickInput;
             _hexSelectionSetter = hexSelectionSetter;
             _hexTileRegistry = hexTileRegistry;
+            _hexOccupancyController = hexOccupancyController;
+            _hexTileConfig = hexTileConfig;
 
             _toggleGridInput.OnGridModeToggled += OnToggleGrid;
             _hexClickInput.OnClicked += OnHexTileClicked;
@@ -91,9 +97,17 @@ namespace Forma.Runtime.Core.Features.HexGrid
 
                 foreach (HexTileData hexTileData in gridPositions)
                 {
-                    _hexTileRegistry
-                       .GetView(hexTileData.Coordinates)
-                       .UpdatePosition(hexTileData.Position);
+                    HexCubeCoordinates tileCoordinates = hexTileData.Coordinates;
+
+                    HexView hexView = _hexTileRegistry.GetView(tileCoordinates);
+
+                    hexView.UpdatePosition(hexTileData.Position);
+
+                    if (_hexOccupancyController.GetTileStatus(tileCoordinates)
+                     != TileStatus.Active)
+                    {
+                        hexView.UpdateBaseColor(_hexTileConfig.InactiveColor);
+                    }
                 }
 
                 await _hexGridView.SpawnGrid(_hexTileRegistry.Tiles);

@@ -16,6 +16,19 @@ namespace Forma.Runtime.Core.Features.HexGrid.Data
             S = -q - r;
         }
 
+        public HexCubeCoordinates[] GetNeighbours()
+        {
+            return new[]
+            {
+                new HexCubeCoordinates(Q + 1, R - 1),
+                new HexCubeCoordinates(Q + 1, R),
+                new HexCubeCoordinates(Q, R + 1),
+                new HexCubeCoordinates(Q - 1, R + 1),
+                new HexCubeCoordinates(Q - 1, R),
+                new HexCubeCoordinates(Q, R - 1)
+            };
+        }
+
         public static int Distance(HexCubeCoordinates a, HexCubeCoordinates b)
             => (Mathf.Abs(a.Q - b.Q) + Mathf.Abs(a.R - b.R) + Mathf.Abs(a.S - b.S)) / 2;
 

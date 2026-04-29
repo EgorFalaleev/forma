@@ -10,6 +10,7 @@ namespace Forma.Runtime.Core.Features.HexGrid.Views
     public class HexView : MonoBehaviour
     {
         static readonly int EmissionColor = Shader.PropertyToID("_EmissionColor");
+        static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
 
         MeshFilter _meshFilter;
         MeshRenderer _meshRenderer;
@@ -56,6 +57,12 @@ namespace Forma.Runtime.Core.Features.HexGrid.Views
         public void UpdateEmissionColor(Color color)
         {
             _materialPropertyBlock.SetColor(EmissionColor, color);
+            _meshRenderer.SetPropertyBlock(_materialPropertyBlock);
+        }
+
+        public void UpdateBaseColor(Color color)
+        {
+            _materialPropertyBlock.SetColor(BaseColor, color);
             _meshRenderer.SetPropertyBlock(_materialPropertyBlock);
         }
 

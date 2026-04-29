@@ -19,3 +19,4 @@ MonoBehaviour:
   <IsFlatTopped>k__BackingField: 1
   <ShouldCastShadows>k__BackingField: 0
   <AnimationConfig>k__BackingField: {fileID: 11400000, guid: 83d05bf6bd0020a41a4b59e773008e04, type: 2}
+  <InactiveColor>k__BackingField: {r: 0, g: 0, b: 0, a: 0.5529412}
