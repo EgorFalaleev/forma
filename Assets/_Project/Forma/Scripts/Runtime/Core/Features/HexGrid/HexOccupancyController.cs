@@ -24,7 +24,10 @@ namespace Forma.Runtime.Core.Features.HexGrid
             _occupiedCells.Add(coordinates);
         }
 
-        public TileStatus GetTileStatus(HexCubeCoordinates coordinates)
+        public bool IsTileActive(HexCubeCoordinates coordinates)
+            => GetTileStatus(coordinates) == TileStatus.Active;
+
+        TileStatus GetTileStatus(HexCubeCoordinates coordinates)
         {
             if (_occupiedCells.Contains(coordinates))
                 return TileStatus.Occupied;

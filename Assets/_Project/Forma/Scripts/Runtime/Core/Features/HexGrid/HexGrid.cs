@@ -82,9 +82,7 @@ namespace Forma.Runtime.Core.Features.HexGrid
         async UniTaskVoid ToggleGrid()
         {
             if (_isGridAnimating)
-            {
                 return;
-            }
 
             _isGridAnimating = true;
 
@@ -103,11 +101,8 @@ namespace Forma.Runtime.Core.Features.HexGrid
 
                     hexView.UpdatePosition(hexTileData.Position);
 
-                    if (_hexOccupancyController.GetTileStatus(tileCoordinates)
-                     != TileStatus.Active)
-                    {
+                    if (!_hexOccupancyController.IsTileActive(tileCoordinates))
                         hexView.UpdateBaseColor(_hexTileConfig.InactiveColor);
-                    }
                 }
 
                 await _hexGridView.SpawnGrid(_hexTileRegistry.Tiles);
@@ -124,9 +119,7 @@ namespace Forma.Runtime.Core.Features.HexGrid
         async UniTask TryClickHexTile(Vector2 screenPosition)
         {
             if (!_isGridActive || _isGridAnimating)
-            {
                 return;
-            }
 
             if (_hexGridView.TrySelectHexTileAt(
                 screenPosition,
@@ -134,7 +127,13 @@ namespace Forma.Runtime.Core.Features.HexGrid
                 out HexView hexView
             ))
             {
-                await _hexTileSelector.ClickHexTile(hexView);
+                HexCubeCoordinates tileCoordinates =
+                    _hexTileRegistry.GetCoordinates(hexView);
+
+                bool isTileActive = _hexOccupancyController.IsTileActive(tileCoordinates);
+
+                if (isTileActive)
+                    await _hexTileSelector.ClickHexTile(hexView);
             }
         }
     }
