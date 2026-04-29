@@ -12,8 +12,8 @@ namespace Forma.Runtime.Core.Features.Turret
         readonly TurretConfig _turretConfig;
         readonly ITargetProvider _targetProvider;
 
-        public TurretFactory(ITimeService timeService,
-            TurretConfig turretConfig, ITargetProvider targetProvider)
+        public TurretFactory(ITimeService timeService, TurretConfig turretConfig,
+            ITargetProvider targetProvider)
         {
             _timeService = timeService;
             _turretConfig = turretConfig;
@@ -27,7 +27,7 @@ namespace Forma.Runtime.Core.Features.Turret
                 turretView.transform,
                 spawnPosition - _targetProvider.Target.position
             );
-            
+
             var turretMovementController = new MovementController(
                 turretMoveInput,
                 turretView,

@@ -3,6 +3,7 @@ using Forma.Runtime.Core.Common;
 using Forma.Runtime.Core.Features.HexGrid.Configs;
 using Forma.Runtime.Core.Features.HexGrid.Data;
 using Forma.Runtime.Core.Features.HexGrid.Views;
+using Forma.Runtime.Core.Features.Turret;
 using UnityEngine;
 
 namespace Forma.Runtime.Core.Features.HexGrid
@@ -16,11 +17,12 @@ namespace Forma.Runtime.Core.Features.HexGrid
         readonly ICameraProvider _cameraProvider;
         readonly IHexSelectionSetter _hexSelectionSetter;
         readonly HexTileSelector _hexTileSelector;
+        readonly ITurretPlacer _turretPlacer;
 
         public HexGridFactory(HexGridConfig hexGridConfig, ITargetProvider targetProvider,
             IToggleGridInput toggleGridInput, IHexClickInput hexClickInput,
             ICameraProvider cameraProvider, IHexSelectionSetter hexSelectionSetter,
-            HexTileSelector hexTileSelector)
+            HexTileSelector hexTileSelector, ITurretPlacer turretPlacer)
         {
             _hexGridConfig = hexGridConfig;
             _targetProvider = targetProvider;
@@ -29,6 +31,7 @@ namespace Forma.Runtime.Core.Features.HexGrid
             _cameraProvider = cameraProvider;
             _hexSelectionSetter = hexSelectionSetter;
             _hexTileSelector = hexTileSelector;
+            _turretPlacer = turretPlacer;
         }
 
         public HexGrid Create()
@@ -56,8 +59,9 @@ namespace Forma.Runtime.Core.Features.HexGrid
 
             var hexTileRegistry = new HexTileRegistry(hexViews);
 
-            var hexOccupancyController = new HexOccupancyController(hexTileRegistry);
-            
+            var hexOccupancyController =
+                new HexOccupancyController(hexTileRegistry.Tiles.Keys);
+
             var hexGridAnimator = new HexGridAnimator(
                 _hexGridConfig,
                 hexTileRegistry.Tiles.Keys,
@@ -78,7 +82,8 @@ namespace Forma.Runtime.Core.Features.HexGrid
                 _hexSelectionSetter,
                 hexTileRegistry,
                 hexOccupancyController,
-                _hexGridConfig.HexTileConfig
+                _hexGridConfig.HexTileConfig,
+                _turretPlacer
             );
 
             return hexGrid;

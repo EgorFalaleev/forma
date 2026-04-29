@@ -102,6 +102,7 @@ namespace Forma.Runtime.Composition.Core
 
             builder
                .Register<TurretPlacer>(Lifetime.Singleton)
+               .As<ITurretPlacer>()
                .AsSelf();
         }
 

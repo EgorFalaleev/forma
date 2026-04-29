@@ -21,6 +21,7 @@ namespace Forma.Runtime.Core.Features.HexGrid.Views
         Mesh _mesh;
         List<HexTileFace> _faces;
         MaterialPropertyBlock _materialPropertyBlock;
+        Color _defaultColor;
 
         public void Construct(Material material, float innerSize, float outerSize,
             float height, bool isFlatTopped, bool shouldCastShadows)
@@ -36,6 +37,8 @@ namespace Forma.Runtime.Core.Features.HexGrid.Views
             _meshFilter.mesh = _mesh;
             _meshRenderer.sharedMaterial = material;
 
+            _defaultColor = material.color;
+            
             _innerSize = innerSize;
             _outerSize = outerSize;
             _height = height;
@@ -64,6 +67,11 @@ namespace Forma.Runtime.Core.Features.HexGrid.Views
         {
             _materialPropertyBlock.SetColor(BaseColor, color);
             _meshRenderer.SetPropertyBlock(_materialPropertyBlock);
+        }
+
+        public void ResetColor()
+        {
+            UpdateBaseColor(_defaultColor);
         }
 
         public void UpdatePosition(Vector3 position)
