@@ -5,6 +5,7 @@ namespace Forma.Runtime.Core.Features.HexGrid
 {
     public interface IHexSelectionSetter
     {
-        void SetSelectedHexPosition(Vector3? position, HexCubeCoordinates? coordinates);
+        void SetSelection(Vector3? position, HexCubeCoordinates? coordinates);
+        void ClearSelection();
     }
 }

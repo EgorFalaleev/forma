@@ -13,11 +13,17 @@ namespace Forma.Runtime.Core.Features.HexGrid
         Vector3? _selectedHexPosition;
         HexCubeCoordinates? _selectedHexCoordinates;
 
-        public void SetSelectedHexPosition(Vector3? position,
+        public void SetSelection(Vector3? position,
             HexCubeCoordinates? coordinates)
         {
             _selectedHexPosition = position;
             _selectedHexCoordinates = coordinates;
+        }
+
+        public void ClearSelection()
+        {
+            _selectedHexPosition = null;
+            _selectedHexCoordinates = null;
         }
     }
 }

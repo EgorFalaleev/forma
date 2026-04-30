@@ -59,6 +59,12 @@ namespace Forma.Runtime.Core.Features.HexGrid
 
             var hexTileRegistry = new HexTileRegistry(hexViews);
 
+            var hexSelectionController = new HexSelectionController(
+                _hexTileSelector,
+                _hexSelectionSetter,
+                hexTileRegistry
+            );
+
             var hexOccupancyController =
                 new HexOccupancyController(hexTileRegistry.Tiles.Keys);
 
@@ -79,11 +85,11 @@ namespace Forma.Runtime.Core.Features.HexGrid
                 _toggleGridInput,
                 _targetProvider,
                 _hexClickInput,
-                _hexSelectionSetter,
                 hexTileRegistry,
                 hexOccupancyController,
                 _hexGridConfig.HexTileConfig,
-                _turretPlacer
+                _turretPlacer,
+                hexSelectionController
             );
 
             return hexGrid;
