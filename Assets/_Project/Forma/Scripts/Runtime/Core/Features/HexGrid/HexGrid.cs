@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Forma.Runtime.Common;
 using Forma.Runtime.Core.Common;
@@ -16,7 +15,6 @@ namespace Forma.Runtime.Core.Features.HexGrid
         readonly HexGridView _hexGridView;
         readonly HexGridBuilder _builder;
         readonly HexTileSelector _hexTileSelector;
-        readonly IToggleGridInput _toggleGridInput;
         readonly ITargetProvider _targetProvider;
         readonly IHexClickInput _hexClickInput;
         readonly HexTileRegistry _hexTileRegistry;
@@ -29,16 +27,14 @@ namespace Forma.Runtime.Core.Features.HexGrid
         bool _isGridAnimating;
 
         public HexGrid(HexGridView hexGridView, HexGridBuilder builder,
-            HexTileSelector hexTileSelector, IToggleGridInput toggleGridInput,
-            ITargetProvider targetProvider, IHexClickInput hexClickInput,
-            HexTileRegistry hexTileRegistry,
+            HexTileSelector hexTileSelector, ITargetProvider targetProvider,
+            IHexClickInput hexClickInput, HexTileRegistry hexTileRegistry,
             HexOccupancyController hexOccupancyController, HexTileConfig hexTileConfig,
             ITurretPlacer turretPlacer, HexSelectionController hexSelectionController)
         {
             _hexGridView = hexGridView;
             _builder = builder;
             _hexTileSelector = hexTileSelector;
-            _toggleGridInput = toggleGridInput;
             _targetProvider = targetProvider;
             _hexClickInput = hexClickInput;
             _hexTileRegistry = hexTileRegistry;
@@ -47,24 +43,14 @@ namespace Forma.Runtime.Core.Features.HexGrid
             _turretPlacer = turretPlacer;
             _hexSelectionController = hexSelectionController;
 
-            _toggleGridInput.OnGridModeToggled += OnToggleGrid;
             _hexClickInput.OnClicked += OnHexTileClicked;
             _turretPlacer.OnTurretReservedTile += OnTurretReservedTile;
         }
 
         public void Dispose()
         {
-            _toggleGridInput.OnGridModeToggled -= OnToggleGrid;
             _hexClickInput.OnClicked -= OnHexTileClicked;
             _turretPlacer.OnTurretReservedTile -= OnTurretReservedTile;
-            
-            _hexSelectionController.Dispose();
-        }
-
-        void OnToggleGrid()
-        {
-            ToggleGrid()
-               .Forget();
         }
 
         void OnHexTileClicked(Vector2 screenPosition)
@@ -90,45 +76,6 @@ namespace Forma.Runtime.Core.Features.HexGrid
                        .GetView(tileCoordinates)
                        .ResetColor();
             }
-        }
-
-        async UniTaskVoid ToggleGrid()
-        {
-            if (_isGridAnimating)
-                return;
-
-            _isGridAnimating = true;
-
-            _hexTileSelector.Cleanup();
-
-            if (!_isGridActive)
-            {
-                IEnumerable<HexTileData> gridPositions =
-                    _builder.CalculateHexGrid(_targetProvider.Target.position);
-
-                foreach (HexTileData hexTileData in gridPositions)
-                {
-                    HexCubeCoordinates tileCoordinates = hexTileData.Coordinates;
-
-                    HexView hexView = _hexTileRegistry.GetView(tileCoordinates);
-
-                    hexView.UpdatePosition(hexTileData.Position);
-
-                    if (!_hexOccupancyController.IsTileActive(tileCoordinates))
-                        hexView.UpdateBaseColor(_hexTileConfig.InactiveColor);
-                    else
-                        hexView.ResetColor();
-                }
-
-                await _hexGridView.SpawnGrid(_hexTileRegistry.Tiles);
-            }
-            else
-            {
-                await _hexGridView.DespawnGrid(_hexTileRegistry.Tiles);
-            }
-
-            _isGridActive = !_isGridActive;
-            _isGridAnimating = false;
         }
 
         async UniTask TryClickHexTile(Vector2 screenPosition)

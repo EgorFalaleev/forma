@@ -1,29 +1,14 @@
-using System.Collections.Generic;
-using Cysharp.Threading.Tasks;
-using Forma.Runtime.Core.Features.HexGrid.Data;
 using UnityEngine;
 
 namespace Forma.Runtime.Core.Features.HexGrid.Views
 {
-    public class HexGridView : MonoBehaviour
+    public class HexGridView
     {
-        HexGridAnimator _animator;
         Camera _camera;
 
-        public void Initialize(HexGridAnimator animator, Camera camera)
+        public void Initialize(Camera camera)
         {
-            _animator = animator;
             _camera = camera;
-        }
-
-        public async UniTask SpawnGrid(IReadOnlyDictionary<HexCubeCoordinates, HexView> tiles)
-        {
-            await _animator.PlaySpawn(tiles);
-        }
-
-        public async UniTask DespawnGrid(IReadOnlyDictionary<HexCubeCoordinates, HexView> tiles)
-        {
-            await _animator.PlayDespawn(tiles);
         }
 
         public bool TrySelectHexTileAt(Vector2 screenPosition, int layerMask,

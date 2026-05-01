@@ -12,16 +12,24 @@ namespace Forma.Runtime.Core.Features.HexGrid
     public class HexGridAnimator
     {
         readonly HexGridConfig _hexGridConfig;
-        readonly List<KeyValuePair<int, List<HexCubeCoordinates>>> _ringsOrderedAsc;
-        readonly List<KeyValuePair<int, List<HexCubeCoordinates>>> _ringsOrderedDesc;
+        readonly HexTileRegistry _hexTileRegistry;
+
+        IReadOnlyList<KeyValuePair<int, List<HexCubeCoordinates>>> _ringsOrderedAsc;
+        IReadOnlyList<KeyValuePair<int, List<HexCubeCoordinates>>> _ringsOrderedDesc;
 
         public HexGridAnimator(HexGridConfig hexGridConfig,
-            IEnumerable<HexCubeCoordinates> coords, HexCubeCoordinates centerCoord)
+            HexTileRegistry hexTileRegistry)
         {
             _hexGridConfig = hexGridConfig;
+            _hexTileRegistry = hexTileRegistry;
+        }
 
-            Dictionary<int, List<HexCubeCoordinates>> rings =
-                GroupByRing(coords, centerCoord);
+        public void Initialize()
+        {
+            Dictionary<int, List<HexCubeCoordinates>> rings = GroupByRing(
+                _hexTileRegistry.Tiles.Keys,
+                _hexTileRegistry.GridCenterCoordinates
+            );
 
             _ringsOrderedAsc = rings
                .OrderBy(r => r.Key)

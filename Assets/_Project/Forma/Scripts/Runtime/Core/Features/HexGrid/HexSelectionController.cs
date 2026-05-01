@@ -15,7 +15,10 @@ namespace Forma.Runtime.Core.Features.HexGrid
             _hexTileSelector = hexTileSelector;
             _hexSelectionSetter = hexSelectionSetter;
             _hexTileRegistry = hexTileRegistry;
+        }
 
+        public void Initialize()
+        {
             _hexTileSelector.OnHexSelected += OnHexSelected;
             _hexTileSelector.OnHexDeselected += OnHexDeselected;
         }

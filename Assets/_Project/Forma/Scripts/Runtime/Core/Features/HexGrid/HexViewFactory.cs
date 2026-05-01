@@ -8,8 +8,14 @@ namespace Forma.Runtime.Core.Features.HexGrid
 {
     public class HexViewFactory
     {
-        public HexView Create(HexCubeCoordinates coordinates, Transform parent,
-            HexTileConfig hexTileConfig)
+        readonly HexTileConfig _hexTileConfig;
+        
+        public HexViewFactory(HexGridConfig hexGridConfig)
+        {
+            _hexTileConfig = hexGridConfig.HexTileConfig;
+        }
+        
+        public HexView Create(HexCubeCoordinates coordinates, Transform parent)
         {
             var tileGo = new GameObject($"Hex {coordinates}");
             tileGo.layer = Constants.Layers.HexGrid;
@@ -17,12 +23,12 @@ namespace Forma.Runtime.Core.Features.HexGrid
             var hexView = tileGo.AddComponent<HexView>();
 
             hexView.Construct(
-                hexTileConfig.Material,
-                hexTileConfig.InnerSize,
-                hexTileConfig.OuterSize,
-                hexTileConfig.Height,
-                hexTileConfig.IsFlatTopped,
-                hexTileConfig.ShouldCastShadows
+                _hexTileConfig.Material,
+                _hexTileConfig.InnerSize,
+                _hexTileConfig.OuterSize,
+                _hexTileConfig.Height,
+                _hexTileConfig.IsFlatTopped,
+                _hexTileConfig.ShouldCastShadows
             );
 
             hexView.DrawMesh();

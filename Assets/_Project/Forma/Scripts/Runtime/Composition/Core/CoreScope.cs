@@ -87,6 +87,22 @@ namespace Forma.Runtime.Composition.Core
         void RegisterGameplayFeatures(IContainerBuilder builder)
         {
             builder
+               .Register<HexGridBuilder>(Lifetime.Singleton)
+               .AsSelf();
+
+            builder
+               .Register<HexViewFactory>(Lifetime.Singleton)
+               .AsSelf();
+
+            builder
+               .Register<HexTileRegistry>(Lifetime.Singleton)
+               .AsSelf();
+
+            builder
+               .Register<HexGridAnimator>(Lifetime.Singleton)
+               .AsSelf();
+
+            builder
                .Register<HexTileAnimator>(Lifetime.Singleton)
                .AsSelf()
                .WithParameter(_hexGridConfig.HexTileConfig.AnimationConfig);
@@ -94,6 +110,22 @@ namespace Forma.Runtime.Composition.Core
             builder
                .Register<HexTileSelector>(Lifetime.Singleton)
                .As<IHexTileDeselector>()
+               .AsSelf();
+
+            builder
+               .Register<HexSelectionController>(Lifetime.Singleton)
+               .AsSelf();
+
+            builder
+               .Register<HexOccupancyController>(Lifetime.Singleton)
+               .AsSelf();
+
+            builder
+               .Register<HexTileController>(Lifetime.Singleton)
+               .AsSelf();
+
+            builder
+               .Register<HexGridActivationController>(Lifetime.Singleton)
                .AsSelf();
 
             builder
@@ -143,10 +175,6 @@ namespace Forma.Runtime.Composition.Core
 
             builder
                .Register<EnemyFactory>(Lifetime.Singleton)
-               .AsSelf();
-
-            builder
-               .Register<HexGridFactory>(Lifetime.Singleton)
                .AsSelf();
 
             builder
