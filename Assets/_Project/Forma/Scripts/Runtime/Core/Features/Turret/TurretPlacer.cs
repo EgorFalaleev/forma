@@ -63,7 +63,7 @@ namespace Forma.Runtime.Core.Features.Turret
             _isPlacing = true;
 
             Vector3 selectedHexPosition =
-                _hexTileSelectionProvider.SelectedTile.Value.WorldPosition;
+                _hexTileSelectionProvider.SelectedTile.Value.Position;
 
             HexCubeCoordinates selectedHexCoordinates =
                 _hexTileSelectionProvider.SelectedTile.Value.Coordinates;

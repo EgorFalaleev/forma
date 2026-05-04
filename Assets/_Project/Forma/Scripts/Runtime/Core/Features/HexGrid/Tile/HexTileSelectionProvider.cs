@@ -7,11 +7,11 @@ namespace Forma.Runtime.Core.Features.HexGrid.Tile
         : IHexTileSelectionProvider,
           IHexTileSelectionSetter
     {
-        public HexTileSelection? SelectedTile => _selectedTile;
+        public HexTileData? SelectedTile => _selectedTile;
         
-        HexTileSelection? _selectedTile;
+        HexTileData? _selectedTile;
 
-        public void SetSelection(HexTileSelection selection)
+        public void SetSelection(HexTileData selection)
         {
             _selectedTile = selection;
         }

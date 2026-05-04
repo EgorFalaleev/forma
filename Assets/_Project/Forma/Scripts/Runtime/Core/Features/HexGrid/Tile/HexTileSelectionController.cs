@@ -1,6 +1,5 @@
 ﻿using System;
 using Forma.Runtime.Core.Features.HexGrid.Data;
-using Forma.Runtime.Core.Features.HexGrid.Grid;
 using Forma.Runtime.Core.Features.HexGrid.Grid.Abstract;
 using Forma.Runtime.Core.Features.HexGrid.Tile.Abstract;
 using Forma.Runtime.Core.Features.HexGrid.Views;
@@ -37,9 +36,9 @@ namespace Forma.Runtime.Core.Features.HexGrid.Tile
         void OnHexSelected(HexView view)
         {
             _hexTileSelectionSetter.SetSelection(
-                new HexTileSelection(
-                    view.transform.position,
-                    _hexGridRegistry.GetCoordinates(view)
+                new HexTileData(
+                    _hexGridRegistry.GetCoordinates(view),
+                    view.transform.position
                 )
             );
         }

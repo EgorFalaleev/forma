@@ -4,6 +4,6 @@ namespace Forma.Runtime.Core.Features.HexGrid.Tile.Abstract
 {
     public interface IHexTileSelectionProvider
     {
-        HexTileSelection? SelectedTile { get; }
+        HexTileData? SelectedTile { get; }
     }
 }

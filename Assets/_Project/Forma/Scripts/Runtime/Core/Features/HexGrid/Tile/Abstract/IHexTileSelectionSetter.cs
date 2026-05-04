@@ -4,7 +4,7 @@ namespace Forma.Runtime.Core.Features.HexGrid.Tile.Abstract
 {
     public interface IHexTileSelectionSetter
     {
-        void SetSelection(HexTileSelection selection);
+        void SetSelection(HexTileData selection);
         void ClearSelection();
     }
 }
