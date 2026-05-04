@@ -26,6 +26,8 @@ namespace Forma.Runtime.Core.Player
             _targetSetter.SetTarget(playerView.transform);
             
             _player = _playerFactory.Create(playerView);
+            
+            _player.Initialize();
         }
 
         public void Tick()

@@ -1,7 +1,6 @@
-﻿using Forma.Runtime.Core.Player.Views;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Forma.Runtime.Core.Player
+namespace Forma.Runtime.Core.Player.Views
 {
     public class PlayerViewFactory
     {

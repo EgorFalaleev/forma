@@ -17,7 +17,10 @@ namespace Forma.Runtime.Core.Player
             _movementController = movementController;
             _health = health;
             _damageReceiver = damageReceiver;
-            
+        }
+
+        public void Initialize()
+        {
             _damageReceiver.OnDamageReceived += TakeDamage;
         }
 
