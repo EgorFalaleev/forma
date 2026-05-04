@@ -1,17 +1,18 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Forma.Runtime.Core.Features.HexGrid.Data;
+using Forma.Runtime.Core.Features.HexGrid.Grid;
+using Forma.Runtime.Core.Features.HexGrid.Grid.Abstract;
 
-namespace Forma.Runtime.Core.Features.HexGrid
+namespace Forma.Runtime.Core.Features.HexGrid.Tile
 {
-    public class HexOccupancyController
+    public class HexTileOccupancyController
     {
-        readonly HashSet<HexCubeCoordinates> _tiles;
+        readonly IHexGridRegistry _hexGridRegistry;
         readonly HashSet<HexCubeCoordinates> _occupiedTiles;
 
-        public HexOccupancyController(IEnumerable<HexCubeCoordinates> tiles)
+        public HexTileOccupancyController(IHexGridRegistry hexGridRegistry)
         {
-            _tiles = tiles.ToHashSet();
+            _hexGridRegistry = hexGridRegistry;
 
             _occupiedTiles = new HashSet<HexCubeCoordinates>
             {
@@ -23,25 +24,25 @@ namespace Forma.Runtime.Core.Features.HexGrid
             => _occupiedTiles.Add(coordinates);
 
         public bool IsTileActive(HexCubeCoordinates coordinates)
-            => GetTileStatus(coordinates) == TileStatus.Active;
+            => GetTileStatus(coordinates) == HexTileStatus.Active;
 
-        TileStatus GetTileStatus(HexCubeCoordinates coordinates)
+        HexTileStatus GetTileStatus(HexCubeCoordinates coordinates)
         {
             if (_occupiedTiles.Contains(coordinates))
-                return TileStatus.Occupied;
+                return HexTileStatus.Occupied;
 
             HexCubeCoordinates[] tileNeighbours = coordinates.GetNeighbours();
 
             foreach (HexCubeCoordinates neighbourCoordinates in tileNeighbours)
             {
-                if (!_tiles.Contains(neighbourCoordinates))
+                if (!_hexGridRegistry.Tiles.ContainsKey(neighbourCoordinates))
                     continue;
 
                 if (_occupiedTiles.Contains(neighbourCoordinates))
-                    return TileStatus.Active;
+                    return HexTileStatus.Active;
             }
 
-            return TileStatus.Unavailable;
+            return HexTileStatus.Unavailable;
         }
     }
 }

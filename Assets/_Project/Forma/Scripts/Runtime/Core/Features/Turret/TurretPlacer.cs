@@ -1,43 +1,42 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
-using Forma.Runtime.Core.Features.HexGrid;
 using Forma.Runtime.Core.Features.HexGrid.Data;
+using Forma.Runtime.Core.Features.HexGrid.Tile.Abstract;
 using Forma.Runtime.Core.Features.Turret.Configs;
 using Forma.Runtime.Core.Features.Turret.Views;
 using UnityEngine;
 
 namespace Forma.Runtime.Core.Features.Turret
 {
-    public class TurretPlacer
-        : IDisposable,
-          ITurretPlacer
+    public class TurretPlacer : IDisposable
     {
         public event Action<Turret> OnTurretPlaced;
-        public event Action<HexCubeCoordinates> OnTurretReservedTile;
 
         readonly ITurretInput _turretInput;
-        readonly IHexSelectionProvider _hexSelectionProvider;
+        readonly IHexTileSelectionProvider _hexTileSelectionProvider;
         readonly IHexTileDeselector _hexTileDeselector;
         readonly TurretFactory _turretFactory;
         readonly TurretViewFactory _turretViewFactory;
         readonly TurretViewAnimator _turretViewAnimator;
         readonly TurretConfig _turretConfig;
+        readonly IHexTileController _hexTileController;
 
         bool _isPlacing;
 
         public TurretPlacer(ITurretInput turretInput, TurretFactory turretFactory,
             TurretViewFactory turretViewFactory,
-            IHexSelectionProvider hexSelectionProvider,
+            IHexTileSelectionProvider hexTileSelectionProvider,
             IHexTileDeselector hexTileDeselector, TurretViewAnimator turretViewAnimator,
-            TurretConfig turretConfig)
+            TurretConfig turretConfig, IHexTileController hexTileController)
         {
             _turretInput = turretInput;
             _turretFactory = turretFactory;
             _turretViewFactory = turretViewFactory;
-            _hexSelectionProvider = hexSelectionProvider;
+            _hexTileSelectionProvider = hexTileSelectionProvider;
             _hexTileDeselector = hexTileDeselector;
             _turretViewAnimator = turretViewAnimator;
             _turretConfig = turretConfig;
+            _hexTileController = hexTileController;
 
             _turretInput.OnPlaceTurretClicked += OnPlaceTurretClicked;
         }
@@ -58,31 +57,28 @@ namespace Forma.Runtime.Core.Features.Turret
             if (_isPlacing)
                 return;
 
-            if (!_hexSelectionProvider.SelectedHexPosition.HasValue
-             || !_hexSelectionProvider.SelectedHexCoordinates.HasValue)
+            if (!_hexTileSelectionProvider.SelectedTile.HasValue)
                 return;
 
             _isPlacing = true;
 
-            Vector3 selectedHexPosition = _hexSelectionProvider.SelectedHexPosition.Value;
+            Vector3 selectedHexPosition =
+                _hexTileSelectionProvider.SelectedTile.Value.Position;
 
             HexCubeCoordinates selectedHexCoordinates =
-                _hexSelectionProvider.SelectedHexCoordinates.Value;
+                _hexTileSelectionProvider.SelectedTile.Value.Coordinates;
 
             await _hexTileDeselector.DeselectTile();
 
-            OnTurretReservedTile?.Invoke(selectedHexCoordinates);
-            
+            _hexTileController.OccupyTile(selectedHexCoordinates);
+
             TurretView turretView = _turretViewFactory.Create(
                 selectedHexPosition + _turretConfig.SpawnOffset
             );
 
             await _turretViewAnimator.PlaySpawnAnimation(turretView, selectedHexPosition);
 
-            Turret turret = _turretFactory.Create(
-                turretView,
-                selectedHexPosition
-            );
+            Turret turret = _turretFactory.Create(turretView, selectedHexPosition);
 
             _turretViewAnimator.PlayInfiniteRotation(turretView);
 

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Forma.Runtime.Core.Features.HexGrid
+namespace Forma.Runtime.Core.Features.HexGrid.Grid.Abstract
 {
     public interface IToggleGridInput
     {

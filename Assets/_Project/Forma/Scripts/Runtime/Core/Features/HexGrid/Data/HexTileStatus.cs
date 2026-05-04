@@ -1,6 +1,6 @@
 ﻿namespace Forma.Runtime.Core.Features.HexGrid.Data
 {
-    public enum TileStatus
+    public enum HexTileStatus
     {
         Active,
         Occupied,

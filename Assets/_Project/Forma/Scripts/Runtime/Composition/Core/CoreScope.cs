@@ -4,6 +4,11 @@ using Forma.Runtime.Core.Enemy.Configs;
 using Forma.Runtime.Core.Enemy.Views;
 using Forma.Runtime.Core.Features.HexGrid;
 using Forma.Runtime.Core.Features.HexGrid.Configs;
+using Forma.Runtime.Core.Features.HexGrid.Grid;
+using Forma.Runtime.Core.Features.HexGrid.Grid.Abstract;
+using Forma.Runtime.Core.Features.HexGrid.Tile;
+using Forma.Runtime.Core.Features.HexGrid.Tile.Abstract;
+using Forma.Runtime.Core.Features.HexGrid.Views;
 using Forma.Runtime.Core.Features.Movement;
 using Forma.Runtime.Core.Features.Turret;
 using Forma.Runtime.Core.Features.Turret.Configs;
@@ -56,15 +61,148 @@ namespace Forma.Runtime.Composition.Core
             builder.RegisterInstance(_enemyConfig);
             builder.RegisterInstance(_turretConfig);
 
-            RegisterInput(builder);
             RegisterServices(builder);
-            RegisterGameplayFeatures(builder);
-            RegisterFactories(builder);
-            RegisterFlows(builder);
+
+            RegisterHexGrid(builder);
+            RegisterPlayer(builder);
+            RegisterEnemy(builder);
+            RegisterTurret(builder);
+        }
+
+        void RegisterTurret(IContainerBuilder builder)
+        {
+            builder
+               .Register<TurretInputService>(Lifetime.Singleton)
+               .As<BaseInputService>()
+               .As<ITurretInput>();
+
+            builder
+               .Register<TurretViewAnimator>(Lifetime.Singleton)
+               .AsSelf();
+
+            builder
+               .Register<TurretPlacer>(Lifetime.Singleton)
+               .AsSelf();
+
+            builder
+               .Register<TurretViewFactory>(Lifetime.Singleton)
+               .AsSelf();
+
+            builder
+               .Register<TurretFactory>(Lifetime.Singleton)
+               .AsSelf();
+
+            builder
+               .Register<TurretFlow>(Lifetime.Singleton)
+               .AsSelf();
+        }
+
+        void RegisterEnemy(IContainerBuilder builder)
+        {
+            builder
+               .Register<EnemyFactory>(Lifetime.Singleton)
+               .AsSelf();
+
+            builder
+               .Register<EnemyFlow>(Lifetime.Singleton)
+               .AsSelf();
+        }
+
+        void RegisterPlayer(IContainerBuilder builder)
+        {
+            builder
+               .Register<PlayerViewFactory>(Lifetime.Singleton)
+               .AsSelf();
+
+            builder
+               .Register<PlayerFactory>(Lifetime.Singleton)
+               .AsSelf();
+
+            builder
+               .Register<PlayerFlow>(Lifetime.Singleton)
+               .AsSelf();
+        }
+
+        void RegisterHexGrid(IContainerBuilder builder)
+        {
+            builder
+               .Register<ToggleGridInputService>(Lifetime.Singleton)
+               .As<BaseInputService>()
+               .As<IToggleGridInput>();
+
+            builder
+               .Register<HexTileSelectionProvider>(Lifetime.Singleton)
+               .As<IHexTileSelectionProvider>()
+               .As<IHexTileSelectionSetter>();
+
+            builder
+               .Register<HexTileClickInputService>(Lifetime.Singleton)
+               .As<BaseInputService>()
+               .As<IHexTileClickInput>();
+
+            builder
+               .Register<HexGridStateHolder>(Lifetime.Singleton)
+               .AsSelf();
+
+            builder
+               .Register<HexGridBuilder>(Lifetime.Singleton)
+               .AsSelf();
+
+            builder
+               .Register<HexViewFactory>(Lifetime.Singleton)
+               .AsSelf();
+
+            builder
+               .Register<HexGridRegistry>(Lifetime.Singleton)
+               .As<IHexGridRegistry>()
+               .AsSelf();
+
+            builder
+               .Register<HexGridAnimator>(Lifetime.Singleton)
+               .As<IHexGridAnimator>()
+               .AsSelf();
+
+            builder
+               .Register<HexTileAnimator>(Lifetime.Singleton)
+               .AsSelf();
+
+            builder
+               .Register<HexTileSelector>(Lifetime.Singleton)
+               .As<IHexTileDeselector>()
+               .As<IHexTileSelectEvents>()
+               .AsSelf();
+
+            builder
+               .Register<HexTileSelectionController>(Lifetime.Singleton)
+               .AsSelf();
+
+            builder
+               .Register<HexTileOccupancyController>(Lifetime.Singleton)
+               .AsSelf();
+
+            builder
+               .Register<HexTileController>(Lifetime.Singleton)
+               .As<IHexTileController>()
+               .AsSelf();
+
+            builder
+               .Register<HexGridController>(Lifetime.Singleton)
+               .AsSelf();
+
+            builder
+               .Register<HexGridFlow>(Lifetime.Singleton)
+               .AsSelf();
         }
 
         void RegisterServices(IContainerBuilder builder)
         {
+            builder.Register<InputActions>(Lifetime.Singleton);
+
+            builder
+               .Register<MoveInputService>(Lifetime.Singleton)
+               .As<BaseInputService>()
+               .As<IMoveInput>();
+
             builder
                .Register<UnityTimeService>(Lifetime.Singleton)
                .As<ITimeService>();
@@ -77,104 +215,6 @@ namespace Forma.Runtime.Composition.Core
             builder
                .Register<CameraProvider>(Lifetime.Singleton)
                .As<ICameraProvider>();
-
-            builder
-               .Register<HexSelectionProvider>(Lifetime.Singleton)
-               .As<IHexSelectionProvider>()
-               .As<IHexSelectionSetter>();
-        }
-
-        void RegisterGameplayFeatures(IContainerBuilder builder)
-        {
-            builder
-               .Register<HexTileAnimator>(Lifetime.Singleton)
-               .AsSelf()
-               .WithParameter(_hexGridConfig.HexTileConfig.AnimationConfig);
-
-            builder
-               .Register<HexTileSelector>(Lifetime.Singleton)
-               .As<IHexTileDeselector>()
-               .AsSelf();
-
-            builder
-               .Register<TurretViewAnimator>(Lifetime.Singleton)
-               .AsSelf();
-
-            builder
-               .Register<TurretPlacer>(Lifetime.Singleton)
-               .As<ITurretPlacer>()
-               .AsSelf();
-        }
-
-        void RegisterInput(IContainerBuilder builder)
-        {
-            builder.Register<InputActions>(Lifetime.Singleton);
-
-            builder
-               .Register<MoveInputService>(Lifetime.Singleton)
-               .As<BaseInputService>()
-               .As<IMoveInput>();
-
-            builder
-               .Register<ToggleGridInputService>(Lifetime.Singleton)
-               .As<BaseInputService>()
-               .As<IToggleGridInput>();
-
-            builder
-               .Register<HexClickInputService>(Lifetime.Singleton)
-               .As<BaseInputService>()
-               .As<IHexClickInput>();
-
-            builder
-               .Register<TurretInputService>(Lifetime.Singleton)
-               .As<BaseInputService>()
-               .As<ITurretInput>();
-        }
-
-        void RegisterFactories(IContainerBuilder builder)
-        {
-            builder
-               .Register<PlayerViewFactory>(Lifetime.Singleton)
-               .AsSelf();
-
-            builder
-               .Register<PlayerFactory>(Lifetime.Singleton)
-               .AsSelf();
-
-            builder
-               .Register<EnemyFactory>(Lifetime.Singleton)
-               .AsSelf();
-
-            builder
-               .Register<HexGridFactory>(Lifetime.Singleton)
-               .AsSelf();
-
-            builder
-               .Register<TurretViewFactory>(Lifetime.Singleton)
-               .AsSelf();
-
-            builder
-               .Register<TurretFactory>(Lifetime.Singleton)
-               .AsSelf();
-        }
-
-        void RegisterFlows(IContainerBuilder builder)
-        {
-            builder
-               .Register<PlayerFlow>(Lifetime.Singleton)
-               .AsSelf();
-
-            builder
-               .Register<EnemyFlow>(Lifetime.Singleton)
-               .AsSelf();
-
-            builder
-               .Register<HexGridFlow>(Lifetime.Singleton)
-               .AsSelf();
-
-            builder
-               .Register<TurretFlow>(Lifetime.Singleton)
-               .AsSelf();
         }
     }
 }

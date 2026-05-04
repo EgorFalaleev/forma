@@ -23,7 +23,7 @@ namespace Forma.Runtime.Core.Features.HexGrid.Views
         MaterialPropertyBlock _materialPropertyBlock;
         Color _defaultColor;
 
-        public void Construct(Material material, float innerSize, float outerSize,
+        public void Initialize(Material material, float innerSize, float outerSize,
             float height, bool isFlatTopped, bool shouldCastShadows)
         {
             _meshFilter = GetComponent<MeshFilter>();

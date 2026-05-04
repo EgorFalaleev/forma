@@ -3,25 +3,35 @@ using System.Linq;
 using Cysharp.Threading.Tasks;
 using Forma.Runtime.Core.Features.HexGrid.Configs;
 using Forma.Runtime.Core.Features.HexGrid.Data;
+using Forma.Runtime.Core.Features.HexGrid.Grid.Abstract;
+using Forma.Runtime.Core.Features.HexGrid.Tile;
 using Forma.Runtime.Core.Features.HexGrid.Views;
 using PrimeTween;
 using UnityEngine;
 
-namespace Forma.Runtime.Core.Features.HexGrid
+namespace Forma.Runtime.Core.Features.HexGrid.Grid
 {
-    public class HexGridAnimator
+    public class HexGridAnimator : IHexGridAnimator
     {
         readonly HexGridConfig _hexGridConfig;
-        readonly List<KeyValuePair<int, List<HexCubeCoordinates>>> _ringsOrderedAsc;
-        readonly List<KeyValuePair<int, List<HexCubeCoordinates>>> _ringsOrderedDesc;
+        readonly IHexGridRegistry _hexGridRegistry;
+
+        IReadOnlyList<KeyValuePair<int, List<HexCubeCoordinates>>> _ringsOrderedAsc;
+        IReadOnlyList<KeyValuePair<int, List<HexCubeCoordinates>>> _ringsOrderedDesc;
 
         public HexGridAnimator(HexGridConfig hexGridConfig,
-            IEnumerable<HexCubeCoordinates> coords, HexCubeCoordinates centerCoord)
+            IHexGridRegistry hexGridRegistry)
         {
             _hexGridConfig = hexGridConfig;
+            _hexGridRegistry = hexGridRegistry;
+        }
 
-            Dictionary<int, List<HexCubeCoordinates>> rings =
-                GroupByRing(coords, centerCoord);
+        public void Initialize()
+        {
+            Dictionary<int, List<HexCubeCoordinates>> rings = GroupByRing(
+                _hexGridRegistry.Tiles.Keys,
+                _hexGridRegistry.GridCenterCoordinates
+            );
 
             _ringsOrderedAsc = rings
                .OrderBy(r => r.Key)
