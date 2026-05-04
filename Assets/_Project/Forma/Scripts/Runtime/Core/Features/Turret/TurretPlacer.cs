@@ -1,6 +1,5 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
-using Forma.Runtime.Core.Features.HexGrid;
 using Forma.Runtime.Core.Features.HexGrid.Data;
 using Forma.Runtime.Core.Features.HexGrid.Tile;
 using Forma.Runtime.Core.Features.Turret.Configs;
@@ -58,16 +57,16 @@ namespace Forma.Runtime.Core.Features.Turret
             if (_isPlacing)
                 return;
 
-            if (!_hexTileSelectionProvider.SelectedPosition.HasValue
-             || !_hexTileSelectionProvider.SelectedCoordinates.HasValue)
+            if (!_hexTileSelectionProvider.SelectedTile.HasValue)
                 return;
 
             _isPlacing = true;
 
-            Vector3 selectedHexPosition = _hexTileSelectionProvider.SelectedPosition.Value;
+            Vector3 selectedHexPosition =
+                _hexTileSelectionProvider.SelectedTile.Value.WorldPosition;
 
             HexCubeCoordinates selectedHexCoordinates =
-                _hexTileSelectionProvider.SelectedCoordinates.Value;
+                _hexTileSelectionProvider.SelectedTile.Value.Coordinates;
 
             await _hexTileDeselector.DeselectTile();
 

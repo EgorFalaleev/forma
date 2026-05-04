@@ -84,7 +84,7 @@ namespace Forma.Runtime.Composition.Core
             builder
                .Register<HexTileSelectionProvider>(Lifetime.Singleton)
                .As<IHexTileSelectionProvider>()
-               .As<IHexSelectionSetter>();
+               .As<IHexTileSelectionSetter>();
         }
 
         void RegisterGameplayFeatures(IContainerBuilder builder)

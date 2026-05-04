@@ -1,4 +1,5 @@
 ﻿using System;
+using Forma.Runtime.Core.Features.HexGrid.Data;
 using Forma.Runtime.Core.Features.HexGrid.Grid;
 using Forma.Runtime.Core.Features.HexGrid.Views;
 
@@ -7,14 +8,15 @@ namespace Forma.Runtime.Core.Features.HexGrid.Tile
     public class HexTileSelectionController : IDisposable
     {
         readonly HexTileSelector _hexTileSelector;
-        readonly IHexSelectionSetter _hexSelectionSetter;
+        readonly IHexTileSelectionSetter _hexTileSelectionSetter;
         readonly HexGridRegistry _hexGridRegistry;
 
         public HexTileSelectionController(HexTileSelector hexTileSelector,
-            IHexSelectionSetter hexSelectionSetter, HexGridRegistry hexGridRegistry)
+            IHexTileSelectionSetter hexTileSelectionSetter,
+            HexGridRegistry hexGridRegistry)
         {
             _hexTileSelector = hexTileSelector;
-            _hexSelectionSetter = hexSelectionSetter;
+            _hexTileSelectionSetter = hexTileSelectionSetter;
             _hexGridRegistry = hexGridRegistry;
         }
 
@@ -32,15 +34,17 @@ namespace Forma.Runtime.Core.Features.HexGrid.Tile
 
         void OnHexSelected(HexView view)
         {
-            _hexSelectionSetter.SetSelection(
-                view.transform.position,
-                _hexGridRegistry.GetCoordinates(view)
+            _hexTileSelectionSetter.SetSelection(
+                new HexTileSelection(
+                    view.transform.position,
+                    _hexGridRegistry.GetCoordinates(view)
+                )
             );
         }
 
         void OnHexDeselected()
         {
-            _hexSelectionSetter.ClearSelection();
+            _hexTileSelectionSetter.ClearSelection();
         }
     }
 }

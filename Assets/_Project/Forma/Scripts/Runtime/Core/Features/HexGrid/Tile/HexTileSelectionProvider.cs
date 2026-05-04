@@ -1,29 +1,23 @@
 ﻿using Forma.Runtime.Core.Features.HexGrid.Data;
-using UnityEngine;
 
 namespace Forma.Runtime.Core.Features.HexGrid.Tile
 {
     public class HexTileSelectionProvider
         : IHexTileSelectionProvider,
-          IHexSelectionSetter
+          IHexTileSelectionSetter
     {
-        public Vector3? SelectedPosition => _selectedHexPosition;
-        public HexCubeCoordinates? SelectedCoordinates => _selectedHexCoordinates;
+        public HexTileSelection? SelectedTile => _selectedTile;
+        
+        HexTileSelection? _selectedTile;
 
-        Vector3? _selectedHexPosition;
-        HexCubeCoordinates? _selectedHexCoordinates;
-
-        public void SetSelection(Vector3? position,
-            HexCubeCoordinates? coordinates)
+        public void SetSelection(HexTileSelection selection)
         {
-            _selectedHexPosition = position;
-            _selectedHexCoordinates = coordinates;
+            _selectedTile = selection;
         }
 
         public void ClearSelection()
         {
-            _selectedHexPosition = null;
-            _selectedHexCoordinates = null;
+            _selectedTile = null;
         }
     }
 }
