@@ -12,7 +12,6 @@ namespace Forma.Runtime.Core.Features.HexGrid
 {
     public class HexGrid : IDisposable
     {
-        readonly HexGridView _hexGridView;
         readonly HexGridBuilder _builder;
         readonly HexTileSelector _hexTileSelector;
         readonly ITargetProvider _targetProvider;
@@ -26,13 +25,12 @@ namespace Forma.Runtime.Core.Features.HexGrid
         bool _isGridActive;
         bool _isGridAnimating;
 
-        public HexGrid(HexGridView hexGridView, HexGridBuilder builder,
-            HexTileSelector hexTileSelector, ITargetProvider targetProvider,
-            IHexClickInput hexClickInput, HexTileRegistry hexTileRegistry,
+        public HexGrid(HexGridBuilder builder, HexTileSelector hexTileSelector,
+            ITargetProvider targetProvider, IHexClickInput hexClickInput,
+            HexTileRegistry hexTileRegistry,
             HexOccupancyController hexOccupancyController, HexTileConfig hexTileConfig,
             ITurretPlacer turretPlacer, HexSelectionController hexSelectionController)
         {
-            _hexGridView = hexGridView;
             _builder = builder;
             _hexTileSelector = hexTileSelector;
             _targetProvider = targetProvider;
@@ -43,20 +41,12 @@ namespace Forma.Runtime.Core.Features.HexGrid
             _turretPlacer = turretPlacer;
             _hexSelectionController = hexSelectionController;
 
-            _hexClickInput.OnClicked += OnHexTileClicked;
             _turretPlacer.OnTurretReservedTile += OnTurretReservedTile;
         }
 
         public void Dispose()
         {
-            _hexClickInput.OnClicked -= OnHexTileClicked;
             _turretPlacer.OnTurretReservedTile -= OnTurretReservedTile;
-        }
-
-        void OnHexTileClicked(Vector2 screenPosition)
-        {
-            TryClickHexTile(screenPosition)
-               .Forget();
         }
 
         void OnTurretReservedTile(HexCubeCoordinates turretCoordinates)
@@ -75,27 +65,6 @@ namespace Forma.Runtime.Core.Features.HexGrid
                     _hexTileRegistry
                        .GetView(tileCoordinates)
                        .ResetColor();
-            }
-        }
-
-        async UniTask TryClickHexTile(Vector2 screenPosition)
-        {
-            if (!_isGridActive || _isGridAnimating)
-                return;
-
-            if (_hexGridView.TrySelectHexTileAt(
-                screenPosition,
-                1 << Constants.Layers.HexGrid,
-                out HexView hexView
-            ))
-            {
-                HexCubeCoordinates tileCoordinates =
-                    _hexTileRegistry.GetCoordinates(hexView);
-
-                bool isTileActive = _hexOccupancyController.IsTileActive(tileCoordinates);
-
-                if (isTileActive)
-                    await _hexTileSelector.ClickHexTile(hexView);
             }
         }
     }

@@ -8,18 +8,21 @@ namespace Forma.Runtime.Core.Features.HexGrid
         readonly HexSelectionController _hexSelectionController;
         readonly HexGridAnimator _hexGridAnimator;
         readonly HexGridActivationController _hexGridActivationController;
+        readonly HexTileSelector _hexTileSelector;
 
         HexGrid _hexGrid;
 
         public HexGridFlow(HexTileRegistry hexTileRegistry,
             HexSelectionController hexSelectionController,
             HexGridAnimator hexGridAnimator,
-            HexGridActivationController hexGridActivationController)
+            HexGridActivationController hexGridActivationController,
+            HexTileSelector hexTileSelector)
         {
             _hexTileRegistry = hexTileRegistry;
             _hexSelectionController = hexSelectionController;
             _hexGridAnimator = hexGridAnimator;
             _hexGridActivationController = hexGridActivationController;
+            _hexTileSelector = hexTileSelector;
         }
 
         public void Initialize()
@@ -28,6 +31,7 @@ namespace Forma.Runtime.Core.Features.HexGrid
             _hexSelectionController.Initialize();
             _hexGridAnimator.Initialize();
             _hexGridActivationController.Initialize();
+            _hexTileSelector.Initialize();
         }
 
         public void Dispose()

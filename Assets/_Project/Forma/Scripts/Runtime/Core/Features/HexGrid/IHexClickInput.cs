@@ -1,10 +1,10 @@
 ﻿using System;
-using UnityEngine;
+using Forma.Runtime.Core.Features.HexGrid.Views;
 
 namespace Forma.Runtime.Core.Features.HexGrid
 {
     public interface IHexClickInput
     {
-        event Action<Vector2> OnClicked;
+        event Action<HexView> OnHexClicked;
     }
 }

@@ -87,6 +87,10 @@ namespace Forma.Runtime.Composition.Core
         void RegisterGameplayFeatures(IContainerBuilder builder)
         {
             builder
+               .Register<HexGridStateController>(Lifetime.Singleton)
+               .AsSelf();
+
+            builder
                .Register<HexGridBuilder>(Lifetime.Singleton)
                .AsSelf();
 
