@@ -10,8 +10,6 @@ namespace Forma.Runtime.Core.Features.HexGrid
         readonly HexGridActivationController _hexGridActivationController;
         readonly HexTileSelector _hexTileSelector;
 
-        HexGrid _hexGrid;
-
         public HexGridFlow(HexTileRegistry hexTileRegistry,
             HexSelectionController hexSelectionController,
             HexGridAnimator hexGridAnimator,
@@ -37,7 +35,8 @@ namespace Forma.Runtime.Core.Features.HexGrid
         public void Dispose()
         {
             _hexSelectionController.Dispose();
-            _hexGrid?.Dispose();
+            _hexGridActivationController.Dispose();
+            _hexTileSelector.Dispose();
         }
     }
 }

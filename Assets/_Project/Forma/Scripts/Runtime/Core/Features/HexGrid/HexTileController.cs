@@ -31,5 +31,24 @@ namespace Forma.Runtime.Core.Features.HexGrid
             else
                 hexView.ResetColor();
         }
+
+        public void OccupyTile(HexCubeCoordinates tileCoordinates)
+        {
+            _hexOccupancyController.Occupy(tileCoordinates);
+
+            HexView hexView = _hexTileRegistry.GetView(tileCoordinates);
+
+            hexView.UpdateBaseColor(_hexTileConfig.InactiveColor);
+
+            HexCubeCoordinates[] tileNeighbours = tileCoordinates.GetNeighbours();
+
+            foreach (HexCubeCoordinates neighbourCoordinates in tileNeighbours)
+            {
+                if (_hexOccupancyController.IsTileActive(neighbourCoordinates))
+                    _hexTileRegistry
+                       .GetView(neighbourCoordinates)
+                       .ResetColor();
+            }
+        }
     }
 }

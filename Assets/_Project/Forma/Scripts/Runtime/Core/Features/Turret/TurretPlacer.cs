@@ -8,12 +8,9 @@ using UnityEngine;
 
 namespace Forma.Runtime.Core.Features.Turret
 {
-    public class TurretPlacer
-        : IDisposable,
-          ITurretPlacer
+    public class TurretPlacer : IDisposable
     {
         public event Action<Turret> OnTurretPlaced;
-        public event Action<HexCubeCoordinates> OnTurretReservedTile;
 
         readonly ITurretInput _turretInput;
         readonly IHexSelectionProvider _hexSelectionProvider;
@@ -22,6 +19,7 @@ namespace Forma.Runtime.Core.Features.Turret
         readonly TurretViewFactory _turretViewFactory;
         readonly TurretViewAnimator _turretViewAnimator;
         readonly TurretConfig _turretConfig;
+        readonly HexTileController _hexTileController;
 
         bool _isPlacing;
 
@@ -29,7 +27,7 @@ namespace Forma.Runtime.Core.Features.Turret
             TurretViewFactory turretViewFactory,
             IHexSelectionProvider hexSelectionProvider,
             IHexTileDeselector hexTileDeselector, TurretViewAnimator turretViewAnimator,
-            TurretConfig turretConfig)
+            TurretConfig turretConfig, HexTileController hexTileController)
         {
             _turretInput = turretInput;
             _turretFactory = turretFactory;
@@ -38,6 +36,7 @@ namespace Forma.Runtime.Core.Features.Turret
             _hexTileDeselector = hexTileDeselector;
             _turretViewAnimator = turretViewAnimator;
             _turretConfig = turretConfig;
+            _hexTileController = hexTileController;
 
             _turretInput.OnPlaceTurretClicked += OnPlaceTurretClicked;
         }
@@ -71,18 +70,15 @@ namespace Forma.Runtime.Core.Features.Turret
 
             await _hexTileDeselector.DeselectTile();
 
-            OnTurretReservedTile?.Invoke(selectedHexCoordinates);
-            
+            _hexTileController.OccupyTile(selectedHexCoordinates);
+
             TurretView turretView = _turretViewFactory.Create(
                 selectedHexPosition + _turretConfig.SpawnOffset
             );
 
             await _turretViewAnimator.PlaySpawnAnimation(turretView, selectedHexPosition);
 
-            Turret turret = _turretFactory.Create(
-                turretView,
-                selectedHexPosition
-            );
+            Turret turret = _turretFactory.Create(turretView, selectedHexPosition);
 
             _turretViewAnimator.PlayInfiniteRotation(turretView);
 
