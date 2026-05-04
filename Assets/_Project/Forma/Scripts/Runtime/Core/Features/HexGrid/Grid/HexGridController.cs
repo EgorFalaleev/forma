@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Forma.Runtime.Core.Common;
 using Forma.Runtime.Core.Features.HexGrid.Data;
+using Forma.Runtime.Core.Features.HexGrid.Grid.Abstract;
 using Forma.Runtime.Core.Features.HexGrid.Tile;
+using Forma.Runtime.Core.Features.HexGrid.Tile.Abstract;
 
 namespace Forma.Runtime.Core.Features.HexGrid.Grid
 {
@@ -12,23 +14,23 @@ namespace Forma.Runtime.Core.Features.HexGrid.Grid
         readonly IToggleGridInput _toggleGridInput;
         readonly HexGridBuilder _hexGridBuilder;
         readonly ITargetProvider _targetProvider;
-        readonly HexGridRegistry _hexGridRegistry;
-        readonly HexTileSelector _hexTileSelector;
+        readonly IHexGridRegistry _hexGridRegistry;
+        readonly IHexTileDeselector _hexTileDeselector;
         readonly HexTileController _hexTileController;
-        readonly HexGridAnimator _hexGridAnimator;
+        readonly IHexGridAnimator _hexGridAnimator;
         readonly HexGridStateHolder _hexGridStateHolder;
 
         public HexGridController(IToggleGridInput toggleGridInput,
             HexGridBuilder hexGridBuilder, ITargetProvider targetProvider,
-            HexGridRegistry hexGridRegistry, HexTileSelector hexTileSelector,
-            HexTileController hexTileController, HexGridAnimator hexGridAnimator,
+            IHexGridRegistry hexGridRegistry, IHexTileDeselector hexTileDeselector,
+            HexTileController hexTileController, IHexGridAnimator hexGridAnimator,
             HexGridStateHolder hexGridStateHolder)
         {
             _toggleGridInput = toggleGridInput;
             _hexGridBuilder = hexGridBuilder;
             _targetProvider = targetProvider;
             _hexGridRegistry = hexGridRegistry;
-            _hexTileSelector = hexTileSelector;
+            _hexTileDeselector = hexTileDeselector;
             _hexTileController = hexTileController;
             _hexGridAnimator = hexGridAnimator;
             _hexGridStateHolder = hexGridStateHolder;
@@ -48,7 +50,7 @@ namespace Forma.Runtime.Core.Features.HexGrid.Grid
 
         void OnGridModeToggled()
         {
-            _hexTileSelector.Cleanup();
+            _hexTileDeselector.Cleanup();
 
             switch (_hexGridStateHolder.State)
             {

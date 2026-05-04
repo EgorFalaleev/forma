@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using Forma.Runtime.Core.Features.HexGrid.Data;
+using Forma.Runtime.Core.Features.HexGrid.Grid.Abstract;
 using Forma.Runtime.Core.Features.HexGrid.Views;
 using UnityEngine;
 
 namespace Forma.Runtime.Core.Features.HexGrid.Grid
 {
-    public class HexGridRegistry
+    public class HexGridRegistry : IHexGridRegistry
     {
         public IReadOnlyDictionary<HexCubeCoordinates, HexView> Tiles => _coordsToViews;
         public HexCubeCoordinates GridCenterCoordinates => new(0, 0);

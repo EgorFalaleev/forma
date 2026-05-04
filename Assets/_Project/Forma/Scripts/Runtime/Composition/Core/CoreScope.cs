@@ -5,7 +5,9 @@ using Forma.Runtime.Core.Enemy.Views;
 using Forma.Runtime.Core.Features.HexGrid;
 using Forma.Runtime.Core.Features.HexGrid.Configs;
 using Forma.Runtime.Core.Features.HexGrid.Grid;
+using Forma.Runtime.Core.Features.HexGrid.Grid.Abstract;
 using Forma.Runtime.Core.Features.HexGrid.Tile;
+using Forma.Runtime.Core.Features.HexGrid.Tile.Abstract;
 using Forma.Runtime.Core.Features.HexGrid.Views;
 using Forma.Runtime.Core.Features.Movement;
 using Forma.Runtime.Core.Features.Turret;
@@ -152,10 +154,12 @@ namespace Forma.Runtime.Composition.Core
 
             builder
                .Register<HexGridRegistry>(Lifetime.Singleton)
+               .As<IHexGridRegistry>()
                .AsSelf();
 
             builder
                .Register<HexGridAnimator>(Lifetime.Singleton)
+               .As<IHexGridAnimator>()
                .AsSelf();
 
             builder
@@ -166,6 +170,7 @@ namespace Forma.Runtime.Composition.Core
             builder
                .Register<HexTileSelector>(Lifetime.Singleton)
                .As<IHexTileDeselector>()
+               .As<IHexTileSelectEvents>()
                .AsSelf();
 
             builder

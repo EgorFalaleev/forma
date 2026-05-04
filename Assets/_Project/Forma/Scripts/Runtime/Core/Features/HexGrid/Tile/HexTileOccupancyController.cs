@@ -1,15 +1,16 @@
 ﻿using System.Collections.Generic;
 using Forma.Runtime.Core.Features.HexGrid.Data;
 using Forma.Runtime.Core.Features.HexGrid.Grid;
+using Forma.Runtime.Core.Features.HexGrid.Grid.Abstract;
 
 namespace Forma.Runtime.Core.Features.HexGrid.Tile
 {
     public class HexTileOccupancyController
     {
-        readonly HexGridRegistry _hexGridRegistry;
+        readonly IHexGridRegistry _hexGridRegistry;
         readonly HashSet<HexCubeCoordinates> _occupiedTiles;
 
-        public HexTileOccupancyController(HexGridRegistry hexGridRegistry)
+        public HexTileOccupancyController(IHexGridRegistry hexGridRegistry)
         {
             _hexGridRegistry = hexGridRegistry;
 

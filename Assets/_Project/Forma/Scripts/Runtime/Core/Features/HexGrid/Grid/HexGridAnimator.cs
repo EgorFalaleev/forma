@@ -3,6 +3,7 @@ using System.Linq;
 using Cysharp.Threading.Tasks;
 using Forma.Runtime.Core.Features.HexGrid.Configs;
 using Forma.Runtime.Core.Features.HexGrid.Data;
+using Forma.Runtime.Core.Features.HexGrid.Grid.Abstract;
 using Forma.Runtime.Core.Features.HexGrid.Tile;
 using Forma.Runtime.Core.Features.HexGrid.Views;
 using PrimeTween;
@@ -10,16 +11,16 @@ using UnityEngine;
 
 namespace Forma.Runtime.Core.Features.HexGrid.Grid
 {
-    public class HexGridAnimator
+    public class HexGridAnimator : IHexGridAnimator
     {
         readonly HexGridConfig _hexGridConfig;
-        readonly HexGridRegistry _hexGridRegistry;
+        readonly IHexGridRegistry _hexGridRegistry;
 
         IReadOnlyList<KeyValuePair<int, List<HexCubeCoordinates>>> _ringsOrderedAsc;
         IReadOnlyList<KeyValuePair<int, List<HexCubeCoordinates>>> _ringsOrderedDesc;
 
         public HexGridAnimator(HexGridConfig hexGridConfig,
-            HexGridRegistry hexGridRegistry)
+            IHexGridRegistry hexGridRegistry)
         {
             _hexGridConfig = hexGridConfig;
             _hexGridRegistry = hexGridRegistry;

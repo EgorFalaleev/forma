@@ -2,12 +2,15 @@
 using Cysharp.Threading.Tasks;
 using Forma.Runtime.Core.Features.HexGrid.Data;
 using Forma.Runtime.Core.Features.HexGrid.Grid;
+using Forma.Runtime.Core.Features.HexGrid.Grid.Abstract;
+using Forma.Runtime.Core.Features.HexGrid.Tile.Abstract;
 using Forma.Runtime.Core.Features.HexGrid.Views;
 
 namespace Forma.Runtime.Core.Features.HexGrid.Tile
 {
     public class HexTileSelector
         : IHexTileDeselector,
+          IHexTileSelectEvents,
           IDisposable
     {
         public event Action<HexView> OnHexSelected;
@@ -15,7 +18,7 @@ namespace Forma.Runtime.Core.Features.HexGrid.Tile
 
         readonly IHexTileClickInput _hexTileClickInput;
         readonly HexTileAnimator _hexTileAnimator;
-        readonly HexGridRegistry _hexGridRegistry;
+        readonly IHexGridRegistry _hexGridRegistry;
         readonly HexTileOccupancyController _hexTileOccupancyController;
         readonly HexGridStateHolder _hexGridStateHolder;
 
@@ -23,7 +26,7 @@ namespace Forma.Runtime.Core.Features.HexGrid.Tile
         bool _isTileAnimating;
 
         public HexTileSelector(IHexTileClickInput hexTileClickInput,
-            HexTileAnimator hexTileAnimator, HexGridRegistry hexGridRegistry,
+            HexTileAnimator hexTileAnimator, IHexGridRegistry hexGridRegistry,
             HexTileOccupancyController hexTileOccupancyController,
             HexGridStateHolder hexGridStateHolder)
         {

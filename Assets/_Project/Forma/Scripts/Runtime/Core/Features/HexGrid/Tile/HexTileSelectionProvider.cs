@@ -1,4 +1,5 @@
 ﻿using Forma.Runtime.Core.Features.HexGrid.Data;
+using Forma.Runtime.Core.Features.HexGrid.Tile.Abstract;
 
 namespace Forma.Runtime.Core.Features.HexGrid.Tile
 {

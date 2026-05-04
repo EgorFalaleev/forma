@@ -1,7 +1,7 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
 using Forma.Runtime.Core.Features.HexGrid.Data;
-using Forma.Runtime.Core.Features.HexGrid.Tile;
+using Forma.Runtime.Core.Features.HexGrid.Tile.Abstract;
 using Forma.Runtime.Core.Features.Turret.Configs;
 using Forma.Runtime.Core.Features.Turret.Views;
 using UnityEngine;
@@ -19,7 +19,7 @@ namespace Forma.Runtime.Core.Features.Turret
         readonly TurretViewFactory _turretViewFactory;
         readonly TurretViewAnimator _turretViewAnimator;
         readonly TurretConfig _turretConfig;
-        readonly HexTileController _hexTileController;
+        readonly IHexTileController _hexTileController;
 
         bool _isPlacing;
 
@@ -27,7 +27,7 @@ namespace Forma.Runtime.Core.Features.Turret
             TurretViewFactory turretViewFactory,
             IHexTileSelectionProvider hexTileSelectionProvider,
             IHexTileDeselector hexTileDeselector, TurretViewAnimator turretViewAnimator,
-            TurretConfig turretConfig, HexTileController hexTileController)
+            TurretConfig turretConfig, IHexTileController hexTileController)
         {
             _turretInput = turretInput;
             _turretFactory = turretFactory;

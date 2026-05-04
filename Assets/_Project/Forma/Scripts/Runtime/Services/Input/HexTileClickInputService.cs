@@ -1,7 +1,7 @@
 ﻿using System;
 using Forma.Runtime.Common;
 using Forma.Runtime.Core.Common;
-using Forma.Runtime.Core.Features.HexGrid.Tile;
+using Forma.Runtime.Core.Features.HexGrid.Tile.Abstract;
 using Forma.Runtime.Core.Features.HexGrid.Views;
 using UnityEngine;
 using UnityEngine.InputSystem;
