@@ -22,12 +22,8 @@ namespace Forma.Runtime.Core.Enemy
             _enemyConfig = enemyConfig;
         }
 
-        public Enemy Create()
+        public Enemy Create(EnemyView enemyView)
         {
-            EnemyView enemyView = Object.Instantiate(_enemyViewPrefab);
-
-            enemyView.Initialize(_enemyConfig.Damage.Amount);
-            
             var moveInput = new TargetFollowMoveInput(
                 _targetProvider,
                 origin: enemyView.transform

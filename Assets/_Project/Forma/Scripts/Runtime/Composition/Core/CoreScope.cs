@@ -100,6 +100,10 @@ namespace Forma.Runtime.Composition.Core
         void RegisterEnemy(IContainerBuilder builder)
         {
             builder
+               .Register<EnemyViewFactory>(Lifetime.Singleton)
+               .AsSelf();
+
+            builder
                .Register<EnemyFactory>(Lifetime.Singleton)
                .AsSelf();
 
