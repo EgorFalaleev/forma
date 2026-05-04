@@ -1,41 +1,43 @@
 ﻿using System;
+using Forma.Runtime.Core.Features.HexGrid.Grid;
+using Forma.Runtime.Core.Features.HexGrid.Tile;
 
 namespace Forma.Runtime.Core.Features.HexGrid
 {
     public class HexGridFlow : IDisposable
     {
-        readonly HexTileRegistry _hexTileRegistry;
-        readonly HexSelectionController _hexSelectionController;
+        readonly HexGridRegistry _hexGridRegistry;
+        readonly HexTileSelectionController _hexTileSelectionController;
         readonly HexGridAnimator _hexGridAnimator;
-        readonly HexGridActivationController _hexGridActivationController;
+        readonly HexGridController _hexGridController;
         readonly HexTileSelector _hexTileSelector;
 
-        public HexGridFlow(HexTileRegistry hexTileRegistry,
-            HexSelectionController hexSelectionController,
+        public HexGridFlow(HexGridRegistry hexGridRegistry,
+            HexTileSelectionController hexTileSelectionController,
             HexGridAnimator hexGridAnimator,
-            HexGridActivationController hexGridActivationController,
+            HexGridController hexGridController,
             HexTileSelector hexTileSelector)
         {
-            _hexTileRegistry = hexTileRegistry;
-            _hexSelectionController = hexSelectionController;
+            _hexGridRegistry = hexGridRegistry;
+            _hexTileSelectionController = hexTileSelectionController;
             _hexGridAnimator = hexGridAnimator;
-            _hexGridActivationController = hexGridActivationController;
+            _hexGridController = hexGridController;
             _hexTileSelector = hexTileSelector;
         }
 
         public void Initialize()
         {
-            _hexTileRegistry.Initialize();
-            _hexSelectionController.Initialize();
+            _hexGridRegistry.Initialize();
+            _hexTileSelectionController.Initialize();
             _hexGridAnimator.Initialize();
-            _hexGridActivationController.Initialize();
+            _hexGridController.Initialize();
             _hexTileSelector.Initialize();
         }
 
         public void Dispose()
         {
-            _hexSelectionController.Dispose();
-            _hexGridActivationController.Dispose();
+            _hexTileSelectionController.Dispose();
+            _hexGridController.Dispose();
             _hexTileSelector.Dispose();
         }
     }

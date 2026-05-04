@@ -1,14 +1,14 @@
 ﻿using Forma.Runtime.Core.Features.HexGrid.Data;
 using UnityEngine;
 
-namespace Forma.Runtime.Core.Features.HexGrid
+namespace Forma.Runtime.Core.Features.HexGrid.Tile
 {
-    public class HexSelectionProvider
-        : IHexSelectionProvider,
+    public class HexTileSelectionProvider
+        : IHexTileSelectionProvider,
           IHexSelectionSetter
     {
-        public Vector3? SelectedHexPosition => _selectedHexPosition;
-        public HexCubeCoordinates? SelectedHexCoordinates => _selectedHexCoordinates;
+        public Vector3? SelectedPosition => _selectedHexPosition;
+        public HexCubeCoordinates? SelectedCoordinates => _selectedHexCoordinates;
 
         Vector3? _selectedHexPosition;
         HexCubeCoordinates? _selectedHexCoordinates;

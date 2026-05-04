@@ -3,9 +3,9 @@ using Forma.Runtime.Core.Features.HexGrid.Data;
 using Forma.Runtime.Core.Features.HexGrid.Views;
 using UnityEngine;
 
-namespace Forma.Runtime.Core.Features.HexGrid
+namespace Forma.Runtime.Core.Features.HexGrid.Grid
 {
-    public class HexTileRegistry
+    public class HexGridRegistry
     {
         public IReadOnlyDictionary<HexCubeCoordinates, HexView> Tiles => _coordsToViews;
         public HexCubeCoordinates GridCenterCoordinates => new(0, 0);
@@ -15,7 +15,7 @@ namespace Forma.Runtime.Core.Features.HexGrid
         readonly Dictionary<HexCubeCoordinates, HexView> _coordsToViews;
         readonly Dictionary<HexView, HexCubeCoordinates> _viewsToCoords;
 
-        public HexTileRegistry(HexGridBuilder hexGridBuilder,
+        public HexGridRegistry(HexGridBuilder hexGridBuilder,
             HexViewFactory hexViewFactory)
         {
             _hexGridBuilder = hexGridBuilder;

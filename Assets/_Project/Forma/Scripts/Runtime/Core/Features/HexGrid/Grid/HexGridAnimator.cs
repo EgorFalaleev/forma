@@ -3,32 +3,33 @@ using System.Linq;
 using Cysharp.Threading.Tasks;
 using Forma.Runtime.Core.Features.HexGrid.Configs;
 using Forma.Runtime.Core.Features.HexGrid.Data;
+using Forma.Runtime.Core.Features.HexGrid.Tile;
 using Forma.Runtime.Core.Features.HexGrid.Views;
 using PrimeTween;
 using UnityEngine;
 
-namespace Forma.Runtime.Core.Features.HexGrid
+namespace Forma.Runtime.Core.Features.HexGrid.Grid
 {
     public class HexGridAnimator
     {
         readonly HexGridConfig _hexGridConfig;
-        readonly HexTileRegistry _hexTileRegistry;
+        readonly HexGridRegistry _hexGridRegistry;
 
         IReadOnlyList<KeyValuePair<int, List<HexCubeCoordinates>>> _ringsOrderedAsc;
         IReadOnlyList<KeyValuePair<int, List<HexCubeCoordinates>>> _ringsOrderedDesc;
 
         public HexGridAnimator(HexGridConfig hexGridConfig,
-            HexTileRegistry hexTileRegistry)
+            HexGridRegistry hexGridRegistry)
         {
             _hexGridConfig = hexGridConfig;
-            _hexTileRegistry = hexTileRegistry;
+            _hexGridRegistry = hexGridRegistry;
         }
 
         public void Initialize()
         {
             Dictionary<int, List<HexCubeCoordinates>> rings = GroupByRing(
-                _hexTileRegistry.Tiles.Keys,
-                _hexTileRegistry.GridCenterCoordinates
+                _hexGridRegistry.Tiles.Keys,
+                _hexGridRegistry.GridCenterCoordinates
             );
 
             _ringsOrderedAsc = rings

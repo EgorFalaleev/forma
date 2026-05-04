@@ -1,5 +1,6 @@
 ﻿using System;
 using Forma.Runtime.Core.Features.HexGrid;
+using Forma.Runtime.Core.Features.HexGrid.Grid;
 using UnityEngine.InputSystem;
 
 namespace Forma.Runtime.Services.Input

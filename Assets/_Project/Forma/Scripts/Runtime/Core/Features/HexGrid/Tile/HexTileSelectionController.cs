@@ -1,20 +1,21 @@
 ﻿using System;
+using Forma.Runtime.Core.Features.HexGrid.Grid;
 using Forma.Runtime.Core.Features.HexGrid.Views;
 
-namespace Forma.Runtime.Core.Features.HexGrid
+namespace Forma.Runtime.Core.Features.HexGrid.Tile
 {
-    public class HexSelectionController : IDisposable
+    public class HexTileSelectionController : IDisposable
     {
         readonly HexTileSelector _hexTileSelector;
         readonly IHexSelectionSetter _hexSelectionSetter;
-        readonly HexTileRegistry _hexTileRegistry;
+        readonly HexGridRegistry _hexGridRegistry;
 
-        public HexSelectionController(HexTileSelector hexTileSelector,
-            IHexSelectionSetter hexSelectionSetter, HexTileRegistry hexTileRegistry)
+        public HexTileSelectionController(HexTileSelector hexTileSelector,
+            IHexSelectionSetter hexSelectionSetter, HexGridRegistry hexGridRegistry)
         {
             _hexTileSelector = hexTileSelector;
             _hexSelectionSetter = hexSelectionSetter;
-            _hexTileRegistry = hexTileRegistry;
+            _hexGridRegistry = hexGridRegistry;
         }
 
         public void Initialize()
@@ -33,7 +34,7 @@ namespace Forma.Runtime.Core.Features.HexGrid
         {
             _hexSelectionSetter.SetSelection(
                 view.transform.position,
-                _hexTileRegistry.GetCoordinates(view)
+                _hexGridRegistry.GetCoordinates(view)
             );
         }
 

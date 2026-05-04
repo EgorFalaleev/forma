@@ -1,23 +1,23 @@
 ﻿using System;
 using Forma.Runtime.Common;
 using Forma.Runtime.Core.Common;
-using Forma.Runtime.Core.Features.HexGrid;
+using Forma.Runtime.Core.Features.HexGrid.Tile;
 using Forma.Runtime.Core.Features.HexGrid.Views;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Forma.Runtime.Services.Input
 {
-    public class HexClickInputService
+    public class HexTileClickInputService
         : BaseInputService,
-          IHexClickInput
+          IHexTileClickInput
     {
         public event Action<HexView> OnHexClicked;
 
         readonly InputAction _clickInputAction;
         readonly ICameraProvider _cameraProvider;
 
-        public HexClickInputService(InputActions inputActions,
+        public HexTileClickInputService(InputActions inputActions,
             ICameraProvider cameraProvider)
             : base(inputActions)
         {

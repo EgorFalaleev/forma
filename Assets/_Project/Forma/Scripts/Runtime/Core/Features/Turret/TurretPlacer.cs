@@ -2,6 +2,7 @@
 using Cysharp.Threading.Tasks;
 using Forma.Runtime.Core.Features.HexGrid;
 using Forma.Runtime.Core.Features.HexGrid.Data;
+using Forma.Runtime.Core.Features.HexGrid.Tile;
 using Forma.Runtime.Core.Features.Turret.Configs;
 using Forma.Runtime.Core.Features.Turret.Views;
 using UnityEngine;
@@ -13,7 +14,7 @@ namespace Forma.Runtime.Core.Features.Turret
         public event Action<Turret> OnTurretPlaced;
 
         readonly ITurretInput _turretInput;
-        readonly IHexSelectionProvider _hexSelectionProvider;
+        readonly IHexTileSelectionProvider _hexTileSelectionProvider;
         readonly IHexTileDeselector _hexTileDeselector;
         readonly TurretFactory _turretFactory;
         readonly TurretViewFactory _turretViewFactory;
@@ -25,14 +26,14 @@ namespace Forma.Runtime.Core.Features.Turret
 
         public TurretPlacer(ITurretInput turretInput, TurretFactory turretFactory,
             TurretViewFactory turretViewFactory,
-            IHexSelectionProvider hexSelectionProvider,
+            IHexTileSelectionProvider hexTileSelectionProvider,
             IHexTileDeselector hexTileDeselector, TurretViewAnimator turretViewAnimator,
             TurretConfig turretConfig, HexTileController hexTileController)
         {
             _turretInput = turretInput;
             _turretFactory = turretFactory;
             _turretViewFactory = turretViewFactory;
-            _hexSelectionProvider = hexSelectionProvider;
+            _hexTileSelectionProvider = hexTileSelectionProvider;
             _hexTileDeselector = hexTileDeselector;
             _turretViewAnimator = turretViewAnimator;
             _turretConfig = turretConfig;
@@ -57,16 +58,16 @@ namespace Forma.Runtime.Core.Features.Turret
             if (_isPlacing)
                 return;
 
-            if (!_hexSelectionProvider.SelectedHexPosition.HasValue
-             || !_hexSelectionProvider.SelectedHexCoordinates.HasValue)
+            if (!_hexTileSelectionProvider.SelectedPosition.HasValue
+             || !_hexTileSelectionProvider.SelectedCoordinates.HasValue)
                 return;
 
             _isPlacing = true;
 
-            Vector3 selectedHexPosition = _hexSelectionProvider.SelectedHexPosition.Value;
+            Vector3 selectedHexPosition = _hexTileSelectionProvider.SelectedPosition.Value;
 
             HexCubeCoordinates selectedHexCoordinates =
-                _hexSelectionProvider.SelectedHexCoordinates.Value;
+                _hexTileSelectionProvider.SelectedCoordinates.Value;
 
             await _hexTileDeselector.DeselectTile();
 

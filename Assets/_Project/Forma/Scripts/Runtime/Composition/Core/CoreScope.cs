@@ -4,6 +4,9 @@ using Forma.Runtime.Core.Enemy.Configs;
 using Forma.Runtime.Core.Enemy.Views;
 using Forma.Runtime.Core.Features.HexGrid;
 using Forma.Runtime.Core.Features.HexGrid.Configs;
+using Forma.Runtime.Core.Features.HexGrid.Grid;
+using Forma.Runtime.Core.Features.HexGrid.Tile;
+using Forma.Runtime.Core.Features.HexGrid.Views;
 using Forma.Runtime.Core.Features.Movement;
 using Forma.Runtime.Core.Features.Turret;
 using Forma.Runtime.Core.Features.Turret.Configs;
@@ -79,15 +82,15 @@ namespace Forma.Runtime.Composition.Core
                .As<ICameraProvider>();
 
             builder
-               .Register<HexSelectionProvider>(Lifetime.Singleton)
-               .As<IHexSelectionProvider>()
+               .Register<HexTileSelectionProvider>(Lifetime.Singleton)
+               .As<IHexTileSelectionProvider>()
                .As<IHexSelectionSetter>();
         }
 
         void RegisterGameplayFeatures(IContainerBuilder builder)
         {
             builder
-               .Register<HexGridStateController>(Lifetime.Singleton)
+               .Register<HexGridStateHolder>(Lifetime.Singleton)
                .AsSelf();
 
             builder
@@ -99,7 +102,7 @@ namespace Forma.Runtime.Composition.Core
                .AsSelf();
 
             builder
-               .Register<HexTileRegistry>(Lifetime.Singleton)
+               .Register<HexGridRegistry>(Lifetime.Singleton)
                .AsSelf();
 
             builder
@@ -117,11 +120,11 @@ namespace Forma.Runtime.Composition.Core
                .AsSelf();
 
             builder
-               .Register<HexSelectionController>(Lifetime.Singleton)
+               .Register<HexTileSelectionController>(Lifetime.Singleton)
                .AsSelf();
 
             builder
-               .Register<HexOccupancyController>(Lifetime.Singleton)
+               .Register<HexTileOccupancyController>(Lifetime.Singleton)
                .AsSelf();
 
             builder
@@ -129,7 +132,7 @@ namespace Forma.Runtime.Composition.Core
                .AsSelf();
 
             builder
-               .Register<HexGridActivationController>(Lifetime.Singleton)
+               .Register<HexGridController>(Lifetime.Singleton)
                .AsSelf();
 
             builder
@@ -156,9 +159,9 @@ namespace Forma.Runtime.Composition.Core
                .As<IToggleGridInput>();
 
             builder
-               .Register<HexClickInputService>(Lifetime.Singleton)
+               .Register<HexTileClickInputService>(Lifetime.Singleton)
                .As<BaseInputService>()
-               .As<IHexClickInput>();
+               .As<IHexTileClickInput>();
 
             builder
                .Register<TurretInputService>(Lifetime.Singleton)

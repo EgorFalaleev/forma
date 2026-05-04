@@ -4,7 +4,7 @@ using Forma.Runtime.Core.Features.HexGrid.Views;
 using PrimeTween;
 using UnityEngine;
 
-namespace Forma.Runtime.Core.Features.HexGrid
+namespace Forma.Runtime.Core.Features.HexGrid.Tile
 {
     public class HexTileAnimator
     {

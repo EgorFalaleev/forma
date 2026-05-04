@@ -3,39 +3,40 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Forma.Runtime.Core.Common;
 using Forma.Runtime.Core.Features.HexGrid.Data;
+using Forma.Runtime.Core.Features.HexGrid.Tile;
 
-namespace Forma.Runtime.Core.Features.HexGrid
+namespace Forma.Runtime.Core.Features.HexGrid.Grid
 {
-    public class HexGridActivationController : IDisposable
+    public class HexGridController : IDisposable
     {
         readonly IToggleGridInput _toggleGridInput;
         readonly HexGridBuilder _hexGridBuilder;
         readonly ITargetProvider _targetProvider;
-        readonly HexTileRegistry _hexTileRegistry;
+        readonly HexGridRegistry _hexGridRegistry;
         readonly HexTileSelector _hexTileSelector;
         readonly HexTileController _hexTileController;
         readonly HexGridAnimator _hexGridAnimator;
-        readonly HexGridStateController _hexGridStateController;
+        readonly HexGridStateHolder _hexGridStateHolder;
 
-        public HexGridActivationController(IToggleGridInput toggleGridInput,
+        public HexGridController(IToggleGridInput toggleGridInput,
             HexGridBuilder hexGridBuilder, ITargetProvider targetProvider,
-            HexTileRegistry hexTileRegistry, HexTileSelector hexTileSelector,
+            HexGridRegistry hexGridRegistry, HexTileSelector hexTileSelector,
             HexTileController hexTileController, HexGridAnimator hexGridAnimator,
-            HexGridStateController hexGridStateController)
+            HexGridStateHolder hexGridStateHolder)
         {
             _toggleGridInput = toggleGridInput;
             _hexGridBuilder = hexGridBuilder;
             _targetProvider = targetProvider;
-            _hexTileRegistry = hexTileRegistry;
+            _hexGridRegistry = hexGridRegistry;
             _hexTileSelector = hexTileSelector;
             _hexTileController = hexTileController;
             _hexGridAnimator = hexGridAnimator;
-            _hexGridStateController = hexGridStateController;
+            _hexGridStateHolder = hexGridStateHolder;
         }
 
         public void Initialize()
         {
-            _hexGridStateController.SetState(HexGridState.Hidden);
+            _hexGridStateHolder.SetState(HexGridState.Hidden);
 
             _toggleGridInput.OnGridModeToggled += OnGridModeToggled;
         }
@@ -49,7 +50,7 @@ namespace Forma.Runtime.Core.Features.HexGrid
         {
             _hexTileSelector.Cleanup();
 
-            switch (_hexGridStateController.State)
+            switch (_hexGridStateHolder.State)
             {
                 case HexGridState.Hidden:
                     SpawnGridAsync()
@@ -76,7 +77,7 @@ namespace Forma.Runtime.Core.Features.HexGrid
 
         async UniTaskVoid SpawnGridAsync()
         {
-            _hexGridStateController.SetState(HexGridState.Spawning);
+            _hexGridStateHolder.SetState(HexGridState.Spawning);
 
             IEnumerable<HexTileData> gridPositions =
                 _hexGridBuilder.CalculateHexGrid(_targetProvider.Target.position);
@@ -86,18 +87,18 @@ namespace Forma.Runtime.Core.Features.HexGrid
                 _hexTileController.PrepareTile(hexTileData);
             }
 
-            await _hexGridAnimator.PlaySpawn(_hexTileRegistry.Tiles);
+            await _hexGridAnimator.PlaySpawn(_hexGridRegistry.Tiles);
 
-            _hexGridStateController.SetState(HexGridState.Visible);
+            _hexGridStateHolder.SetState(HexGridState.Visible);
         }
 
         async UniTaskVoid DespawnGridAsync()
         {
-            _hexGridStateController.SetState(HexGridState.Despawning);
+            _hexGridStateHolder.SetState(HexGridState.Despawning);
 
-            await _hexGridAnimator.PlayDespawn(_hexTileRegistry.Tiles);
+            await _hexGridAnimator.PlayDespawn(_hexGridRegistry.Tiles);
 
-            _hexGridStateController.SetState(HexGridState.Hidden);
+            _hexGridStateHolder.SetState(HexGridState.Hidden);
         }
     }
 }

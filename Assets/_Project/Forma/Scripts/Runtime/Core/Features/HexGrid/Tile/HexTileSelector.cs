@@ -1,9 +1,10 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
 using Forma.Runtime.Core.Features.HexGrid.Data;
+using Forma.Runtime.Core.Features.HexGrid.Grid;
 using Forma.Runtime.Core.Features.HexGrid.Views;
 
-namespace Forma.Runtime.Core.Features.HexGrid
+namespace Forma.Runtime.Core.Features.HexGrid.Tile
 {
     public class HexTileSelector
         : IHexTileDeselector,
@@ -12,38 +13,38 @@ namespace Forma.Runtime.Core.Features.HexGrid
         public event Action<HexView> OnHexSelected;
         public event Action OnHexDeselected;
 
-        readonly IHexClickInput _hexClickInput;
+        readonly IHexTileClickInput _hexTileClickInput;
         readonly HexTileAnimator _hexTileAnimator;
-        readonly HexTileRegistry _hexTileRegistry;
-        readonly HexOccupancyController _hexOccupancyController;
-        readonly HexGridStateController _hexGridStateController;
+        readonly HexGridRegistry _hexGridRegistry;
+        readonly HexTileOccupancyController _hexTileOccupancyController;
+        readonly HexGridStateHolder _hexGridStateHolder;
 
         HexView _selectedHex;
         bool _isTileAnimating;
 
-        public HexTileSelector(IHexClickInput hexClickInput,
-            HexTileAnimator hexTileAnimator, HexTileRegistry hexTileRegistry,
-            HexOccupancyController hexOccupancyController,
-            HexGridStateController hexGridStateController)
+        public HexTileSelector(IHexTileClickInput hexTileClickInput,
+            HexTileAnimator hexTileAnimator, HexGridRegistry hexGridRegistry,
+            HexTileOccupancyController hexTileOccupancyController,
+            HexGridStateHolder hexGridStateHolder)
         {
-            _hexClickInput = hexClickInput;
+            _hexTileClickInput = hexTileClickInput;
             _hexTileAnimator = hexTileAnimator;
-            _hexTileRegistry = hexTileRegistry;
-            _hexOccupancyController = hexOccupancyController;
-            _hexGridStateController = hexGridStateController;
+            _hexGridRegistry = hexGridRegistry;
+            _hexTileOccupancyController = hexTileOccupancyController;
+            _hexGridStateHolder = hexGridStateHolder;
         }
 
         public void Initialize()
         {
-            _hexClickInput.OnHexClicked += OnHexClicked;
+            _hexTileClickInput.OnHexClicked += OnHexTileClicked;
         }
 
         public void Dispose()
         {
-            _hexClickInput.OnHexClicked -= OnHexClicked;
+            _hexTileClickInput.OnHexClicked -= OnHexTileClicked;
         }
 
-        void OnHexClicked(HexView hexView)
+        void OnHexTileClicked(HexView hexView)
         {
             ClickHexTile(hexView)
                .Forget();
@@ -51,12 +52,12 @@ namespace Forma.Runtime.Core.Features.HexGrid
 
         async UniTask ClickHexTile(HexView hexView)
         {
-            if (_hexGridStateController.State != HexGridState.Visible)
+            if (_hexGridStateHolder.State != HexGridState.Visible)
                 return;
 
-            HexCubeCoordinates tileCoordinates = _hexTileRegistry.GetCoordinates(hexView);
+            HexCubeCoordinates tileCoordinates = _hexGridRegistry.GetCoordinates(hexView);
 
-            bool isTileActive = _hexOccupancyController.IsTileActive(tileCoordinates);
+            bool isTileActive = _hexTileOccupancyController.IsTileActive(tileCoordinates);
 
             if (isTileActive)
                 await ProcessHexSelection(hexView);

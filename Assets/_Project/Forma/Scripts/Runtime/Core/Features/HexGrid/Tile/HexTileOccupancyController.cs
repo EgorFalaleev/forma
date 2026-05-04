@@ -1,16 +1,17 @@
 ﻿using System.Collections.Generic;
 using Forma.Runtime.Core.Features.HexGrid.Data;
+using Forma.Runtime.Core.Features.HexGrid.Grid;
 
-namespace Forma.Runtime.Core.Features.HexGrid
+namespace Forma.Runtime.Core.Features.HexGrid.Tile
 {
-    public class HexOccupancyController
+    public class HexTileOccupancyController
     {
-        readonly HexTileRegistry _hexTileRegistry;
+        readonly HexGridRegistry _hexGridRegistry;
         readonly HashSet<HexCubeCoordinates> _occupiedTiles;
 
-        public HexOccupancyController(HexTileRegistry hexTileRegistry)
+        public HexTileOccupancyController(HexGridRegistry hexGridRegistry)
         {
-            _hexTileRegistry = hexTileRegistry;
+            _hexGridRegistry = hexGridRegistry;
 
             _occupiedTiles = new HashSet<HexCubeCoordinates>
             {
@@ -33,7 +34,7 @@ namespace Forma.Runtime.Core.Features.HexGrid
 
             foreach (HexCubeCoordinates neighbourCoordinates in tileNeighbours)
             {
-                if (!_hexTileRegistry.Tiles.ContainsKey(neighbourCoordinates))
+                if (!_hexGridRegistry.Tiles.ContainsKey(neighbourCoordinates))
                     continue;
 
                 if (_occupiedTiles.Contains(neighbourCoordinates))

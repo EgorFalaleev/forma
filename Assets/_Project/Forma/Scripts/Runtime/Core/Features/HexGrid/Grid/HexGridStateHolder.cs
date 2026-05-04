@@ -1,8 +1,8 @@
 ﻿using Forma.Runtime.Core.Features.HexGrid.Data;
 
-namespace Forma.Runtime.Core.Features.HexGrid
+namespace Forma.Runtime.Core.Features.HexGrid.Grid
 {
-    public class HexGridStateController
+    public class HexGridStateHolder
     {
         public HexGridState State => _currentState;
 
