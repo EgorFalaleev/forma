@@ -24,12 +24,12 @@ namespace Forma.Runtime.Core.Features.HexGrid.Tile
             => _occupiedTiles.Add(coordinates);
 
         public bool IsTileActive(HexCubeCoordinates coordinates)
-            => GetTileStatus(coordinates) == TileStatus.Active;
+            => GetTileStatus(coordinates) == HexTileStatus.Active;
 
-        TileStatus GetTileStatus(HexCubeCoordinates coordinates)
+        HexTileStatus GetTileStatus(HexCubeCoordinates coordinates)
         {
             if (_occupiedTiles.Contains(coordinates))
-                return TileStatus.Occupied;
+                return HexTileStatus.Occupied;
 
             HexCubeCoordinates[] tileNeighbours = coordinates.GetNeighbours();
 
@@ -39,10 +39,10 @@ namespace Forma.Runtime.Core.Features.HexGrid.Tile
                     continue;
 
                 if (_occupiedTiles.Contains(neighbourCoordinates))
-                    return TileStatus.Active;
+                    return HexTileStatus.Active;
             }
 
-            return TileStatus.Unavailable;
+            return HexTileStatus.Unavailable;
         }
     }
 }

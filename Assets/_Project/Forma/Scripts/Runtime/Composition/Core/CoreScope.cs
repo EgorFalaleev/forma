@@ -164,8 +164,7 @@ namespace Forma.Runtime.Composition.Core
 
             builder
                .Register<HexTileAnimator>(Lifetime.Singleton)
-               .AsSelf()
-               .WithParameter(_hexGridConfig.HexTileConfig.AnimationConfig);
+               .AsSelf();
 
             builder
                .Register<HexTileSelector>(Lifetime.Singleton)
@@ -183,6 +182,7 @@ namespace Forma.Runtime.Composition.Core
 
             builder
                .Register<HexTileController>(Lifetime.Singleton)
+               .As<IHexTileController>()
                .AsSelf();
 
             builder

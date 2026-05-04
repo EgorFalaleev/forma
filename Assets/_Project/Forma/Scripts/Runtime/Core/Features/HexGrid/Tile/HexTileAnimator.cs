@@ -13,9 +13,9 @@ namespace Forma.Runtime.Core.Features.HexGrid.Tile
         Vector3 _startPos;
         Sequence _currentSequence;
 
-        public HexTileAnimator(HexTileAnimationConfig hexTileAnimationConfig)
+        public HexTileAnimator(HexGridConfig hexGridConfig)
         {
-            _hexTileAnimationConfig = hexTileAnimationConfig;
+            _hexTileAnimationConfig = hexGridConfig.HexTileConfig.AnimationConfig;
         }
 
         public async UniTask SelectTile(HexView hexView)
