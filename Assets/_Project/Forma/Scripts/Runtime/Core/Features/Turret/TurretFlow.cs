@@ -17,6 +17,8 @@ namespace Forma.Runtime.Core.Features.Turret
 
         public void Initialize()
         {
+            _turretPlacer.Initialize();
+            
             _turretPlacer.OnTurretPlaced += OnTurretPlaced;
         }
 

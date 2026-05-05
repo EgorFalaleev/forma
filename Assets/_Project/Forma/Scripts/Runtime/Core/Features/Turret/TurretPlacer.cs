@@ -14,7 +14,6 @@ namespace Forma.Runtime.Core.Features.Turret
 
         readonly ITurretInput _turretInput;
         readonly IHexTileSelectionProvider _hexTileSelectionProvider;
-        readonly IHexTileDeselector _hexTileDeselector;
         readonly TurretFactory _turretFactory;
         readonly TurretViewFactory _turretViewFactory;
         readonly TurretViewAnimator _turretViewAnimator;
@@ -26,18 +25,20 @@ namespace Forma.Runtime.Core.Features.Turret
         public TurretPlacer(ITurretInput turretInput, TurretFactory turretFactory,
             TurretViewFactory turretViewFactory,
             IHexTileSelectionProvider hexTileSelectionProvider,
-            IHexTileDeselector hexTileDeselector, TurretViewAnimator turretViewAnimator,
-            TurretConfig turretConfig, IHexTileController hexTileController)
+            TurretViewAnimator turretViewAnimator, TurretConfig turretConfig,
+            IHexTileController hexTileController)
         {
             _turretInput = turretInput;
             _turretFactory = turretFactory;
             _turretViewFactory = turretViewFactory;
             _hexTileSelectionProvider = hexTileSelectionProvider;
-            _hexTileDeselector = hexTileDeselector;
             _turretViewAnimator = turretViewAnimator;
             _turretConfig = turretConfig;
             _hexTileController = hexTileController;
+        }
 
+        public void Initialize()
+        {
             _turretInput.OnPlaceTurretClicked += OnPlaceTurretClicked;
         }
 
@@ -68,9 +69,7 @@ namespace Forma.Runtime.Core.Features.Turret
             HexCubeCoordinates selectedHexCoordinates =
                 _hexTileSelectionProvider.SelectedTile.Value.Coordinates;
 
-            await _hexTileDeselector.DeselectTile();
-
-            _hexTileController.OccupyTile(selectedHexCoordinates);
+            await _hexTileController.OccupyTile(selectedHexCoordinates);
 
             TurretView turretView = _turretViewFactory.Create(
                 selectedHexPosition + _turretConfig.SpawnOffset

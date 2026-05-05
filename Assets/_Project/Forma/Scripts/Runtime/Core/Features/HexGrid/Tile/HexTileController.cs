@@ -1,4 +1,5 @@
-﻿using Forma.Runtime.Core.Features.HexGrid.Configs;
+﻿using Cysharp.Threading.Tasks;
+using Forma.Runtime.Core.Features.HexGrid.Configs;
 using Forma.Runtime.Core.Features.HexGrid.Data;
 using Forma.Runtime.Core.Features.HexGrid.Grid.Abstract;
 using Forma.Runtime.Core.Features.HexGrid.Tile.Abstract;
@@ -11,12 +12,15 @@ namespace Forma.Runtime.Core.Features.HexGrid.Tile
         readonly IHexGridRegistry _hexGridRegistry;
         readonly HexTileOccupancyController _hexTileOccupancyController;
         readonly HexTileConfig _hexTileConfig;
+        readonly IHexTileDeselector _hexTileDeselector;
 
         public HexTileController(IHexGridRegistry hexGridRegistry,
-            HexTileOccupancyController hexTileOccupancyController, HexGridConfig hexGridConfig)
+            HexTileOccupancyController hexTileOccupancyController,
+            HexGridConfig hexGridConfig, IHexTileDeselector hexTileDeselector)
         {
             _hexGridRegistry = hexGridRegistry;
             _hexTileOccupancyController = hexTileOccupancyController;
+            _hexTileDeselector = hexTileDeselector;
             _hexTileConfig = hexGridConfig.HexTileConfig;
         }
 
@@ -34,8 +38,10 @@ namespace Forma.Runtime.Core.Features.HexGrid.Tile
                 hexView.ResetColor();
         }
 
-        public void OccupyTile(HexCubeCoordinates tileCoordinates)
+        public async UniTask OccupyTile(HexCubeCoordinates tileCoordinates)
         {
+            await _hexTileDeselector.DeselectTile();
+            
             _hexTileOccupancyController.Occupy(tileCoordinates);
 
             HexView hexView = _hexGridRegistry.GetView(tileCoordinates);
