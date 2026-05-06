@@ -1,18 +1,19 @@
-﻿{
-  "name": "Core",
-  "rootNamespace": "",
-  "references": [
-    "PrimeTween.Runtime",
-    "UniTask",
-    "Common"
-  ],
-  "includePlatforms": [],
-  "excludePlatforms": [],
-  "allowUnsafeCode": false,
-  "overrideReferences": false,
-  "precompiledReferences": [],
-  "autoReferenced": true,
-  "defineConstraints": [],
-  "versionDefines": [],
-  "noEngineReferences": false
+{
+    "name": "Core",
+    "rootNamespace": "",
+    "references": [
+        "PrimeTween.Runtime",
+        "UniTask",
+        "Common",
+        "Unity.Cinemachine"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }

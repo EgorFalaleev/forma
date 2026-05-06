@@ -20,7 +20,7 @@ namespace Forma.Runtime.Core.Features.HexGrid.Tile
         readonly HexTileAnimator _hexTileAnimator;
         readonly IHexGridRegistry _hexGridRegistry;
         readonly HexTileOccupancyController _hexTileOccupancyController;
-        readonly HexGridStateHolder _hexGridStateHolder;
+        readonly IHexGridStateProvider _hexGridStateProvider;
 
         HexView _selectedHex;
         bool _isTileAnimating;
@@ -28,13 +28,13 @@ namespace Forma.Runtime.Core.Features.HexGrid.Tile
         public HexTileSelector(IHexTileClickInput hexTileClickInput,
             HexTileAnimator hexTileAnimator, IHexGridRegistry hexGridRegistry,
             HexTileOccupancyController hexTileOccupancyController,
-            HexGridStateHolder hexGridStateHolder)
+            IHexGridStateProvider hexGridStateProvider)
         {
             _hexTileClickInput = hexTileClickInput;
             _hexTileAnimator = hexTileAnimator;
             _hexGridRegistry = hexGridRegistry;
             _hexTileOccupancyController = hexTileOccupancyController;
-            _hexGridStateHolder = hexGridStateHolder;
+            _hexGridStateProvider = hexGridStateProvider;
         }
 
         public void Initialize()
@@ -55,7 +55,7 @@ namespace Forma.Runtime.Core.Features.HexGrid.Tile
 
         async UniTask ClickHexTile(HexView hexView)
         {
-            if (_hexGridStateHolder.State != HexGridState.Visible)
+            if (_hexGridStateProvider.State.CurrentValue != HexGridState.Visible)
                 return;
 
             HexCubeCoordinates tileCoordinates = _hexGridRegistry.GetCoordinates(hexView);

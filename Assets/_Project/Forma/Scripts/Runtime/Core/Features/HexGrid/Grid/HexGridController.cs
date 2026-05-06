@@ -52,7 +52,7 @@ namespace Forma.Runtime.Core.Features.HexGrid.Grid
         {
             _hexTileDeselector.Cleanup();
 
-            switch (_hexGridStateHolder.State)
+            switch (_hexGridStateHolder.State.CurrentValue)
             {
                 case HexGridState.Hidden:
                     SpawnGridAsync()
