@@ -1,4 +1,5 @@
-﻿using Forma.Runtime.Core.Common;
+﻿using System;
+using Forma.Runtime.Core.Common;
 using Forma.Runtime.Core.Enemy;
 using Forma.Runtime.Core.Enemy.Configs;
 using Forma.Runtime.Core.Enemy.Views;
@@ -146,6 +147,7 @@ namespace Forma.Runtime.Composition.Core
 
             builder
                .Register<HexGridStateHolder>(Lifetime.Singleton)
+               .As<IDisposable>()
                .AsSelf();
 
             builder

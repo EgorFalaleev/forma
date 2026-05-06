@@ -55,7 +55,7 @@ namespace Forma.Runtime.Core.Features.HexGrid.Tile
 
         async UniTask ClickHexTile(HexView hexView)
         {
-            if (_hexGridStateHolder.State != HexGridState.Visible)
+            if (_hexGridStateHolder.State.CurrentValue != HexGridState.Visible)
                 return;
 
             HexCubeCoordinates tileCoordinates = _hexGridRegistry.GetCoordinates(hexView);

@@ -1,16 +1,17 @@
-﻿using Forma.Runtime.Core.Features.HexGrid.Data;
+﻿using System;
+using Forma.Runtime.Core.Features.HexGrid.Data;
+using R3;
 
 namespace Forma.Runtime.Core.Features.HexGrid.Grid
 {
-    public class HexGridStateHolder
+    public class HexGridStateHolder : IDisposable
     {
-        public HexGridState State => _currentState;
+        public ReadOnlyReactiveProperty<HexGridState> State => _currentState;
 
-        HexGridState _currentState;
+        readonly ReactiveProperty<HexGridState> _currentState = new(HexGridState.Hidden);
 
-        public void SetState(HexGridState state)
-        {
-            _currentState = state;
-        }
+        public void SetState(HexGridState state) => _currentState.Value = state;
+
+        public void Dispose() => _currentState.Dispose();
     }
 }
