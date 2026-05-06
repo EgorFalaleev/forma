@@ -3,6 +3,7 @@ using Forma.Runtime.Core.Common;
 using Forma.Runtime.Core.Enemy;
 using Forma.Runtime.Core.Enemy.Configs;
 using Forma.Runtime.Core.Enemy.Views;
+using Forma.Runtime.Core.Features.Camera;
 using Forma.Runtime.Core.Features.HexGrid;
 using Forma.Runtime.Core.Features.HexGrid.Configs;
 using Forma.Runtime.Core.Features.HexGrid.Grid;
@@ -31,6 +32,8 @@ namespace Forma.Runtime.Composition.Core
         [SerializeField] PlayerView _playerViewPrefab;
         [SerializeField] EnemyView _enemyViewPrefab;
         [SerializeField] TurretView _turretViewPrefab;
+        [SerializeField] CameraView _cameraView;
+
         [SerializeField] HexGridConfig _hexGridConfig;
         [SerializeField] PlayerConfig _playerConfig;
         [SerializeField] EnemyConfig _enemyConfig;
@@ -57,6 +60,10 @@ namespace Forma.Runtime.Composition.Core
                .RegisterInstance(_turretViewPrefab)
                .As<TurretView>();
 
+            builder
+               .RegisterInstance(_cameraView)
+               .As<CameraView>();
+
             builder.RegisterInstance(_hexGridConfig);
             builder.RegisterInstance(_playerConfig);
             builder.RegisterInstance(_enemyConfig);
@@ -66,8 +73,17 @@ namespace Forma.Runtime.Composition.Core
 
             RegisterHexGrid(builder);
             RegisterPlayer(builder);
+            RegisterCamera(builder);
             RegisterEnemy(builder);
             RegisterTurret(builder);
+        }
+
+        void RegisterCamera(IContainerBuilder builder)
+        {
+            builder
+               .Register<CameraController>(Lifetime.Singleton)
+               .As<IDisposable>()
+               .AsSelf();
         }
 
         void RegisterTurret(IContainerBuilder builder)
@@ -147,6 +163,7 @@ namespace Forma.Runtime.Composition.Core
 
             builder
                .Register<HexGridStateHolder>(Lifetime.Singleton)
+               .As<IHexGridStateProvider>()
                .As<IDisposable>()
                .AsSelf();
 

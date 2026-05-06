@@ -1,10 +1,11 @@
 ﻿using System;
 using Forma.Runtime.Core.Features.HexGrid.Data;
+using Forma.Runtime.Core.Features.HexGrid.Grid.Abstract;
 using R3;
 
 namespace Forma.Runtime.Core.Features.HexGrid.Grid
 {
-    public class HexGridStateHolder : IDisposable
+    public class HexGridStateHolder : IHexGridStateProvider, IDisposable
     {
         public ReadOnlyReactiveProperty<HexGridState> State => _currentState;
 
