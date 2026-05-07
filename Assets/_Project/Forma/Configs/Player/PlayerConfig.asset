@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Runtime::Forma.Runtime.Core.Player.Configs.PlayerConfig
   <Health>k__BackingField: {fileID: 11400000, guid: fdbe937d40089474998240bb6fcd2682, type: 2}
   <Movement>k__BackingField: {fileID: 11400000, guid: 3bfdfc99f89b40246938d540e883d02a, type: 2}
+  <Damage>k__BackingField: {fileID: 11400000, guid: dbcb85b37c7cb7a48a0737f264136eb8, type: 2}

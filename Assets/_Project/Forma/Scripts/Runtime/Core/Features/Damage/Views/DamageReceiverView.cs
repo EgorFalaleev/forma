@@ -15,6 +15,9 @@ namespace Forma.Runtime.Core.Features.Damage.Views
         
         void OnCollisionEnter(Collision other)
         {
+            if (other.collider.gameObject == gameObject)
+                return;
+            
             if (other.collider.TryGetComponent(out DamageDealerView damageDealerView))
             {
                 OnDamageReceived?.Invoke(damageDealerView.Damage);

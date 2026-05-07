@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4354214537437386250}
   - component: {fileID: 1111884715213322731}
   - component: {fileID: 4610171879326327637}
+  - component: {fileID: 8343726603085376882}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -50,7 +51,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Runtime::Forma.Runtime.Core.Player.PlayerView
   _characterController: {fileID: 4354214537437386250}
-  _damageReceiver: {fileID: 6413617267083502715}
+  _damageReceiverView: {fileID: 6413617267083502715}
+  _damageDealerView: {fileID: 8343726603085376882}
 --- !u!114 &6413617267083502715
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,6 +140,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &8343726603085376882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7094827137096971830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f4b721e5b2a4858be572466e21d51ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Core::Forma.Runtime.Core.Features.Damage.Views.DamageDealerView
 --- !u!1 &8793096571107885748
 GameObject:
   m_ObjectHideFlags: 0
