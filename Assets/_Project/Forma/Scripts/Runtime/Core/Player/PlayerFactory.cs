@@ -28,7 +28,7 @@ namespace Forma.Runtime.Core.Player
                 _playerConfig.Movement
             );
 
-            var health = new PlayerHealth(_playerConfig.Health.MaxHealth);
+            var health = new Health(_playerConfig.Health);
 
             var player = new Player(
                 movementController,

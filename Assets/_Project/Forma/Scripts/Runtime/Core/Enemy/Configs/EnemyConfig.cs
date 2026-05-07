@@ -1,4 +1,5 @@
 ﻿using Forma.Runtime.Core.Features.Damage.Configs;
+using Forma.Runtime.Core.Features.Health.Configs;
 using Forma.Runtime.Core.Features.Movement.Configs;
 using UnityEngine;
 
@@ -9,5 +10,6 @@ namespace Forma.Runtime.Core.Enemy.Configs
     {
         [field: SerializeField] public DamageConfig Damage { get; private set; }
         [field: SerializeField] public MovementConfig Movement { get; private set; }
+        [field: SerializeField] public HealthConfig Health { get; private set; }
     }
 }

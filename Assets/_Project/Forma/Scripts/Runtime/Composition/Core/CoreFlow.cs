@@ -62,6 +62,7 @@ namespace Forma.Runtime.Composition.Core
                 inputService.Disable();
 
             _playerFlow.Dispose();
+            _enemyFlow.Dispose();
             _hexGridFlow.Dispose();
             _turretFlow.Dispose();
         }

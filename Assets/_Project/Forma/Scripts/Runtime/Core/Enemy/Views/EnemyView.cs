@@ -8,8 +8,11 @@ namespace Forma.Runtime.Core.Enemy.Views
     [RequireComponent(typeof(CharacterController))]
     public class EnemyView : MonoBehaviour, IMovableView
     {
+        public IDamageReceiver DamageReceiver => _damageReceiverView;
+        
         [SerializeField] CharacterController _characterController;
         [SerializeField] DamageDealerView _damageDealerView;
+        [SerializeField] DamageReceiverView _damageReceiverView;
 
         public void Initialize(int damage)
         {

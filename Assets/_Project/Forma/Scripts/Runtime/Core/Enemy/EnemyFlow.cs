@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Forma.Runtime.Core.Enemy.Views;
 
 namespace Forma.Runtime.Core.Enemy
 {
-    public class EnemyFlow
+    public class EnemyFlow : IDisposable
     {
         readonly EnemyFactory _enemyFactory;
         readonly EnemyViewFactory _enemyViewFactory;
@@ -22,6 +23,8 @@ namespace Forma.Runtime.Core.Enemy
             EnemyView enemyView = _enemyViewFactory.Create();
             
             Enemy enemy = _enemyFactory.Create(enemyView);
+            
+            enemy.Initialize();
 
             _enemies.Add(enemy);
         }
@@ -31,6 +34,14 @@ namespace Forma.Runtime.Core.Enemy
             foreach (Enemy enemy in _enemies)
             {
                 enemy.Tick();
+            }
+        }
+
+        public void Dispose()
+        {
+            foreach (Enemy enemy in _enemies)
+            {
+                enemy.Dispose();
             }
         }
     }

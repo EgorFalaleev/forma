@@ -1,8 +1,9 @@
 ﻿using System;
+using Forma.Runtime.Core.Features.Health.Configs;
 
 namespace Forma.Runtime.Core.Features.Health
 {
-    public class PlayerHealth : IHealth
+    public class Health : IHealth
     {
         public event Action OnDied;
 
@@ -10,9 +11,9 @@ namespace Forma.Runtime.Core.Features.Health
 
         int _amount;
         
-        public PlayerHealth(int amount)
+        public Health(HealthConfig healthConfig)
         {
-            _amount = amount;
+            _amount = healthConfig.MaxHealth;
         }
 
         public void TakeDamage(int damage)

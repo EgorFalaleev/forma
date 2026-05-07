@@ -13,10 +13,14 @@ namespace Forma.Runtime.Core.Enemy.Views
             _enemyViewPrefab = enemyViewPrefab;
             _enemyConfig = enemyConfig;
         }
-        
+
         public EnemyView Create()
         {
-            EnemyView enemyView = Object.Instantiate(_enemyViewPrefab);
+            EnemyView enemyView = Object.Instantiate(
+                _enemyViewPrefab,
+                new Vector3(10, 0, 0),
+                Quaternion.identity
+            );
 
             enemyView.Initialize(_enemyConfig.Damage.Amount);
 
