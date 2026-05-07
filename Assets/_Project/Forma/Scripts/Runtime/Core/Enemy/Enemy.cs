@@ -7,6 +7,8 @@ namespace Forma.Runtime.Core.Enemy
 {
     public class Enemy : IDisposable
     {
+        public event Action<Enemy> OnEnemyDied;
+        
         readonly IMovementController _movementController;
         readonly IHealth _health;
         readonly IDamageReceiver _damageReceiver;
@@ -33,6 +35,7 @@ namespace Forma.Runtime.Core.Enemy
         public void Dispose()
         {
             _damageReceiver.OnDamageReceived -= TakeDamage;
+            _health.OnDied -= OnDied;
         }
 
         void TakeDamage(int amount)
@@ -42,7 +45,7 @@ namespace Forma.Runtime.Core.Enemy
 
         void OnDied()
         {
-            _damageReceiver.Die();
+            OnEnemyDied?.Invoke(this);
         }
     }
 }

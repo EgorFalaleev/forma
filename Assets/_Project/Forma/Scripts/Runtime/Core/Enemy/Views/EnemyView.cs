@@ -23,5 +23,10 @@ namespace Forma.Runtime.Core.Enemy.Views
         {
             _characterController.Move(velocity);
         }
+
+        public void Die()
+        {
+            Destroy(gameObject);
+        }
     }
 }

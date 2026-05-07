@@ -8,11 +8,6 @@ namespace Forma.Runtime.Core.Features.Damage.Views
     {
         public event Action<int> OnDamageReceived;
 
-        public void Die()
-        {
-            Destroy(gameObject);
-        }
-        
         void OnCollisionEnter(Collision other)
         {
             if (other.collider.gameObject == gameObject)
