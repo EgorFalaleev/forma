@@ -1,6 +1,7 @@
 ﻿using System;
 using Forma.Runtime.Core.Common;
 using Forma.Runtime.Core.Enemy;
+using Forma.Runtime.Core.Enemy.Abstract;
 using Forma.Runtime.Core.Enemy.Configs;
 using Forma.Runtime.Core.Enemy.Views;
 using Forma.Runtime.Core.Features.Camera;
@@ -126,6 +127,7 @@ namespace Forma.Runtime.Composition.Core
 
             builder
                .Register<EnemyFlow>(Lifetime.Singleton)
+               .As<IEnemyRegistry>()
                .AsSelf();
         }
 

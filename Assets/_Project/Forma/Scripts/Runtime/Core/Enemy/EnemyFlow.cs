@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using Forma.Runtime.Core.Enemy.Abstract;
 using Forma.Runtime.Core.Enemy.Views;
 
 namespace Forma.Runtime.Core.Enemy
 {
-    public class EnemyFlow : IDisposable
+    public class EnemyFlow
+        : IEnemyRegistry,
+          IDisposable
     {
+        public IEnumerable<Enemy> Enemies => _enemies.Keys;
+        
         readonly EnemyFactory _enemyFactory;
         readonly EnemyViewFactory _enemyViewFactory;
         readonly Dictionary<Enemy, EnemyView> _enemies;
