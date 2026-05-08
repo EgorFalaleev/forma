@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Forma.Runtime.Core.Features.Turret
+namespace Forma.Runtime.Core.Features.Turret.Abstract
 {
     public interface ITurretInput
     {

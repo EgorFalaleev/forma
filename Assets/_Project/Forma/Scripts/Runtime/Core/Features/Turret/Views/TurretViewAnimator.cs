@@ -26,19 +26,5 @@ namespace Forma.Runtime.Core.Features.Turret.Views
                 )
             );
         }
-
-        public void PlayInfiniteRotation(TurretView turretView)
-        {
-            Tween.LocalRotation(
-                turretView.transform,
-                new TweenSettings<Vector3>(
-                    new Vector3(0, 180, 0),
-                    duration: 2f,
-                    cycles: -1,
-                    cycleMode: CycleMode.Incremental,
-                    ease: Ease.Linear
-                )
-            );
-        }
     }
 }

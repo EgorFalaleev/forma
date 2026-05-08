@@ -14,6 +14,7 @@ using Forma.Runtime.Core.Features.HexGrid.Tile.Abstract;
 using Forma.Runtime.Core.Features.HexGrid.Views;
 using Forma.Runtime.Core.Features.Movement;
 using Forma.Runtime.Core.Features.Turret;
+using Forma.Runtime.Core.Features.Turret.Abstract;
 using Forma.Runtime.Core.Features.Turret.Configs;
 using Forma.Runtime.Core.Features.Turret.Views;
 using Forma.Runtime.Core.Player;
