@@ -80,8 +80,6 @@ namespace Forma.Runtime.Core.Features.Turret
 
             Turret turret = _turretFactory.Create(turretView, selectedHexPosition);
 
-            turretView.StartIdleRotation();
-
             OnTurretPlaced?.Invoke(turret);
 
             _isPlacing = false;

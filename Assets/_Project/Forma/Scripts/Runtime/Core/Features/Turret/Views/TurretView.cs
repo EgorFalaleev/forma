@@ -6,8 +6,11 @@ namespace Forma.Runtime.Core.Features.Turret.Views
 {
     public class TurretView
         : MonoBehaviour,
-          IMovableView
+          IMovableView,
+          ITurretView
     {
+        public Transform Transform => transform;
+        
         Tween _currentTween;
 
         public void Move(Vector3 velocity)
@@ -17,6 +20,9 @@ namespace Forma.Runtime.Core.Features.Turret.Views
 
         public void StartIdleRotation()
         {
+            if (_currentTween.isAlive)
+                return;
+            
             _currentTween = Tween.LocalRotation(
                 transform,
                 new TweenSettings<Vector3>(
@@ -31,7 +37,26 @@ namespace Forma.Runtime.Core.Features.Turret.Views
 
         public void StopIdleRotation()
         {
-            _currentTween.Stop();
+            if (_currentTween.isAlive)
+                _currentTween.Stop();
+        }
+
+        public void LookAtTarget(Vector3 position, float delta)
+        {
+            Vector3 direction = position - transform.position;
+
+            direction.y = 0f;
+
+            if (direction == Vector3.zero)
+                return;
+
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+
+            transform.rotation = Quaternion.RotateTowards(
+                transform.rotation,
+                targetRotation,
+                delta
+            );
         }
     }
 }

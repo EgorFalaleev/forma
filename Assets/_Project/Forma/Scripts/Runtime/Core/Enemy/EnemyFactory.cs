@@ -3,6 +3,7 @@ using Forma.Runtime.Core.Enemy.Configs;
 using Forma.Runtime.Core.Enemy.Views;
 using Forma.Runtime.Core.Features.Health;
 using Forma.Runtime.Core.Features.Movement;
+using UnityEngine;
 
 namespace Forma.Runtime.Core.Enemy
 {
@@ -22,9 +23,11 @@ namespace Forma.Runtime.Core.Enemy
 
         public Enemy Create(EnemyView enemyView)
         {
+            Transform enemyViewTransform = enemyView.transform;
+
             var moveInput = new TargetFollowMoveInput(
                 _targetProvider,
-                origin: enemyView.transform
+                origin: enemyViewTransform
             );
 
             var movementController = new MovementController(
@@ -36,7 +39,12 @@ namespace Forma.Runtime.Core.Enemy
 
             var health = new Health(_enemyConfig.Health);
 
-            var enemy = new Enemy(movementController, health, enemyView.DamageReceiver);
+            var enemy = new Enemy(
+                movementController,
+                health,
+                enemyView.DamageReceiver,
+                enemyViewTransform
+            );
 
             return enemy;
         }

@@ -11,5 +11,13 @@ namespace Forma.Runtime.Core.Features.Turret.Configs
 
         [field: SerializeField]
         public TurretAnimationConfig Animation { get; private set; }
+
+        [field: Min(0f)]
+        [field: SerializeField]
+        public float DetectRadius { get; private set; }
+        
+        [field: Min(0f)]
+        [field: SerializeField]
+        public float RotationSpeed { get; private set; }
     }
 }

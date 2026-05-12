@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: TurretMovementConfig
   m_EditorClassIdentifier: Core::Forma.Runtime.Core.Features.Movement.Configs.MovementConfig
   <Speed>k__BackingField: 10
+  <RotationSpeed>k__BackingField: 100
