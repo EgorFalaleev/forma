@@ -58,8 +58,8 @@ namespace Forma.Runtime.Core.Features.Turret
             var stateMachine = new StateMachine.StateMachine();
 
             stateMachine
-               .AddTransition(idleState, attackingState, idleState.EnemyFound)
-               .AddTransition(attackingState, idleState, attackingState.EnemyLeftRange);
+               .AddTransition(idleState, attackingState, idleState.OnEnemyFound)
+               .AddTransition(attackingState, idleState, attackingState.OnEnemyLeftRange);
 
             stateMachine.SetState(idleState);
 

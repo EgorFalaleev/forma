@@ -1,20 +1,20 @@
-﻿using Forma.Runtime.Core.StateMachine.Predicates;
-using Forma.Runtime.Core.StateMachine.States;
+﻿using Forma.Runtime.Core.StateMachine.States;
+using Forma.Runtime.Core.StateMachine.Triggers;
 
 namespace Forma.Runtime.Core.StateMachine.Transitions
 {
     public class Transition : ITransition
     {
         public IState NextState => _nextState;
-        public IPredicate Condition => _condition;
+        public ITrigger Trigger => _trigger;
 
         readonly IState _nextState;
-        readonly IPredicate _condition;
+        readonly ITrigger _trigger;
 
-        public Transition(IState nextState, IPredicate condition)
+        public Transition(IState nextState, ITrigger trigger)
         {
             _nextState = nextState;
-            _condition = condition;
+            _trigger = trigger;
         }
     }
 }

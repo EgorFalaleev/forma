@@ -1,20 +1,20 @@
 ﻿using Forma.Runtime.Core.Features.Movement;
 using Forma.Runtime.Core.Features.Turret.Configs;
 using Forma.Runtime.Core.Features.Turret.Views;
-using Forma.Runtime.Core.StateMachine.Predicates;
 using Forma.Runtime.Core.StateMachine.States;
+using Forma.Runtime.Core.StateMachine.Triggers;
 
 namespace Forma.Runtime.Core.Features.Turret.States
 {
     public class AttackingState : IState
     {
-        public IPredicate EnemyLeftRange => _enemyLeftRange;
+        public ITrigger OnEnemyLeftRange => _onEnemyLeftRange;
 
         readonly ITurretView _turretView;
         readonly ITimeService _timeService;
         readonly TurretConfig _turretConfig;
         readonly TurretContext _turretContext;
-        readonly IPredicate _enemyLeftRange;
+        readonly Trigger _onEnemyLeftRange;
 
         public AttackingState(ITurretView turretView, ITimeService timeService,
             TurretConfig turretConfig, TurretContext turretContext)
@@ -24,8 +24,7 @@ namespace Forma.Runtime.Core.Features.Turret.States
             _turretConfig = turretConfig;
             _turretContext = turretContext;
 
-            _enemyLeftRange =
-                new FuncPredicate(() => _turretContext.CurrentTarget == null);
+            _onEnemyLeftRange = new Trigger();
         }
 
         public void OnEnter() { }
@@ -48,6 +47,7 @@ namespace Forma.Runtime.Core.Features.Turret.States
             else
             {
                 _turretContext.CurrentTarget = null;
+                _onEnemyLeftRange.Fire();
             }
         }
     }

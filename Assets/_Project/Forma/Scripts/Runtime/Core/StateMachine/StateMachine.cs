@@ -1,24 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using Forma.Runtime.Core.StateMachine.Predicates;
 using Forma.Runtime.Core.StateMachine.States;
 using Forma.Runtime.Core.StateMachine.Transitions;
+using Forma.Runtime.Core.StateMachine.Triggers;
 
 namespace Forma.Runtime.Core.StateMachine
 {
     public class StateMachine
     {
         readonly Dictionary<Type, StateNode> _nodes = new();
-        
+
+        readonly IDictionary<ITrigger, Action> _triggersEventsSubscriptions =
+            new Dictionary<ITrigger, Action>();
+
         StateNode _current;
 
         public void Tick()
         {
-            ITransition transition = GetTransition();
-
-            if (transition != null)
-                ChangeState(transition.NextState);
-
             _current.State?.Tick();
         }
 
@@ -26,15 +24,17 @@ namespace Forma.Runtime.Core.StateMachine
         {
             _current = _nodes[state.GetType()];
             _current.State?.OnEnter();
+            
+            SubscribeTriggers();
         }
 
-        public StateMachine AddTransition(IState from, IState to, IPredicate condition)
+        public StateMachine AddTransition(IState from, IState to, ITrigger trigger)
         {
             GetOrAddNode(from)
                .AddTransition(
                     GetOrAddNode(to)
                        .State,
-                    condition
+                    trigger
                 );
 
             return this;
@@ -58,6 +58,8 @@ namespace Forma.Runtime.Core.StateMachine
             if (state == _current.State)
                 return;
 
+            UnsubscribeTriggers();
+            
             IState previousState = _current.State;
             IState nextState = _nodes[state.GetType()].State;
 
@@ -65,17 +67,34 @@ namespace Forma.Runtime.Core.StateMachine
             nextState?.OnEnter();
 
             _current = _nodes[state.GetType()];
+            
+            SubscribeTriggers();
         }
 
-        ITransition GetTransition()
+        void SubscribeTriggers()
         {
-            foreach (ITransition transition in _current.Transitions)
-            {
-                if (transition.Condition.Evaluate())
-                    return transition;
-            }
+            HashSet<ITransition> transitions = _current.Transitions;
 
-            return null;
+            foreach (ITransition transition in transitions)
+            {
+                var callback = new Action(() => ChangeState(transition.NextState));
+
+                transition.Trigger.OnFired += callback;
+                _triggersEventsSubscriptions.Add(transition.Trigger, callback);
+            }
+        }
+
+        void UnsubscribeTriggers()
+        {
+            foreach (KeyValuePair<ITrigger,Action> keyValuePair in _triggersEventsSubscriptions)
+            {
+                ITrigger trigger = keyValuePair.Key;
+                Action changeStateAction = keyValuePair.Value;
+
+                trigger.OnFired -= changeStateAction;
+            }
+            
+            _triggersEventsSubscriptions.Clear();
         }
 
         class StateNode
@@ -92,9 +111,9 @@ namespace Forma.Runtime.Core.StateMachine
                 _transitions = new HashSet<ITransition>();
             }
 
-            public void AddTransition(IState nextState, IPredicate condition)
+            public void AddTransition(IState nextState, ITrigger trigger)
             {
-                _transitions.Add(new Transition(nextState, condition));
+                _transitions.Add(new Transition(nextState, trigger));
             }
         }
     }
