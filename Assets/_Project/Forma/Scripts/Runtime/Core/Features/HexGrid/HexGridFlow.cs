@@ -9,20 +9,21 @@ namespace Forma.Runtime.Core.Features.HexGrid
         readonly HexGridRegistry _hexGridRegistry;
         readonly HexTileSelectionController _hexTileSelectionController;
         readonly HexGridAnimator _hexGridAnimator;
-        readonly HexGridController _hexGridController;
         readonly HexTileSelector _hexTileSelector;
+        readonly StateMachineFactory _stateMachineFactory;
+
+        StateMachine.StateMachine _stateMachine;
 
         public HexGridFlow(HexGridRegistry hexGridRegistry,
             HexTileSelectionController hexTileSelectionController,
-            HexGridAnimator hexGridAnimator,
-            HexGridController hexGridController,
-            HexTileSelector hexTileSelector)
+            HexGridAnimator hexGridAnimator, HexTileSelector hexTileSelector,
+            StateMachineFactory stateMachineFactory)
         {
             _hexGridRegistry = hexGridRegistry;
             _hexTileSelectionController = hexTileSelectionController;
             _hexGridAnimator = hexGridAnimator;
-            _hexGridController = hexGridController;
             _hexTileSelector = hexTileSelector;
+            _stateMachineFactory = stateMachineFactory;
         }
 
         public void Initialize()
@@ -30,14 +31,18 @@ namespace Forma.Runtime.Core.Features.HexGrid
             _hexGridRegistry.Initialize();
             _hexTileSelectionController.Initialize();
             _hexGridAnimator.Initialize();
-            _hexGridController.Initialize();
             _hexTileSelector.Initialize();
+            _stateMachine = _stateMachineFactory.Create();
+        }
+
+        public void Tick()
+        {
+            _stateMachine.Tick();
         }
 
         public void Dispose()
         {
             _hexTileSelectionController.Dispose();
-            _hexGridController.Dispose();
             _hexTileSelector.Dispose();
         }
     }

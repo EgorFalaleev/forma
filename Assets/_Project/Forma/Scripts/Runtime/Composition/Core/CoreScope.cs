@@ -212,7 +212,7 @@ namespace Forma.Runtime.Composition.Core
                .AsSelf();
 
             builder
-               .Register<HexGridController>(Lifetime.Singleton)
+               .Register<StateMachineFactory>(Lifetime.Singleton)
                .AsSelf();
 
             builder
