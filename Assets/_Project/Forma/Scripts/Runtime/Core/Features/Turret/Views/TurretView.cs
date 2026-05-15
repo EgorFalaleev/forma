@@ -10,7 +10,7 @@ namespace Forma.Runtime.Core.Features.Turret.Views
           ITurretView
     {
         public Transform Transform => transform;
-        
+
         Tween _currentTween;
 
         public void Move(Vector3 velocity)
@@ -22,11 +22,13 @@ namespace Forma.Runtime.Core.Features.Turret.Views
         {
             if (_currentTween.isAlive)
                 return;
-            
+
+            Vector3 target = transform.localEulerAngles + new Vector3(0, 180f, 0);
+
             _currentTween = Tween.LocalRotation(
                 transform,
                 new TweenSettings<Vector3>(
-                    new Vector3(0, 180, 0),
+                    target,
                     duration: 2f,
                     cycles: -1,
                     cycleMode: CycleMode.Incremental,
