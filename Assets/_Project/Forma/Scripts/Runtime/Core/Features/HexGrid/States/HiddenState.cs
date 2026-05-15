@@ -1,4 +1,5 @@
-﻿using Forma.Runtime.Core.Features.HexGrid.Grid.Abstract;
+﻿using System;
+using Forma.Runtime.Core.Features.HexGrid.Grid.Abstract;
 using Forma.Runtime.Core.Features.HexGrid.Tile.Abstract;
 using Forma.Runtime.Core.StateMachine.States;
 using Forma.Runtime.Core.StateMachine.Triggers;
@@ -7,6 +8,8 @@ namespace Forma.Runtime.Core.Features.HexGrid.States
 {
     public class HiddenState : IState
     {
+        public event Action OnBecameHidden;
+
         public ITrigger OnGridSpawnRequested => _onGridSpawnRequested;
 
         readonly IHexTileDeselector _hexTileDeselector;
@@ -27,6 +30,8 @@ namespace Forma.Runtime.Core.Features.HexGrid.States
             _hexTileDeselector.Cleanup();
 
             _toggleGridInput.OnGridModeToggled += OnGridModeToggled;
+
+            OnBecameHidden?.Invoke();
         }
 
         public void OnExit()
