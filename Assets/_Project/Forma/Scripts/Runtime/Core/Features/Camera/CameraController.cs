@@ -1,8 +1,6 @@
 ﻿using System;
 using Forma.Runtime.Core.Common;
-using Forma.Runtime.Core.Features.HexGrid.Data;
 using Forma.Runtime.Core.Features.HexGrid.Grid.Abstract;
-using R3;
 using UnityEngine;
 
 namespace Forma.Runtime.Core.Features.Camera
@@ -10,18 +8,15 @@ namespace Forma.Runtime.Core.Features.Camera
     public class CameraController : IDisposable
     {
         readonly CameraView _cameraView;
-        readonly IHexGridStateProvider _hexGridStateProvider;
         readonly ITargetProvider _targetProvider;
-        readonly CompositeDisposable _disposables;
+        readonly IHexGridEvents _hexGridEvents;
 
-        public CameraController(CameraView cameraView,
-            IHexGridStateProvider hexGridStateProvider, ITargetProvider targetProvider)
+        public CameraController(CameraView cameraView, ITargetProvider targetProvider,
+            IHexGridEvents hexGridEvents)
         {
             _cameraView = cameraView;
-            _hexGridStateProvider = hexGridStateProvider;
             _targetProvider = targetProvider;
-
-            _disposables = new CompositeDisposable();
+            _hexGridEvents = hexGridEvents;
         }
 
         public void Initialize()
@@ -31,35 +26,24 @@ namespace Forma.Runtime.Core.Features.Camera
             _cameraView.FollowCamera.Target.TrackingTarget = target;
             _cameraView.OverviewCamera.Target.TrackingTarget = target;
 
-            _hexGridStateProvider
-               .State
-               .Subscribe(OnHexGridStateChanged)
-               .AddTo(_disposables);
+            _hexGridEvents.OnActivated += OnHexGridActivated;
+            _hexGridEvents.OnDeactivated += OnHexGridDeactivated;
         }
 
-        public void Dispose() => _disposables.Dispose();
-
-        void OnHexGridStateChanged(HexGridState state)
+        public void Dispose()
         {
-            switch (state)
-            {
-                case HexGridState.Visible:
-                    _cameraView.OverviewCamera.Prioritize();
-                    break;
+            _hexGridEvents.OnActivated -= OnHexGridActivated;
+            _hexGridEvents.OnDeactivated -= OnHexGridDeactivated;
+        }
 
-                case HexGridState.Despawning:
-                    _cameraView.FollowCamera.Prioritize();
-                    break;
+        void OnHexGridDeactivated()
+        {
+            _cameraView.FollowCamera.Prioritize();
+        }
 
-                case HexGridState.Hidden:
-                    break;
-
-                case HexGridState.Spawning:
-                    break;
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(state));
-            }
+        void OnHexGridActivated()
+        {
+            _cameraView.OverviewCamera.Prioritize();
         }
     }
 }

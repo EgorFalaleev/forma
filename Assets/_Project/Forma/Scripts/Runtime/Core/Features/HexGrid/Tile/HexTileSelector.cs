@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using Forma.Runtime.Core.Features.HexGrid.Data;
-using Forma.Runtime.Core.Features.HexGrid.Grid;
 using Forma.Runtime.Core.Features.HexGrid.Grid.Abstract;
 using Forma.Runtime.Core.Features.HexGrid.Tile.Abstract;
 using Forma.Runtime.Core.Features.HexGrid.Views;
+using UnityEngine;
 
 namespace Forma.Runtime.Core.Features.HexGrid.Tile
 {
@@ -20,21 +21,18 @@ namespace Forma.Runtime.Core.Features.HexGrid.Tile
         readonly HexTileAnimator _hexTileAnimator;
         readonly IHexGridRegistry _hexGridRegistry;
         readonly HexTileOccupancyController _hexTileOccupancyController;
-        readonly IHexGridStateProvider _hexGridStateProvider;
 
         HexView _selectedHex;
         bool _isTileAnimating;
 
         public HexTileSelector(IHexTileClickInput hexTileClickInput,
             HexTileAnimator hexTileAnimator, IHexGridRegistry hexGridRegistry,
-            HexTileOccupancyController hexTileOccupancyController,
-            IHexGridStateProvider hexGridStateProvider)
+            HexTileOccupancyController hexTileOccupancyController)
         {
             _hexTileClickInput = hexTileClickInput;
             _hexTileAnimator = hexTileAnimator;
             _hexGridRegistry = hexGridRegistry;
             _hexTileOccupancyController = hexTileOccupancyController;
-            _hexGridStateProvider = hexGridStateProvider;
         }
 
         public void Initialize()
@@ -55,9 +53,6 @@ namespace Forma.Runtime.Core.Features.HexGrid.Tile
 
         async UniTask ClickHexTile(HexView hexView)
         {
-            if (_hexGridStateProvider.State.CurrentValue != HexGridState.Visible)
-                return;
-
             HexCubeCoordinates tileCoordinates = _hexGridRegistry.GetCoordinates(hexView);
 
             bool isTileActive = _hexTileOccupancyController.IsTileActive(tileCoordinates);
@@ -114,11 +109,11 @@ namespace Forma.Runtime.Core.Features.HexGrid.Tile
         async UniTask SelectTile(HexView hexView)
         {
             _isTileAnimating = true;
-
+            
+            await _hexTileAnimator.SelectTile(hexView);
+            
             _selectedHex = hexView;
             OnHexSelected?.Invoke(_selectedHex);
-
-            await _hexTileAnimator.SelectTile(hexView);
 
             _isTileAnimating = false;
         }

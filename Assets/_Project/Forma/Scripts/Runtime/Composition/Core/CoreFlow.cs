@@ -53,6 +53,7 @@ namespace Forma.Runtime.Composition.Core
         {
             _playerFlow.Tick();
             _enemyFlow.Tick();
+            _hexGridFlow.Tick();
             _turretFlow.Tick();
         }
 

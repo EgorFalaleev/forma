@@ -2,6 +2,7 @@
 using Forma.Runtime.Core.Enemy.Abstract;
 using Forma.Runtime.Core.Features.Movement;
 using Forma.Runtime.Core.Features.Turret.Configs;
+using Forma.Runtime.Core.Features.Turret.States;
 using Forma.Runtime.Core.Features.Turret.Views;
 using UnityEngine;
 
@@ -38,15 +39,31 @@ namespace Forma.Runtime.Core.Features.Turret
                 _turretConfig.Movement
             );
 
-            var turret = new Turret(
-                turretMovementController,
-                _turretConfig,
+            var turretContext = new TurretContext();
+
+            var idleState = new IdleState(
                 turretView,
                 _enemyRegistry,
-                _timeService
+                _turretConfig,
+                turretContext
             );
 
-            return turret;
+            var attackingState = new AttackingState(
+                turretView,
+                _timeService,
+                _turretConfig,
+                turretContext
+            );
+
+            var stateMachine = new StateMachine.StateMachine();
+
+            stateMachine
+               .AddTransition(idleState, attackingState, idleState.OnEnemyFound)
+               .AddTransition(attackingState, idleState, attackingState.OnEnemyLeftRange);
+
+            stateMachine.SetState(idleState);
+
+            return new Turret(turretMovementController, stateMachine);
         }
     }
 }

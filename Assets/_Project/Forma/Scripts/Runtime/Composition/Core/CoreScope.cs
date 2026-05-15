@@ -165,12 +165,6 @@ namespace Forma.Runtime.Composition.Core
                .As<IHexTileClickInput>();
 
             builder
-               .Register<HexGridStateHolder>(Lifetime.Singleton)
-               .As<IHexGridStateProvider>()
-               .As<IDisposable>()
-               .AsSelf();
-
-            builder
                .Register<HexGridBuilder>(Lifetime.Singleton)
                .AsSelf();
 
@@ -212,11 +206,12 @@ namespace Forma.Runtime.Composition.Core
                .AsSelf();
 
             builder
-               .Register<HexGridController>(Lifetime.Singleton)
+               .Register<StatesGraph>(Lifetime.Singleton)
                .AsSelf();
 
             builder
                .Register<HexGridFlow>(Lifetime.Singleton)
+               .As<IHexGridEvents>()
                .AsSelf();
         }
 
