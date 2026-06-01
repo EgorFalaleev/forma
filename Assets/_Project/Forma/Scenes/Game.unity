@@ -610,7 +610,7 @@ MonoBehaviour:
     TypeName: 
   autoRun: 1
   autoInjectGameObjects: []
-  _playerViewPrefab: {fileID: 4561662173381808266, guid: 1e9e2655a7ae7f842b93d7557963d572, type: 3}
+  _playerPrefab: {fileID: 3351545972871972435, guid: 1e9e2655a7ae7f842b93d7557963d572, type: 3}
   _enemyViewPrefab: {fileID: 3158783573303800613, guid: b92c3b68310b2dd4594d8058aba702b7, type: 3}
   _turretViewPrefab: {fileID: 4722118388446510287, guid: 827353d4252cd4e4aa98e3ed0884d820, type: 3}
   _cameraView: {fileID: 937192490}

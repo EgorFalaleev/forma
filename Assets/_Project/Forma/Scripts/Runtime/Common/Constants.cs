@@ -23,5 +23,12 @@ namespace Forma.Runtime.Common
         {
             public static readonly int HexGrid = LayerMask.NameToLayer("HexGrid");
         }
+
+        public static class Resources
+        {
+            const string Prefabs = "Prefabs";
+
+            public static readonly string Player = $"{Prefabs}/Player";
+        }
     }
 }
