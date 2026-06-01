@@ -17,9 +17,8 @@ using Forma.Runtime.Core.Features.Turret;
 using Forma.Runtime.Core.Features.Turret.Abstract;
 using Forma.Runtime.Core.Features.Turret.Configs;
 using Forma.Runtime.Core.Features.Turret.Views;
-using Forma.Runtime.Core.Player;
-using Forma.Runtime.Core.Player.Configs;
-using Forma.Runtime.Core.Player.Views;
+using Forma.Runtime.Input;
+using Forma.Runtime.Player;
 using Forma.Runtime.Services.CameraProvider;
 using Forma.Runtime.Services.Input;
 using Forma.Runtime.Services.Time;
@@ -31,13 +30,11 @@ namespace Forma.Runtime.Composition.Core
 {
     public class CoreScope : LifetimeScope
     {
-        [SerializeField] PlayerView _playerViewPrefab;
         [SerializeField] EnemyView _enemyViewPrefab;
         [SerializeField] TurretView _turretViewPrefab;
         [SerializeField] CameraView _cameraView;
 
         [SerializeField] HexGridConfig _hexGridConfig;
-        [SerializeField] PlayerConfig _playerConfig;
         [SerializeField] EnemyConfig _enemyConfig;
         [SerializeField] TurretConfig _turretConfig;
 
@@ -51,10 +48,6 @@ namespace Forma.Runtime.Composition.Core
         void Register(IContainerBuilder builder)
         {
             builder
-               .RegisterInstance(_playerViewPrefab)
-               .As<PlayerView>();
-
-            builder
                .RegisterInstance(_enemyViewPrefab)
                .As<EnemyView>();
 
@@ -67,7 +60,6 @@ namespace Forma.Runtime.Composition.Core
                .As<CameraView>();
 
             builder.RegisterInstance(_hexGridConfig);
-            builder.RegisterInstance(_playerConfig);
             builder.RegisterInstance(_enemyConfig);
             builder.RegisterInstance(_turretConfig);
 
@@ -135,15 +127,7 @@ namespace Forma.Runtime.Composition.Core
         void RegisterPlayer(IContainerBuilder builder)
         {
             builder
-               .Register<PlayerViewFactory>(Lifetime.Singleton)
-               .AsSelf();
-
-            builder
                .Register<PlayerFactory>(Lifetime.Singleton)
-               .AsSelf();
-
-            builder
-               .Register<PlayerFlow>(Lifetime.Singleton)
                .AsSelf();
         }
 
@@ -220,9 +204,9 @@ namespace Forma.Runtime.Composition.Core
             builder.Register<InputActions>(Lifetime.Singleton);
 
             builder
-               .Register<MoveInputService>(Lifetime.Singleton)
-               .As<BaseInputService>()
-               .As<IMoveInput>();
+               .Register<MoveInputHandler>(Lifetime.Singleton)
+               .AsImplementedInterfaces()
+               .AsSelf();
 
             builder
                .Register<UnityTimeService>(Lifetime.Singleton)

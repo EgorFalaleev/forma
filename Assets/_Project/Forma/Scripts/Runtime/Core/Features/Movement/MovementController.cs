@@ -1,4 +1,6 @@
 ﻿using Forma.Runtime.Core.Features.Movement.Configs;
+using Forma.Runtime.Input;
+using Forma.Runtime.Movement;
 using UnityEngine;
 
 namespace Forma.Runtime.Core.Features.Movement
