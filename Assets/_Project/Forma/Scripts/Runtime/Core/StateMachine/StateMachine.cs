@@ -24,9 +24,10 @@ namespace Forma.Runtime.Core.StateMachine
         public void SetState(IState state)
         {
             _current = _nodes[state.GetType()];
-            _current.State?.OnEnter();
 
             SubscribeTriggers();
+            
+            _current.State?.OnEnter();
         }
 
         public StateMachine AddTransition(IState from, IState to, ITrigger trigger)
