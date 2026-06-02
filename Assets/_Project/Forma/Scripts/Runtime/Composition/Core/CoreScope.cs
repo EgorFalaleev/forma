@@ -129,6 +129,10 @@ namespace Forma.Runtime.Composition.Core
             builder
                .Register<PlayerFactory>(Lifetime.Singleton)
                .AsSelf();
+
+            builder
+               .Register<PlayerRepository>(Lifetime.Singleton)
+               .AsSelf();
         }
 
         void RegisterHexGrid(IContainerBuilder builder)
