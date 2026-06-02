@@ -4,6 +4,5 @@
     {
         void OnEnter();
         void OnExit();
-        void Tick();
     }
 }
