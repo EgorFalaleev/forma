@@ -17,14 +17,15 @@ namespace Forma.Runtime.Core.StateMachine
 
         public void Tick()
         {
-            _current.State?.Tick();
+            if (_current.State is ITickableState tickableState)
+                tickableState.Tick();
         }
 
         public void SetState(IState state)
         {
             _current = _nodes[state.GetType()];
             _current.State?.OnEnter();
-            
+
             SubscribeTriggers();
         }
 
@@ -59,7 +60,7 @@ namespace Forma.Runtime.Core.StateMachine
                 return;
 
             UnsubscribeTriggers();
-            
+
             IState previousState = _current.State;
             IState nextState = _nodes[state.GetType()].State;
 
@@ -67,7 +68,7 @@ namespace Forma.Runtime.Core.StateMachine
             nextState?.OnEnter();
 
             _current = _nodes[state.GetType()];
-            
+
             SubscribeTriggers();
         }
 
@@ -86,14 +87,15 @@ namespace Forma.Runtime.Core.StateMachine
 
         void UnsubscribeTriggers()
         {
-            foreach (KeyValuePair<ITrigger,Action> keyValuePair in _triggersEventsSubscriptions)
+            foreach (KeyValuePair<ITrigger, Action> keyValuePair in
+                _triggersEventsSubscriptions)
             {
                 ITrigger trigger = keyValuePair.Key;
                 Action changeStateAction = keyValuePair.Value;
 
                 trigger.OnFired -= changeStateAction;
             }
-            
+
             _triggersEventsSubscriptions.Clear();
         }
 
