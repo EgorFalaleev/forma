@@ -1,12 +1,13 @@
 ﻿using System;
 using Forma.Runtime.Core.Enemy;
 using Forma.Runtime.Core.Features.Camera;
-using Forma.Runtime.Core.Features.HexGrid;
 using Forma.Runtime.Core.Features.Turret;
 using Forma.Runtime.Core.StateMachine;
 using Forma.Runtime.GameStates;
+using Forma.Runtime.HexGrid;
 using Forma.Runtime.Input;
 using Forma.Runtime.Player;
+using Forma.Runtime.UI;
 using UnityEngine;
 using VContainer.Unity;
 
@@ -17,27 +18,30 @@ namespace Forma.Runtime.Composition.Core
           ITickable,
           IDisposable
     {
+        readonly GameStatePanel _gameStatePanel;
         readonly EnemyFlow _enemyFlow;
-        readonly HexGridFlow _hexGridFlow;
         readonly TurretFlow _turretFlow;
         readonly CameraController _cameraController;
         readonly StateMachine _gameStateMachine;
         readonly GameStatesGraph _gameStatesGraph;
 
-        public CoreFlow(EnemyFlow enemyFlow, HexGridFlow hexGridFlow,
-            TurretFlow turretFlow, CameraController cameraController,
-            PlayerFactory playerFactory, PlayerRepository playerRepository,
-            MoveInputHandler moveInputHandler)
+        public CoreFlow(PlayerFactory playerFactory, PlayerRepository playerRepository,
+            MoveInputHandler moveInputHandler,
+            ToggleGridInputHandler toggleGridInputHandler, GridController gridController,
+            GameStatePanel gameStatePanel,
+            ClickGridTileInputHandler clickGridTileInputHandler,
+            TileController tileController)
         {
-            _enemyFlow = enemyFlow;
-            _hexGridFlow = hexGridFlow;
-            _turretFlow = turretFlow;
-            _cameraController = cameraController;
+            _gameStatePanel = gameStatePanel;
 
             _gameStatesGraph = new GameStatesGraph(
                 playerFactory,
                 playerRepository,
-                moveInputHandler
+                moveInputHandler,
+                toggleGridInputHandler,
+                gridController,
+                clickGridTileInputHandler,
+                tileController
             );
 
             _gameStateMachine = _gameStatesGraph.StateMachine;
@@ -48,9 +52,10 @@ namespace Forma.Runtime.Composition.Core
             Debug.Log("CoreFlow.Start()");
 
             // _enemyFlow.Initialize();
-            // _hexGridFlow.Initialize();
             // _turretFlow.Initialize();
             // _cameraController.Initialize();
+
+            _gameStatePanel.Construct(_gameStateMachine);
 
             _gameStatesGraph.EnterInitialState();
         }
@@ -58,7 +63,6 @@ namespace Forma.Runtime.Composition.Core
         public void Tick()
         {
             // _enemyFlow.Tick();
-            // _hexGridFlow.Tick();
             // _turretFlow.Tick();
 
             _gameStateMachine.Tick();
@@ -67,7 +71,6 @@ namespace Forma.Runtime.Composition.Core
         public void Dispose()
         {
             // _enemyFlow.Dispose();
-            // _hexGridFlow.Dispose();
             // _turretFlow.Dispose();
         }
     }

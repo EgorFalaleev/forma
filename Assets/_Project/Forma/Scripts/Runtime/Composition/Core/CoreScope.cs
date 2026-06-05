@@ -5,23 +5,19 @@ using Forma.Runtime.Core.Enemy.Abstract;
 using Forma.Runtime.Core.Enemy.Configs;
 using Forma.Runtime.Core.Enemy.Views;
 using Forma.Runtime.Core.Features.Camera;
-using Forma.Runtime.Core.Features.HexGrid;
-using Forma.Runtime.Core.Features.HexGrid.Configs;
-using Forma.Runtime.Core.Features.HexGrid.Grid;
-using Forma.Runtime.Core.Features.HexGrid.Grid.Abstract;
-using Forma.Runtime.Core.Features.HexGrid.Tile;
-using Forma.Runtime.Core.Features.HexGrid.Tile.Abstract;
-using Forma.Runtime.Core.Features.HexGrid.Views;
 using Forma.Runtime.Core.Features.Movement;
 using Forma.Runtime.Core.Features.Turret;
 using Forma.Runtime.Core.Features.Turret.Abstract;
 using Forma.Runtime.Core.Features.Turret.Configs;
 using Forma.Runtime.Core.Features.Turret.Views;
+using Forma.Runtime.HexGrid;
+using Forma.Runtime.HexGrid.Configs;
 using Forma.Runtime.Input;
 using Forma.Runtime.Player;
 using Forma.Runtime.Services.CameraProvider;
 using Forma.Runtime.Services.Input;
 using Forma.Runtime.Services.Time;
+using Forma.Runtime.UI;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -38,6 +34,8 @@ namespace Forma.Runtime.Composition.Core
         [SerializeField] EnemyConfig _enemyConfig;
         [SerializeField] TurretConfig _turretConfig;
 
+        [SerializeField] GameStatePanel _gameStatePanel;
+
         protected override void Configure(IContainerBuilder builder)
         {
             Register(builder);
@@ -47,6 +45,10 @@ namespace Forma.Runtime.Composition.Core
 
         void Register(IContainerBuilder builder)
         {
+            builder
+               .RegisterInstance(_gameStatePanel)
+               .As<GameStatePanel>();
+
             builder
                .RegisterInstance(_enemyViewPrefab)
                .As<EnemyView>();
@@ -138,77 +140,54 @@ namespace Forma.Runtime.Composition.Core
         void RegisterHexGrid(IContainerBuilder builder)
         {
             builder
-               .Register<ToggleGridInputService>(Lifetime.Singleton)
-               .As<BaseInputService>()
-               .As<IToggleGridInput>();
-
-            builder
-               .Register<HexTileSelectionProvider>(Lifetime.Singleton)
-               .As<IHexTileSelectionProvider>()
-               .As<IHexTileSelectionSetter>();
-
-            builder
-               .Register<HexTileClickInputService>(Lifetime.Singleton)
-               .As<BaseInputService>()
-               .As<IHexTileClickInput>();
-
-            builder
-               .Register<HexGridBuilder>(Lifetime.Singleton)
+               .Register<TileFactory>(Lifetime.Singleton)
                .AsSelf();
 
             builder
-               .Register<HexViewFactory>(Lifetime.Singleton)
+               .Register<GridRepository>(Lifetime.Singleton)
                .AsSelf();
 
             builder
-               .Register<HexGridRegistry>(Lifetime.Singleton)
-               .As<IHexGridRegistry>()
+               .Register<GridBuilder>(Lifetime.Singleton)
                .AsSelf();
 
             builder
-               .Register<HexGridAnimator>(Lifetime.Singleton)
-               .As<IHexGridAnimator>()
+               .Register<GridAnimator>(Lifetime.Singleton)
                .AsSelf();
 
             builder
-               .Register<HexTileAnimator>(Lifetime.Singleton)
+               .Register<GridController>(Lifetime.Singleton)
                .AsSelf();
 
             builder
-               .Register<HexTileSelector>(Lifetime.Singleton)
-               .As<IHexTileDeselector>()
-               .As<IHexTileSelectEvents>()
+               .Register<TileSelector>(Lifetime.Singleton)
                .AsSelf();
 
             builder
-               .Register<HexTileSelectionController>(Lifetime.Singleton)
-               .AsSelf();
-
-            builder
-               .Register<HexTileOccupancyController>(Lifetime.Singleton)
-               .AsSelf();
-
-            builder
-               .Register<HexTileController>(Lifetime.Singleton)
-               .As<IHexTileController>()
-               .AsSelf();
-
-            builder
-               .Register<StatesGraph>(Lifetime.Singleton)
-               .AsSelf();
-
-            builder
-               .Register<HexGridFlow>(Lifetime.Singleton)
-               .As<IHexGridEvents>()
+               .Register<TileController>(Lifetime.Singleton)
                .AsSelf();
         }
 
         void RegisterServices(IContainerBuilder builder)
         {
+            builder
+               .Register<CameraProvider>(Lifetime.Singleton)
+               .As<ICameraProvider>();
+
             builder.Register<InputActions>(Lifetime.Singleton);
 
             builder
                .Register<MoveInputHandler>(Lifetime.Singleton)
+               .AsImplementedInterfaces()
+               .AsSelf();
+
+            builder
+               .Register<ToggleGridInputHandler>(Lifetime.Singleton)
+               .AsImplementedInterfaces()
+               .AsSelf();
+
+            builder
+               .Register<ClickGridTileInputHandler>(Lifetime.Singleton)
                .AsImplementedInterfaces()
                .AsSelf();
 
@@ -220,10 +199,6 @@ namespace Forma.Runtime.Composition.Core
                .Register<PlayerTargetProvider>(Lifetime.Singleton)
                .As<ITargetProvider>()
                .As<ITargetSetter>();
-
-            builder
-               .Register<CameraProvider>(Lifetime.Singleton)
-               .As<ICameraProvider>();
         }
     }
 }

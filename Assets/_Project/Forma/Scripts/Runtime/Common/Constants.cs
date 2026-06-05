@@ -29,6 +29,7 @@ namespace Forma.Runtime.Common
             const string Prefabs = "Prefabs";
 
             public static readonly string Player = $"{Prefabs}/Player";
+            public static readonly string Tile = $"{Prefabs}/Tile";
         }
     }
 }
