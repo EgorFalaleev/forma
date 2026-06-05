@@ -1,9 +1,12 @@
 ﻿using System;
+using UnityEngine;
 
 namespace Forma.Runtime.Player
 {
     public class PlayerRepository
     {
+        public Transform Transform => _player.transform;
+        
         Player _player;
 
         public void Register(Player player)

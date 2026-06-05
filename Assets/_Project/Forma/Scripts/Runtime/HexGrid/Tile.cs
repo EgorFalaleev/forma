@@ -1,54 +1,50 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using Forma.Runtime.HexGrid.Configs;
 using Forma.Runtime.HexGrid.Data;
 using UnityEngine;
 using UnityEngine.Rendering;
+using VContainer;
 
-namespace Forma.Runtime.Core.Features.HexGrid.Views
+namespace Forma.Runtime.HexGrid
 {
     [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
-    public class HexView : MonoBehaviour
+    public class Tile : MonoBehaviour
     {
-        static readonly int EmissionColor = Shader.PropertyToID("_EmissionColor");
-        static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
+        readonly int _baseColor = Shader.PropertyToID("_BaseColor");
 
-        MeshFilter _meshFilter;
-        MeshRenderer _meshRenderer;
-        float _innerSize = 0.5f;
-        float _outerSize = 1f;
-        float _height;
-        bool _isFlatTopped;
+        [SerializeField] MeshFilter _meshFilter;
+        [SerializeField] MeshRenderer _meshRenderer;
+        [SerializeField] TileAnimator _animator;
+
+        HexTileConfig _hexTileConfig;
         Mesh _mesh;
         List<HexTileFace> _faces;
         MaterialPropertyBlock _materialPropertyBlock;
-        Color _defaultColor;
 
-        public void Initialize(Material material, float innerSize, float outerSize,
-            float height, bool isFlatTopped, bool shouldCastShadows)
+        [Inject]
+        void Construct(HexGridConfig hexGridConfig)
         {
-            _meshFilter = GetComponent<MeshFilter>();
-            _meshRenderer = GetComponent<MeshRenderer>();
+            _hexTileConfig = hexGridConfig.HexTileConfig;
 
             _mesh = new Mesh
             {
                 name = "Hex"
             };
 
+            _materialPropertyBlock = new MaterialPropertyBlock();
+
             _meshFilter.mesh = _mesh;
-            _meshRenderer.sharedMaterial = material;
+            _meshRenderer.sharedMaterial = _hexTileConfig.Material;
 
-            _defaultColor = material.color;
-            
-            _innerSize = innerSize;
-            _outerSize = outerSize;
-            _height = height;
-            _isFlatTopped = isFlatTopped;
-
-            _meshRenderer.shadowCastingMode = shouldCastShadows
+            _meshRenderer.shadowCastingMode = _hexTileConfig.ShouldCastShadows
                 ? ShadowCastingMode.On
                 : ShadowCastingMode.Off;
 
-            _materialPropertyBlock = new MaterialPropertyBlock();
+            _animator.Construct(
+                _hexTileConfig.AnimationConfig,
+                _materialPropertyBlock
+            );
         }
 
         public void DrawMesh()
@@ -57,21 +53,24 @@ namespace Forma.Runtime.Core.Features.HexGrid.Views
             CombineFaces();
         }
 
-        public void UpdateEmissionColor(Color color)
+        public void Select()
         {
-            _materialPropertyBlock.SetColor(EmissionColor, color);
-            _meshRenderer.SetPropertyBlock(_materialPropertyBlock);
+            _animator.PlaySelect();
         }
 
-        public void UpdateBaseColor(Color color)
+        public void Unselect()
         {
-            _materialPropertyBlock.SetColor(BaseColor, color);
-            _meshRenderer.SetPropertyBlock(_materialPropertyBlock);
+            _animator.PlayUnselect();
         }
 
-        public void ResetColor()
+        public void PrepareActive()
         {
-            UpdateBaseColor(_defaultColor);
+            _animator.UpdateColor(_baseColor, _hexTileConfig.Material.color);
+        }
+
+        public void PrepareInactive()
+        {
+            _animator.UpdateColor(_baseColor, _hexTileConfig.InactiveColor);
         }
 
         public void UpdatePosition(Vector3 position)
@@ -83,39 +82,43 @@ namespace Forma.Runtime.Core.Features.HexGrid.Views
         {
             _faces = new List<HexTileFace>();
 
+            float innerSize = _hexTileConfig.InnerSize;
+            float outerSize = _hexTileConfig.OuterSize;
+            float height = _hexTileConfig.Height;
+
             // top faces
             AddFace(
-                _innerSize,
-                _outerSize,
-                _height / 2f,
-                _height / 2f,
+                innerSize,
+                outerSize,
+                height / 2f,
+                height / 2f,
                 false
             );
 
             // bottom faces
             AddFace(
-                _innerSize,
-                _outerSize,
-                -_height / 2f,
-                -_height / 2f,
+                innerSize,
+                outerSize,
+                -height / 2f,
+                -height / 2f,
                 true
             );
 
             // outer faces
             AddFace(
-                _outerSize,
-                _outerSize,
-                _height / 2f,
-                -_height / 2f,
+                outerSize,
+                outerSize,
+                height / 2f,
+                -height / 2f,
                 true
             );
 
             // inner faces
             AddFace(
-                _innerSize,
-                _innerSize,
-                _height / 2f,
-                -_height / 2f,
+                innerSize,
+                innerSize,
+                height / 2f,
+                -height / 2f,
                 false
             );
         }
@@ -225,7 +228,7 @@ namespace Forma.Runtime.Core.Features.HexGrid.Views
         {
             float segmentDeg = 60 * index;
 
-            float angleDeg = _isFlatTopped
+            float angleDeg = _hexTileConfig.IsFlatTopped
                 ? segmentDeg
                 : segmentDeg - 30;
 

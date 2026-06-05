@@ -8,6 +8,8 @@ namespace Forma.Runtime.Core.StateMachine
 {
     public class StateMachine
     {
+        public event Action<IState> OnStateChanged; 
+        
         readonly Dictionary<Type, StateNode> _nodes = new();
 
         readonly IDictionary<ITrigger, Action> _triggersEventsSubscriptions =
@@ -26,7 +28,9 @@ namespace Forma.Runtime.Core.StateMachine
             _current = _nodes[state.GetType()];
 
             SubscribeTriggers();
-            
+
+            OnStateChanged?.Invoke(state);
+
             _current.State?.OnEnter();
         }
 
@@ -71,6 +75,8 @@ namespace Forma.Runtime.Core.StateMachine
             _current = _nodes[state.GetType()];
 
             SubscribeTriggers();
+            
+            OnStateChanged?.Invoke(state);
         }
 
         void SubscribeTriggers()

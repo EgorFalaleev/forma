@@ -1,5 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
-using Forma.Runtime.Core.Features.HexGrid.Data;
+using Forma.Runtime.HexGrid.Data;
 
 namespace Forma.Runtime.Core.Features.HexGrid.Tile.Abstract
 {
