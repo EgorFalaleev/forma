@@ -1,9 +1,7 @@
 ﻿using Forma.Runtime.Core.Common;
-using Forma.Runtime.Input;
-using Forma.Runtime.Movement;
 using UnityEngine;
 
-namespace Forma.Runtime.Core.Features.Movement
+namespace Forma.Runtime.Movement
 {
     public class OffsetFollowMoveInput : IMoveInput
     {
@@ -26,7 +24,7 @@ namespace Forma.Runtime.Core.Features.Movement
         Vector3 CalculateMoveDirection()
         {
             Vector3 targetToOrigin =
-                _targetProvider.Target.position + _offset - _origin.position;
+                _targetProvider.Transform.position + _offset - _origin.position;
 
             return targetToOrigin.sqrMagnitude < SqrDistanceThreshold
                 ? Vector3.zero

@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9dee35bacc56427aa5f763b8cbf68af7, type: 3}
   m_Name: TurretAnimationConfig
   m_EditorClassIdentifier: Core::Forma.Runtime.Core.Features.Turret.Configs.TurretAnimationConfig
+  <SpawnHeight>k__BackingField: 2
   <Duration>k__BackingField: 1
   <Easing>k__BackingField: 2

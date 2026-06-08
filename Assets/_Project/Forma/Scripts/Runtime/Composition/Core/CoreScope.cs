@@ -6,17 +6,14 @@ using Forma.Runtime.Core.Enemy.Configs;
 using Forma.Runtime.Core.Enemy.Views;
 using Forma.Runtime.Core.Features.Camera;
 using Forma.Runtime.Core.Features.Movement;
-using Forma.Runtime.Core.Features.Turret;
-using Forma.Runtime.Core.Features.Turret.Abstract;
-using Forma.Runtime.Core.Features.Turret.Configs;
-using Forma.Runtime.Core.Features.Turret.Views;
 using Forma.Runtime.HexGrid;
 using Forma.Runtime.HexGrid.Configs;
 using Forma.Runtime.Input;
 using Forma.Runtime.Player;
 using Forma.Runtime.Services.CameraProvider;
-using Forma.Runtime.Services.Input;
 using Forma.Runtime.Services.Time;
+using Forma.Runtime.Turret;
+using Forma.Runtime.Turret.Configs;
 using Forma.Runtime.UI;
 using UnityEngine;
 using VContainer;
@@ -27,7 +24,6 @@ namespace Forma.Runtime.Composition.Core
     public class CoreScope : LifetimeScope
     {
         [SerializeField] EnemyView _enemyViewPrefab;
-        [SerializeField] TurretView _turretViewPrefab;
         [SerializeField] CameraView _cameraView;
 
         [SerializeField] HexGridConfig _hexGridConfig;
@@ -52,10 +48,6 @@ namespace Forma.Runtime.Composition.Core
             builder
                .RegisterInstance(_enemyViewPrefab)
                .As<EnemyView>();
-
-            builder
-               .RegisterInstance(_turretViewPrefab)
-               .As<TurretView>();
 
             builder
                .RegisterInstance(_cameraView)
@@ -85,28 +77,11 @@ namespace Forma.Runtime.Composition.Core
         void RegisterTurret(IContainerBuilder builder)
         {
             builder
-               .Register<TurretInputService>(Lifetime.Singleton)
-               .As<BaseInputService>()
-               .As<ITurretInput>();
-
-            builder
-               .Register<TurretViewAnimator>(Lifetime.Singleton)
-               .AsSelf();
-
-            builder
-               .Register<TurretPlacer>(Lifetime.Singleton)
-               .AsSelf();
-
-            builder
-               .Register<TurretViewFactory>(Lifetime.Singleton)
-               .AsSelf();
-
-            builder
                .Register<TurretFactory>(Lifetime.Singleton)
                .AsSelf();
 
             builder
-               .Register<TurretFlow>(Lifetime.Singleton)
+               .Register<TurretController>(Lifetime.Singleton)
                .AsSelf();
         }
 
@@ -134,6 +109,7 @@ namespace Forma.Runtime.Composition.Core
 
             builder
                .Register<PlayerRepository>(Lifetime.Singleton)
+               .As<ITargetProvider>()
                .AsSelf();
         }
 
@@ -192,13 +168,13 @@ namespace Forma.Runtime.Composition.Core
                .AsSelf();
 
             builder
-               .Register<UnityTimeService>(Lifetime.Singleton)
-               .As<ITimeService>();
+               .Register<PlaceTurretInputHandler>(Lifetime.Singleton)
+               .AsImplementedInterfaces()
+               .AsSelf();
 
             builder
-               .Register<PlayerTargetProvider>(Lifetime.Singleton)
-               .As<ITargetProvider>()
-               .As<ITargetSetter>();
+               .Register<UnityTimeService>(Lifetime.Singleton)
+               .As<ITimeService>();
         }
     }
 }

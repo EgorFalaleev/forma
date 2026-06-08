@@ -21,10 +21,10 @@ namespace Forma.Runtime.Core.Features.Camera
 
         public void Initialize()
         {
-            Transform target = _targetProvider.Target;
+            // Transform target = _targetProvider.Target;
 
-            _cameraView.FollowCamera.Target.TrackingTarget = target;
-            _cameraView.OverviewCamera.Target.TrackingTarget = target;
+            // _cameraView.FollowCamera.Target.TrackingTarget = target;
+            // _cameraView.OverviewCamera.Target.TrackingTarget = target;
 
             _hexGridEvents.OnActivated += OnHexGridActivated;
             _hexGridEvents.OnDeactivated += OnHexGridDeactivated;

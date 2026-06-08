@@ -8,7 +8,7 @@ namespace Forma.Runtime.Core.Features.Movement
     public class TargetFollowMoveInput : IMoveInput
     {
         public Vector3 MoveDirection
-            => (_targetProvider.Target.position - _origin.position).normalized;
+            => (_targetProvider.Transform.position - _origin.position).normalized;
 
         readonly ITargetProvider _targetProvider;
         readonly Transform _origin;

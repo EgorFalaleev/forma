@@ -42,8 +42,17 @@ namespace Forma.Runtime.HexGrid
         public HexCubeCoordinates GetCoordinates(Tile view)
             => _viewsToCoords[view];
 
+        public bool IsTileActive(Tile tile)
+        {
+            HexCubeCoordinates tileCoordinates = GetCoordinates(tile);
+            return IsTileActive(tileCoordinates);
+        }
+
         public bool IsTileActive(HexCubeCoordinates coordinates)
             => GetTileStatus(coordinates) == HexTileStatus.Active;
+
+        public void SetOccupied(HexCubeCoordinates coordinates)
+            => _occupiedTiles.Add(coordinates);
 
         HexTileStatus GetTileStatus(HexCubeCoordinates coordinates)
         {
