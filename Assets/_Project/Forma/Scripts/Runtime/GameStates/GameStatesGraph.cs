@@ -3,12 +3,12 @@ using Forma.Runtime.Core.StateMachine.States;
 using Forma.Runtime.HexGrid;
 using Forma.Runtime.Input;
 using Forma.Runtime.Player;
+using Forma.Runtime.Turret;
 
 namespace Forma.Runtime.GameStates
 {
     public class GameStatesGraph
     {
-        readonly TileController _tileController;
         public StateMachine StateMachine => _stateMachine;
 
         readonly StateMachine _stateMachine;
@@ -18,9 +18,10 @@ namespace Forma.Runtime.GameStates
             PlayerRepository playerRepository, MoveInputHandler moveInputHandler,
             ToggleGridInputHandler toggleGridInputHandler, GridController gridController,
             ClickGridTileInputHandler clickGridTileInputHandler,
-            TileController tileController)
+            TileController tileController, TileSelector tileSelector,
+            PlaceTurretInputHandler placeTurretInputHandler,
+            GridRepository gridRepository, TurretController turretController)
         {
-            _tileController = tileController;
             _stateMachine = new StateMachine();
 
             var startBattleState = new StartBattleState(playerFactory, playerRepository);
@@ -30,7 +31,11 @@ namespace Forma.Runtime.GameStates
                 gridController,
                 toggleGridInputHandler,
                 clickGridTileInputHandler,
-                tileController
+                tileController,
+                tileSelector,
+                placeTurretInputHandler,
+                gridRepository,
+                turretController
             );
 
             _stateMachine

@@ -1,12 +1,12 @@
 ﻿using System;
 using Forma.Runtime.Core.Enemy;
 using Forma.Runtime.Core.Features.Camera;
-using Forma.Runtime.Core.Features.Turret;
 using Forma.Runtime.Core.StateMachine;
 using Forma.Runtime.GameStates;
 using Forma.Runtime.HexGrid;
 using Forma.Runtime.Input;
 using Forma.Runtime.Player;
+using Forma.Runtime.Turret;
 using Forma.Runtime.UI;
 using UnityEngine;
 using VContainer.Unity;
@@ -20,7 +20,6 @@ namespace Forma.Runtime.Composition.Core
     {
         readonly GameStatePanel _gameStatePanel;
         readonly EnemyFlow _enemyFlow;
-        readonly TurretFlow _turretFlow;
         readonly CameraController _cameraController;
         readonly StateMachine _gameStateMachine;
         readonly GameStatesGraph _gameStatesGraph;
@@ -30,7 +29,9 @@ namespace Forma.Runtime.Composition.Core
             ToggleGridInputHandler toggleGridInputHandler, GridController gridController,
             GameStatePanel gameStatePanel,
             ClickGridTileInputHandler clickGridTileInputHandler,
-            TileController tileController)
+            TileController tileController, TileSelector tileSelector,
+            PlaceTurretInputHandler placeTurretInputHandler,
+            GridRepository gridRepository, TurretController turretController)
         {
             _gameStatePanel = gameStatePanel;
 
@@ -41,7 +42,11 @@ namespace Forma.Runtime.Composition.Core
                 toggleGridInputHandler,
                 gridController,
                 clickGridTileInputHandler,
-                tileController
+                tileController,
+                tileSelector,
+                placeTurretInputHandler,
+                gridRepository,
+                turretController
             );
 
             _gameStateMachine = _gameStatesGraph.StateMachine;
@@ -52,7 +57,6 @@ namespace Forma.Runtime.Composition.Core
             Debug.Log("CoreFlow.Start()");
 
             // _enemyFlow.Initialize();
-            // _turretFlow.Initialize();
             // _cameraController.Initialize();
 
             _gameStatePanel.Construct(_gameStateMachine);
@@ -63,7 +67,6 @@ namespace Forma.Runtime.Composition.Core
         public void Tick()
         {
             // _enemyFlow.Tick();
-            // _turretFlow.Tick();
 
             _gameStateMachine.Tick();
         }

@@ -7,8 +7,7 @@ namespace Forma.Runtime.HexGrid
         readonly TileSelector _tileSelector;
         readonly GridRepository _gridRepository;
 
-        public TileController(TileSelector tileSelector,
-            GridRepository gridRepository)
+        public TileController(TileSelector tileSelector, GridRepository gridRepository)
         {
             _tileSelector = tileSelector;
             _gridRepository = gridRepository;
@@ -22,13 +21,34 @@ namespace Forma.Runtime.HexGrid
             {
                 return;
             }
-            
+
             _tileSelector.ProcessTileSelection(tile);
         }
 
         public void Reset()
         {
             _tileSelector.Unselect();
+        }
+
+        public void OccupyTile(Tile tile)
+        {
+            HexCubeCoordinates tileCoordinates = _gridRepository.GetCoordinates(tile);
+
+            _gridRepository.SetOccupied(tileCoordinates);
+
+            tile.PrepareInactive();
+            
+            HexCubeCoordinates[] tileNeighbours = tileCoordinates.GetNeighbours();
+
+            foreach (HexCubeCoordinates neighbourCoordinates in tileNeighbours)
+            {
+                if (_gridRepository.IsTileActive(neighbourCoordinates))
+                {
+                    _gridRepository
+                       .GetView(neighbourCoordinates)
+                       .PrepareActive();
+                }
+            }
         }
     }
 }

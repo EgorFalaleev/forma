@@ -1,7 +1,7 @@
 ﻿using Forma.Runtime.Core.Features.Movement.Configs;
 using UnityEngine;
 
-namespace Forma.Runtime.Core.Features.Turret.Configs
+namespace Forma.Runtime.Turret.Configs
 {
     [CreateAssetMenu(menuName = "Forma/Configs/Turret")]
     public class TurretConfig : ScriptableObject
