@@ -1,14 +1,12 @@
 ﻿using System;
 using Forma.Runtime.Core.Common;
 using Forma.Runtime.Core.Features.Camera;
-using Forma.Runtime.Core.Features.Movement;
 using Forma.Runtime.Enemies;
 using Forma.Runtime.HexGrid;
 using Forma.Runtime.HexGrid.Configs;
 using Forma.Runtime.Input;
 using Forma.Runtime.Player;
 using Forma.Runtime.Services.CameraProvider;
-using Forma.Runtime.Services.Time;
 using Forma.Runtime.Turret;
 using Forma.Runtime.Turret.Configs;
 using Forma.Runtime.UI;
@@ -161,10 +159,6 @@ namespace Forma.Runtime.Composition.Core
                .Register<PlaceTurretInputHandler>(Lifetime.Singleton)
                .AsImplementedInterfaces()
                .AsSelf();
-
-            builder
-               .Register<UnityTimeService>(Lifetime.Singleton)
-               .As<ITimeService>();
         }
     }
 }
