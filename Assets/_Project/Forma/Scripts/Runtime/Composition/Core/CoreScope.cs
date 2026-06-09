@@ -1,11 +1,8 @@
 ﻿using System;
 using Forma.Runtime.Core.Common;
-using Forma.Runtime.Core.Enemy;
-using Forma.Runtime.Core.Enemy.Abstract;
-using Forma.Runtime.Core.Enemy.Configs;
-using Forma.Runtime.Core.Enemy.Views;
 using Forma.Runtime.Core.Features.Camera;
 using Forma.Runtime.Core.Features.Movement;
+using Forma.Runtime.Enemies;
 using Forma.Runtime.HexGrid;
 using Forma.Runtime.HexGrid.Configs;
 using Forma.Runtime.Input;
@@ -18,16 +15,15 @@ using Forma.Runtime.UI;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
+using EnemyFactory = Forma.Runtime.Enemies.EnemyFactory;
 
 namespace Forma.Runtime.Composition.Core
 {
     public class CoreScope : LifetimeScope
     {
-        [SerializeField] EnemyView _enemyViewPrefab;
         [SerializeField] CameraView _cameraView;
 
         [SerializeField] HexGridConfig _hexGridConfig;
-        [SerializeField] EnemyConfig _enemyConfig;
         [SerializeField] TurretConfig _turretConfig;
 
         [SerializeField] GameStatePanel _gameStatePanel;
@@ -46,15 +42,10 @@ namespace Forma.Runtime.Composition.Core
                .As<GameStatePanel>();
 
             builder
-               .RegisterInstance(_enemyViewPrefab)
-               .As<EnemyView>();
-
-            builder
                .RegisterInstance(_cameraView)
                .As<CameraView>();
 
             builder.RegisterInstance(_hexGridConfig);
-            builder.RegisterInstance(_enemyConfig);
             builder.RegisterInstance(_turretConfig);
 
             RegisterServices(builder);
@@ -88,17 +79,16 @@ namespace Forma.Runtime.Composition.Core
         void RegisterEnemy(IContainerBuilder builder)
         {
             builder
-               .Register<EnemyViewFactory>(Lifetime.Singleton)
-               .AsSelf();
-
-            builder
                .Register<EnemyFactory>(Lifetime.Singleton)
                .AsSelf();
-
+            
             builder
-               .Register<EnemyFlow>(Lifetime.Singleton)
-               .As<IEnemyRegistry>()
-               .AsSelf();
+              .Register<EnemyRepository>(Lifetime.Singleton)
+              .AsSelf();
+            
+            builder
+              .Register<EnemyController>(Lifetime.Singleton)
+              .AsSelf();
         }
 
         void RegisterPlayer(IContainerBuilder builder)

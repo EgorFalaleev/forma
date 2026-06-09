@@ -1,24 +1,29 @@
 ﻿using Forma.Runtime.Core.StateMachine.States;
 using Forma.Runtime.Core.StateMachine.Triggers;
+using Forma.Runtime.Enemies;
 using Forma.Runtime.Input;
 using R3;
+using UnityEngine;
 
 namespace Forma.Runtime.GameStates
 {
     public class BattleState : IState
     {
         public ITrigger OnGridSpawnRequested => _onGridSpawnRequested;
-        
+
         readonly MoveInputHandler _moveInputHandler;
         readonly ToggleGridInputHandler _toggleGridInputHandler;
+        readonly EnemyController _enemyController;
         readonly CompositeDisposable _disposables = new();
         readonly Trigger _onGridSpawnRequested = new();
 
         public BattleState(MoveInputHandler moveInputHandler,
-            ToggleGridInputHandler toggleGridInputHandler)
+            ToggleGridInputHandler toggleGridInputHandler,
+            EnemyController enemyController)
         {
             _moveInputHandler = moveInputHandler;
             _toggleGridInputHandler = toggleGridInputHandler;
+            _enemyController = enemyController;
         }
 
         public void OnEnter()
@@ -30,13 +35,15 @@ namespace Forma.Runtime.GameStates
                .OnGridToggled
                .Subscribe(SpawnGrid)
                .AddTo(_disposables);
+            
+            _enemyController.Spawn(new Vector3(5f, 1f, 0f));
         }
 
         public void OnExit()
         {
             _moveInputHandler.Disable();
             _toggleGridInputHandler.Disable();
-            
+
             _disposables.Clear();
         }
 
