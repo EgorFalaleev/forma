@@ -1,7 +1,7 @@
 ﻿using System;
-using Forma.Runtime.Core.Enemy;
 using Forma.Runtime.Core.Features.Camera;
 using Forma.Runtime.Core.StateMachine;
+using Forma.Runtime.Enemies;
 using Forma.Runtime.GameStates;
 using Forma.Runtime.HexGrid;
 using Forma.Runtime.Input;
@@ -19,7 +19,6 @@ namespace Forma.Runtime.Composition.Core
           IDisposable
     {
         readonly GameStatePanel _gameStatePanel;
-        readonly EnemyFlow _enemyFlow;
         readonly CameraController _cameraController;
         readonly StateMachine _gameStateMachine;
         readonly GameStatesGraph _gameStatesGraph;
@@ -31,7 +30,8 @@ namespace Forma.Runtime.Composition.Core
             ClickGridTileInputHandler clickGridTileInputHandler,
             TileController tileController, TileSelector tileSelector,
             PlaceTurretInputHandler placeTurretInputHandler,
-            GridRepository gridRepository, TurretController turretController)
+            GridRepository gridRepository, TurretController turretController,
+            EnemyController enemyController)
         {
             _gameStatePanel = gameStatePanel;
 
@@ -46,7 +46,8 @@ namespace Forma.Runtime.Composition.Core
                 tileSelector,
                 placeTurretInputHandler,
                 gridRepository,
-                turretController
+                turretController,
+                enemyController
             );
 
             _gameStateMachine = _gameStatesGraph.StateMachine;
@@ -56,7 +57,6 @@ namespace Forma.Runtime.Composition.Core
         {
             Debug.Log("CoreFlow.Start()");
 
-            // _enemyFlow.Initialize();
             // _cameraController.Initialize();
 
             _gameStatePanel.Construct(_gameStateMachine);
@@ -66,14 +66,11 @@ namespace Forma.Runtime.Composition.Core
 
         public void Tick()
         {
-            // _enemyFlow.Tick();
-
             _gameStateMachine.Tick();
         }
 
         public void Dispose()
         {
-            // _enemyFlow.Dispose();
             // _turretFlow.Dispose();
         }
     }

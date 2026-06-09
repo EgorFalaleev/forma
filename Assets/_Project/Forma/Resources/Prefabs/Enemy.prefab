@@ -9,11 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 897801798219590819}
-  - component: {fileID: 3158783573303800613}
-  - component: {fileID: 6926775962004773052}
-  - component: {fileID: 6359456565533014466}
+  - component: {fileID: 2139997051562586123}
+  - component: {fileID: 6456208794438344550}
+  - component: {fileID: 6719766589940846485}
   - component: {fileID: 2903182854526920634}
-  - component: {fileID: 6842266458655933108}
+  - component: {fileID: 2710827116527530870}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -30,14 +30,14 @@ Transform:
   m_GameObject: {fileID: 441036599156069158}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5084729960422237876}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3158783573303800613
+--- !u!114 &2139997051562586123
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -46,13 +46,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 441036599156069158}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d73be5f17d3e4d228345171a7c60937b, type: 3}
+  m_Script: {fileID: 11500000, guid: a408b98c57ce404bba96fd0e848fe655, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Runtime::Forma.Runtime.Core.Enemy.EnemyView
-  _characterController: {fileID: 6359456565533014466}
-  _damageDealerView: {fileID: 6926775962004773052}
-  _damageReceiverView: {fileID: 6842266458655933108}
---- !u!114 &6926775962004773052
+  m_EditorClassIdentifier: Runtime::Forma.Runtime.Enemies.Enemy
+  _movement: {fileID: 6456208794438344550}
+--- !u!114 &6456208794438344550
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -61,10 +59,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 441036599156069158}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f4b721e5b2a4858be572466e21d51ec, type: 3}
+  m_Script: {fileID: 11500000, guid: 656bc0b9269e486b83e598682bd47062, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Runtime::Forma.Runtime.Core.Features.Damage.DamageDealerView
---- !u!143 &6359456565533014466
+  m_EditorClassIdentifier: Runtime::Forma.Runtime.Movement.CharacterMovement
+  _characterController: {fileID: 6719766589940846485}
+  _speed: 2
+--- !u!143 &6719766589940846485
 CharacterController:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -83,7 +83,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 3
   m_Height: 1
-  m_Radius: 0.5
+  m_Radius: 0.54
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
@@ -110,18 +110,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6842266458655933108
-MonoBehaviour:
+--- !u!54 &2710827116527530870
+Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 441036599156069158}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a32b57428fa94aed8b51ec5b5ee4a381, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Core::Forma.Runtime.Core.Features.Damage.Views.DamageReceiverView
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 84
+  m_CollisionDetection: 0
 --- !u!1 &2062520488851345229
 GameObject:
   m_ObjectHideFlags: 0

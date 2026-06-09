@@ -1,4 +1,4 @@
-﻿using Forma.Runtime.Core.Enemy.Views;
+﻿using Forma.Runtime.Enemies;
 using Forma.Runtime.Movement;
 using Forma.Runtime.Turret.Configs;
 using PrimeTween;
@@ -74,7 +74,7 @@ namespace Forma.Runtime.Turret
         void UpdateTarget(Transform target)
         {
             if (target != null
-             && target.TryGetComponent(out EnemyView _))
+             && target.TryGetComponent(out Enemy _))
             {
                 CancelAnimation();
                 _currentTarget = target;
