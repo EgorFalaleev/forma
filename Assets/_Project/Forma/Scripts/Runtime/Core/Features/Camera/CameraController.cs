@@ -1,7 +1,5 @@
 ﻿using System;
 using Forma.Runtime.Core.Common;
-using Forma.Runtime.Core.Features.HexGrid.Grid.Abstract;
-using UnityEngine;
 
 namespace Forma.Runtime.Core.Features.Camera
 {
@@ -9,14 +7,11 @@ namespace Forma.Runtime.Core.Features.Camera
     {
         readonly CameraView _cameraView;
         readonly ITargetProvider _targetProvider;
-        readonly IHexGridEvents _hexGridEvents;
 
-        public CameraController(CameraView cameraView, ITargetProvider targetProvider,
-            IHexGridEvents hexGridEvents)
+        public CameraController(CameraView cameraView, ITargetProvider targetProvider)
         {
             _cameraView = cameraView;
             _targetProvider = targetProvider;
-            _hexGridEvents = hexGridEvents;
         }
 
         public void Initialize()
@@ -26,14 +21,10 @@ namespace Forma.Runtime.Core.Features.Camera
             // _cameraView.FollowCamera.Target.TrackingTarget = target;
             // _cameraView.OverviewCamera.Target.TrackingTarget = target;
 
-            _hexGridEvents.OnActivated += OnHexGridActivated;
-            _hexGridEvents.OnDeactivated += OnHexGridDeactivated;
         }
 
         public void Dispose()
         {
-            _hexGridEvents.OnActivated -= OnHexGridActivated;
-            _hexGridEvents.OnDeactivated -= OnHexGridDeactivated;
         }
 
         void OnHexGridDeactivated()
