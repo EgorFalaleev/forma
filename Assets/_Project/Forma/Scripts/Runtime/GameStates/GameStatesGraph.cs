@@ -1,4 +1,5 @@
-﻿using Forma.Runtime.Core.StateMachine;
+﻿using Forma.Runtime.Core.Features.Camera;
+using Forma.Runtime.Core.StateMachine;
 using Forma.Runtime.Core.StateMachine.States;
 using Forma.Runtime.Enemies;
 using Forma.Runtime.HexGrid;
@@ -22,16 +23,21 @@ namespace Forma.Runtime.GameStates
             TileController tileController, TileSelector tileSelector,
             PlaceTurretInputHandler placeTurretInputHandler,
             GridRepository gridRepository, TurretController turretController,
-            EnemyController enemyController)
+            EnemyController enemyController, CameraController cameraController)
         {
             _stateMachine = new StateMachine();
 
-            var startBattleState = new StartBattleState(playerFactory, playerRepository);
+            var startBattleState = new StartBattleState(
+                playerFactory,
+                playerRepository,
+                cameraController
+            );
 
             var battleState = new BattleState(
                 moveInputHandler,
                 toggleGridInputHandler,
-                enemyController
+                enemyController,
+                cameraController
             );
 
             var gridState = new GridState(
@@ -42,7 +48,8 @@ namespace Forma.Runtime.GameStates
                 tileSelector,
                 placeTurretInputHandler,
                 gridRepository,
-                turretController
+                turretController,
+                cameraController
             );
 
             _stateMachine

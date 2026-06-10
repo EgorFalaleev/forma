@@ -6,7 +6,6 @@ using Forma.Runtime.HexGrid;
 using Forma.Runtime.HexGrid.Configs;
 using Forma.Runtime.Input;
 using Forma.Runtime.Player;
-using Forma.Runtime.Services.CameraProvider;
 using Forma.Runtime.Turret;
 using Forma.Runtime.Turret.Configs;
 using Forma.Runtime.UI;
@@ -19,7 +18,7 @@ namespace Forma.Runtime.Composition.Core
 {
     public class CoreScope : LifetimeScope
     {
-        [SerializeField] CameraView _cameraView;
+        [SerializeField] CameraController _cameraController;
 
         [SerializeField] HexGridConfig _hexGridConfig;
         [SerializeField] TurretConfig _turretConfig;
@@ -39,10 +38,6 @@ namespace Forma.Runtime.Composition.Core
                .RegisterInstance(_gameStatePanel)
                .As<GameStatePanel>();
 
-            builder
-               .RegisterInstance(_cameraView)
-               .As<CameraView>();
-
             builder.RegisterInstance(_hexGridConfig);
             builder.RegisterInstance(_turretConfig);
 
@@ -57,10 +52,7 @@ namespace Forma.Runtime.Composition.Core
 
         void RegisterCamera(IContainerBuilder builder)
         {
-            builder
-               .Register<CameraController>(Lifetime.Singleton)
-               .As<IDisposable>()
-               .AsSelf();
+            builder.RegisterComponent(_cameraController);
         }
 
         void RegisterTurret(IContainerBuilder builder)
@@ -79,14 +71,14 @@ namespace Forma.Runtime.Composition.Core
             builder
                .Register<EnemyFactory>(Lifetime.Singleton)
                .AsSelf();
-            
+
             builder
-              .Register<EnemyRepository>(Lifetime.Singleton)
-              .AsSelf();
-            
+               .Register<EnemyRepository>(Lifetime.Singleton)
+               .AsSelf();
+
             builder
-              .Register<EnemyController>(Lifetime.Singleton)
-              .AsSelf();
+               .Register<EnemyController>(Lifetime.Singleton)
+               .AsSelf();
         }
 
         void RegisterPlayer(IContainerBuilder builder)

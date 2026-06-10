@@ -1,40 +1,37 @@
-﻿using System;
-using Forma.Runtime.Core.Common;
+﻿using Forma.Runtime.Core.Common;
+using Unity.Cinemachine;
+using UnityEngine;
+using VContainer;
 
 namespace Forma.Runtime.Core.Features.Camera
 {
-    public class CameraController : IDisposable
+    public class CameraController : MonoBehaviour
     {
-        readonly CameraView _cameraView;
-        readonly ITargetProvider _targetProvider;
+        [SerializeField] CinemachineCamera _followCamera;
+        [SerializeField] CinemachineCamera _overviewCamera;
 
-        public CameraController(CameraView cameraView, ITargetProvider targetProvider)
+        ITargetProvider _targetProvider;
+
+        [Inject]
+        public void Construct(ITargetProvider targetProvider)
         {
-            _cameraView = cameraView;
             _targetProvider = targetProvider;
         }
 
         public void Initialize()
         {
-            // Transform target = _targetProvider.Target;
+            Transform target = _targetProvider.Transform;
 
-            // _cameraView.FollowCamera.Target.TrackingTarget = target;
-            // _cameraView.OverviewCamera.Target.TrackingTarget = target;
+            _followCamera.Target.TrackingTarget = target;
+            _overviewCamera.Target.TrackingTarget = target;
 
+            ShowFollow();
         }
 
-        public void Dispose()
-        {
-        }
+        public void ShowFollow()
+            => _followCamera.Prioritize();
 
-        void OnHexGridDeactivated()
-        {
-            _cameraView.FollowCamera.Prioritize();
-        }
-
-        void OnHexGridActivated()
-        {
-            _cameraView.OverviewCamera.Prioritize();
-        }
+        public void ShowOverview()
+            => _overviewCamera.Prioritize();
     }
 }
