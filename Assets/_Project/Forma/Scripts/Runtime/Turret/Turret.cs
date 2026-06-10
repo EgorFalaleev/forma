@@ -73,7 +73,7 @@ namespace Forma.Runtime.Turret
 
         void OnTargetEntered(Transform target)
         {
-            if (target.TryGetComponent(out Enemy _))
+            if (_currentTarget == null && target.TryGetComponent(out Enemy _))
             {
                 CancelAnimation();
                 _currentTarget = target;
