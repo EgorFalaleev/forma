@@ -1,8 +1,8 @@
-﻿using Forma.Runtime.Core.Features.Camera;
-using Forma.Runtime.Core.StateMachine.States;
-using Forma.Runtime.Core.StateMachine.Triggers;
+﻿using Forma.Runtime.Camera;
 using Forma.Runtime.Enemies;
 using Forma.Runtime.Input;
+using Forma.Runtime.StateMachine.States;
+using Forma.Runtime.StateMachine.Triggers;
 using R3;
 using UnityEngine;
 

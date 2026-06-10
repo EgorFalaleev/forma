@@ -1,17 +1,17 @@
 ﻿using Forma.Runtime.Common;
-using Forma.Runtime.Core.Common;
 using Forma.Runtime.Movement;
+using Forma.Runtime.Player;
 using UnityEngine;
 
 namespace Forma.Runtime.Enemies
 {
     public class EnemyFactory
     {
-        readonly ITargetProvider _targetProvider;
+        readonly IPlayerProvider _playerProvider;
 
-        public EnemyFactory(ITargetProvider targetProvider)
+        public EnemyFactory(IPlayerProvider playerProvider)
         {
-            _targetProvider = targetProvider;
+            _playerProvider = playerProvider;
         }
         
         public Enemy Create(Vector3 position, Transform parent)
@@ -26,7 +26,7 @@ namespace Forma.Runtime.Enemies
             );
 
             var moveInput = new TargetFollowMoveInput(
-                _targetProvider,
+                _playerProvider,
                 instance.transform
             );
             

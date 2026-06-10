@@ -1,19 +1,18 @@
-﻿using Forma.Runtime.Core.Features.Camera;
-using Forma.Runtime.Core.StateMachine;
-using Forma.Runtime.Core.StateMachine.States;
+﻿using Forma.Runtime.Camera;
 using Forma.Runtime.Enemies;
 using Forma.Runtime.HexGrid;
 using Forma.Runtime.Input;
 using Forma.Runtime.Player;
+using Forma.Runtime.StateMachine.States;
 using Forma.Runtime.Turret;
 
 namespace Forma.Runtime.GameStates
 {
     public class GameStatesGraph
     {
-        public StateMachine StateMachine => _stateMachine;
+        public StateMachine.StateMachine StateMachine => _stateMachine;
 
-        readonly StateMachine _stateMachine;
+        readonly StateMachine.StateMachine _stateMachine;
         readonly IState _initialState;
 
         public GameStatesGraph(PlayerFactory playerFactory,
@@ -25,7 +24,7 @@ namespace Forma.Runtime.GameStates
             GridRepository gridRepository, TurretController turretController,
             EnemyController enemyController, CameraController cameraController)
         {
-            _stateMachine = new StateMachine();
+            _stateMachine = new StateMachine.StateMachine();
 
             var startBattleState = new StartBattleState(
                 playerFactory,

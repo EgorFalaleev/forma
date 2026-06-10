@@ -1,6 +1,4 @@
-﻿using System;
-using Forma.Runtime.Core.Features.Camera;
-using Forma.Runtime.Core.StateMachine;
+﻿using Forma.Runtime.Camera;
 using Forma.Runtime.Enemies;
 using Forma.Runtime.GameStates;
 using Forma.Runtime.HexGrid;
@@ -8,19 +6,17 @@ using Forma.Runtime.Input;
 using Forma.Runtime.Player;
 using Forma.Runtime.Turret;
 using Forma.Runtime.UI;
-using UnityEngine;
 using VContainer.Unity;
 
 namespace Forma.Runtime.Composition.Core
 {
     public class CoreFlow
         : IStartable,
-          ITickable,
-          IDisposable
+          ITickable
     {
         readonly GameStatePanel _gameStatePanel;
         readonly CameraController _cameraController;
-        readonly StateMachine _gameStateMachine;
+        readonly StateMachine.StateMachine _gameStateMachine;
         readonly GameStatesGraph _gameStatesGraph;
 
         public CoreFlow(PlayerFactory playerFactory, PlayerRepository playerRepository,
@@ -56,10 +52,6 @@ namespace Forma.Runtime.Composition.Core
 
         public void Start()
         {
-            Debug.Log("CoreFlow.Start()");
-
-            // _cameraController.Initialize();
-
             _gameStatePanel.Construct(_gameStateMachine);
 
             _gameStatesGraph.EnterInitialState();
@@ -68,11 +60,6 @@ namespace Forma.Runtime.Composition.Core
         public void Tick()
         {
             _gameStateMachine.Tick();
-        }
-
-        public void Dispose()
-        {
-            // _turretFlow.Dispose();
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-namespace Forma.Runtime.Core.Common
+namespace Forma.Runtime.Player
 {
-    public interface ITargetProvider
+    public interface IPlayerProvider
     {
         Transform Transform { get; }
     }

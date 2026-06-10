@@ -1,4 +1,4 @@
-﻿namespace Forma.Runtime.Core.StateMachine.States
+﻿namespace Forma.Runtime.StateMachine.States
 {
     public interface IState
     {

@@ -1,6 +1,5 @@
 ﻿using System;
-using Forma.Runtime.Core.Common;
-using Forma.Runtime.Core.Features.Camera;
+using Forma.Runtime.Camera;
 using Forma.Runtime.Enemies;
 using Forma.Runtime.HexGrid;
 using Forma.Runtime.HexGrid.Configs;
@@ -89,7 +88,7 @@ namespace Forma.Runtime.Composition.Core
 
             builder
                .Register<PlayerRepository>(Lifetime.Singleton)
-               .As<ITargetProvider>()
+               .As<IPlayerProvider>()
                .AsSelf();
         }
 

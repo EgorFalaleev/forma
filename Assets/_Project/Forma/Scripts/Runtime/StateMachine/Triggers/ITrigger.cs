@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Forma.Runtime.Core.StateMachine.Triggers
+namespace Forma.Runtime.StateMachine.Triggers
 {
     public interface ITrigger
     {

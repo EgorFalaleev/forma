@@ -1,4 +1,4 @@
-﻿namespace Forma.Runtime.Core.Features.Camera
+﻿namespace Forma.Runtime.Camera
 {
     public interface ICameraProvider
     {
