@@ -29,12 +29,12 @@ namespace Forma.Runtime.Turret
 
             _triggerZone
                .OnTransformEntered
-               .Subscribe(UpdateTarget)
+               .Subscribe(OnTargetEntered)
                .AddTo(_disposables);
 
             _triggerZone
                .OnTransformExited
-               .Subscribe(UpdateTarget)
+               .Subscribe(OnTargetExited)
                .AddTo(_disposables);
         }
 
@@ -71,15 +71,18 @@ namespace Forma.Runtime.Turret
             );
         }
 
-        void UpdateTarget(Transform target)
+        void OnTargetEntered(Transform target)
         {
-            if (target != null
-             && target.TryGetComponent(out Enemy _))
+            if (target.TryGetComponent(out Enemy _))
             {
                 CancelAnimation();
                 _currentTarget = target;
             }
-            else
+        }
+
+        void OnTargetExited(Transform target)
+        {
+            if (target == _currentTarget)
             {
                 _currentTarget = null;
                 StartIdleRotation();
