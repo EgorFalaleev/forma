@@ -1,4 +1,4 @@
-﻿using Forma.Runtime.Core.Common;
+﻿using Forma.Runtime.Player;
 using UnityEngine;
 
 namespace Forma.Runtime.Movement
@@ -6,14 +6,14 @@ namespace Forma.Runtime.Movement
     public class TargetFollowMoveInput : IMoveInput
     {
         public Vector3 MoveDirection
-            => (_targetProvider.Transform.position - _origin.position).normalized;
+            => (_playerProvider.Transform.position - _origin.position).normalized;
 
-        readonly ITargetProvider _targetProvider;
+        readonly IPlayerProvider _playerProvider;
         readonly Transform _origin;
 
-        public TargetFollowMoveInput(ITargetProvider targetProvider, Transform origin)
+        public TargetFollowMoveInput(IPlayerProvider playerProvider, Transform origin)
         {
-            _targetProvider = targetProvider;
+            _playerProvider = playerProvider;
             _origin = origin;
         }
     }

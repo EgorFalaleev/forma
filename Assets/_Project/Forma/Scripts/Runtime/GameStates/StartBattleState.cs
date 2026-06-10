@@ -1,7 +1,7 @@
-﻿using Forma.Runtime.Core.Features.Camera;
-using Forma.Runtime.Core.StateMachine.States;
-using Forma.Runtime.Core.StateMachine.Triggers;
+﻿using Forma.Runtime.Camera;
 using Forma.Runtime.Player;
+using Forma.Runtime.StateMachine.States;
+using Forma.Runtime.StateMachine.Triggers;
 using UnityEngine;
 
 namespace Forma.Runtime.GameStates

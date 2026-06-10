@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Forma.Runtime.Core.StateMachine.States;
-using Forma.Runtime.Core.StateMachine.Transitions;
-using Forma.Runtime.Core.StateMachine.Triggers;
+using Forma.Runtime.StateMachine.States;
+using Forma.Runtime.StateMachine.Transitions;
+using Forma.Runtime.StateMachine.Triggers;
 
-namespace Forma.Runtime.Core.StateMachine
+namespace Forma.Runtime.StateMachine
 {
     public class StateMachine
     {

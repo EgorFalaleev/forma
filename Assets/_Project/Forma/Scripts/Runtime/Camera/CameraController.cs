@@ -1,26 +1,26 @@
-﻿using Forma.Runtime.Core.Common;
+﻿using Forma.Runtime.Player;
 using Unity.Cinemachine;
 using UnityEngine;
 using VContainer;
 
-namespace Forma.Runtime.Core.Features.Camera
+namespace Forma.Runtime.Camera
 {
     public class CameraController : MonoBehaviour
     {
         [SerializeField] CinemachineCamera _followCamera;
         [SerializeField] CinemachineCamera _overviewCamera;
 
-        ITargetProvider _targetProvider;
+        IPlayerProvider _playerProvider;
 
         [Inject]
-        public void Construct(ITargetProvider targetProvider)
+        public void Construct(IPlayerProvider playerProvider)
         {
-            _targetProvider = targetProvider;
+            _playerProvider = playerProvider;
         }
 
         public void Initialize()
         {
-            Transform target = _targetProvider.Transform;
+            Transform target = _playerProvider.Transform;
 
             _followCamera.Target.TrackingTarget = target;
             _overviewCamera.Target.TrackingTarget = target;

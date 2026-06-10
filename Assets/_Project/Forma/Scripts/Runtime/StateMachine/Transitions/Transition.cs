@@ -1,7 +1,7 @@
-﻿using Forma.Runtime.Core.StateMachine.States;
-using Forma.Runtime.Core.StateMachine.Triggers;
+﻿using Forma.Runtime.StateMachine.States;
+using Forma.Runtime.StateMachine.Triggers;
 
-namespace Forma.Runtime.Core.StateMachine.Transitions
+namespace Forma.Runtime.StateMachine.Transitions
 {
     public class Transition : ITransition
     {

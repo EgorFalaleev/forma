@@ -1,4 +1,4 @@
-﻿using Forma.Runtime.Core.Common;
+﻿using Forma.Runtime.Player;
 using UnityEngine;
 
 namespace Forma.Runtime.Movement
@@ -9,14 +9,14 @@ namespace Forma.Runtime.Movement
 
         public Vector3 MoveDirection => CalculateMoveDirection();
 
-        readonly ITargetProvider _targetProvider;
+        readonly IPlayerProvider _playerProvider;
         readonly Transform _origin;
         readonly Vector3 _offset;
 
-        public OffsetFollowMoveInput(ITargetProvider targetProvider, Transform origin,
+        public OffsetFollowMoveInput(IPlayerProvider playerProvider, Transform origin,
             Vector3 offset)
         {
-            _targetProvider = targetProvider;
+            _playerProvider = playerProvider;
             _origin = origin;
             _offset = offset;
         }
@@ -24,7 +24,7 @@ namespace Forma.Runtime.Movement
         Vector3 CalculateMoveDirection()
         {
             Vector3 targetToOrigin =
-                _targetProvider.Transform.position + _offset - _origin.position;
+                _playerProvider.Transform.position + _offset - _origin.position;
 
             return targetToOrigin.sqrMagnitude < SqrDistanceThreshold
                 ? Vector3.zero

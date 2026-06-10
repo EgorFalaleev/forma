@@ -1,6 +1,5 @@
-﻿using Forma.Runtime.Common;
-using Forma.Runtime.Core.Common;
-using Forma.Runtime.Core.Features.Camera;
+﻿using Forma.Runtime.Camera;
+using Forma.Runtime.Common;
 using Forma.Runtime.HexGrid;
 using R3;
 using UnityEngine;

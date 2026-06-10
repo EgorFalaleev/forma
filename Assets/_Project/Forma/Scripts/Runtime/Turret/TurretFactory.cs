@@ -1,6 +1,6 @@
 ﻿using Forma.Runtime.Common;
-using Forma.Runtime.Core.Common;
 using Forma.Runtime.Movement;
+using Forma.Runtime.Player;
 using Forma.Runtime.Turret.Configs;
 using UnityEngine;
 
@@ -8,12 +8,12 @@ namespace Forma.Runtime.Turret
 {
     public class TurretFactory
     {
-        readonly ITargetProvider _targetProvider;
+        readonly IPlayerProvider _playerProvider;
         readonly TurretConfig _turretConfig;
 
-        public TurretFactory(ITargetProvider targetProvider, TurretConfig turretConfig)
+        public TurretFactory(IPlayerProvider playerProvider, TurretConfig turretConfig)
         {
-            _targetProvider = targetProvider;
+            _playerProvider = playerProvider;
             _turretConfig = turretConfig;
         }
 
@@ -29,9 +29,9 @@ namespace Forma.Runtime.Turret
             );
 
             var moveInput = new OffsetFollowMoveInput(
-                _targetProvider,
+                _playerProvider,
                 turret.transform,
-                position - _targetProvider.Transform.position
+                position - _playerProvider.Transform.position
             );
 
             turret.Construct(moveInput, _turretConfig);

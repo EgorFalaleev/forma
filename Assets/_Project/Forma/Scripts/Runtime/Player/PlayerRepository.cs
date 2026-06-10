@@ -1,10 +1,9 @@
 ﻿using System;
-using Forma.Runtime.Core.Common;
 using UnityEngine;
 
 namespace Forma.Runtime.Player
 {
-    public class PlayerRepository : ITargetProvider
+    public class PlayerRepository : IPlayerProvider
     {
         public Transform Transform => _player.transform;
         
