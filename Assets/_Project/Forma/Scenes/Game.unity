@@ -207,7 +207,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: 0, y: 21.3, z: -31}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -544,7 +544,7 @@ Transform:
   m_GameObject: {fileID: 937192488}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 21.3, z: -31}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -561,9 +561,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 937192488}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6cd6988148c4b32a5234b156bed3c71, type: 3}
+  m_Script: {fileID: 11500000, guid: 5b9552310a414bd581ba86ac535788d5, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Core::Forma.Runtime.Core.Features.Camera.CameraView
+  m_EditorClassIdentifier: Runtime::Forma.Runtime.Core.Features.Camera.CameraController
   _followCamera: {fileID: 1241942857}
   _overviewCamera: {fileID: 1235520755}
 --- !u!1 &941986766
@@ -849,11 +849,8 @@ MonoBehaviour:
     TypeName: 
   autoRun: 1
   autoInjectGameObjects: []
-  _enemyViewPrefab: {fileID: 3158783573303800613, guid: b92c3b68310b2dd4594d8058aba702b7, type: 3}
-  _turretViewPrefab: {fileID: 4722118388446510287, guid: 827353d4252cd4e4aa98e3ed0884d820, type: 3}
-  _cameraView: {fileID: 937192490}
+  _cameraController: {fileID: 937192490}
   _hexGridConfig: {fileID: 11400000, guid: 8fad15143544b2444a78c42a13c9294b, type: 2}
-  _enemyConfig: {fileID: 11400000, guid: 2a1592ef7e6481946a9c578702d2cd7f, type: 2}
   _turretConfig: {fileID: 11400000, guid: e6f16c8961c52164888f5f15bb7e5dba, type: 2}
   _gameStatePanel: {fileID: 1443611220}
 --- !u!4 &1005497273

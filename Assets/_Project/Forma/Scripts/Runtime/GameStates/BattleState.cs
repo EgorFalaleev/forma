@@ -1,4 +1,5 @@
-﻿using Forma.Runtime.Core.StateMachine.States;
+﻿using Forma.Runtime.Core.Features.Camera;
+using Forma.Runtime.Core.StateMachine.States;
 using Forma.Runtime.Core.StateMachine.Triggers;
 using Forma.Runtime.Enemies;
 using Forma.Runtime.Input;
@@ -14,20 +15,24 @@ namespace Forma.Runtime.GameStates
         readonly MoveInputHandler _moveInputHandler;
         readonly ToggleGridInputHandler _toggleGridInputHandler;
         readonly EnemyController _enemyController;
+        readonly CameraController _cameraController;
         readonly CompositeDisposable _disposables = new();
         readonly Trigger _onGridSpawnRequested = new();
 
         public BattleState(MoveInputHandler moveInputHandler,
             ToggleGridInputHandler toggleGridInputHandler,
-            EnemyController enemyController)
+            EnemyController enemyController, CameraController cameraController)
         {
             _moveInputHandler = moveInputHandler;
             _toggleGridInputHandler = toggleGridInputHandler;
             _enemyController = enemyController;
+            _cameraController = cameraController;
         }
 
         public void OnEnter()
         {
+            _cameraController.ShowFollow();
+            
             _moveInputHandler.Enable();
             _toggleGridInputHandler.Enable();
 
@@ -35,7 +40,7 @@ namespace Forma.Runtime.GameStates
                .OnGridToggled
                .Subscribe(SpawnGrid)
                .AddTo(_disposables);
-            
+
             _enemyController.Spawn(new Vector3(5f, 1f, 0f));
         }
 

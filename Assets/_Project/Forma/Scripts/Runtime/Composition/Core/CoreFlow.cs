@@ -31,7 +31,7 @@ namespace Forma.Runtime.Composition.Core
             TileController tileController, TileSelector tileSelector,
             PlaceTurretInputHandler placeTurretInputHandler,
             GridRepository gridRepository, TurretController turretController,
-            EnemyController enemyController)
+            EnemyController enemyController, CameraController cameraController)
         {
             _gameStatePanel = gameStatePanel;
 
@@ -47,7 +47,8 @@ namespace Forma.Runtime.Composition.Core
                 placeTurretInputHandler,
                 gridRepository,
                 turretController,
-                enemyController
+                enemyController,
+                cameraController
             );
 
             _gameStateMachine = _gameStatesGraph.StateMachine;

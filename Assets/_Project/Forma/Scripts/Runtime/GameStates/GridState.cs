@@ -1,8 +1,8 @@
 ﻿using Cysharp.Threading.Tasks;
+using Forma.Runtime.Core.Features.Camera;
 using Forma.Runtime.Core.StateMachine.States;
 using Forma.Runtime.Core.StateMachine.Triggers;
 using Forma.Runtime.HexGrid;
-using Forma.Runtime.HexGrid.Data;
 using Forma.Runtime.Input;
 using Forma.Runtime.Turret;
 using R3;
@@ -22,6 +22,7 @@ namespace Forma.Runtime.GameStates
         readonly PlaceTurretInputHandler _placeTurretInputHandler;
         readonly GridRepository _gridRepository;
         readonly TurretController _turretController;
+        readonly CameraController _cameraController;
         readonly CompositeDisposable _disposables = new();
         readonly Trigger _onGridDespawned = new();
 
@@ -30,7 +31,8 @@ namespace Forma.Runtime.GameStates
             ClickGridTileInputHandler clickGridTileInputHandler,
             TileController tileController, TileSelector tileSelector,
             PlaceTurretInputHandler placeTurretInputHandler,
-            GridRepository gridRepository, TurretController turretController)
+            GridRepository gridRepository, TurretController turretController,
+            CameraController cameraController)
         {
             _gridController = gridController;
             _toggleGridInputHandler = toggleGridInputHandler;
@@ -40,6 +42,7 @@ namespace Forma.Runtime.GameStates
             _placeTurretInputHandler = placeTurretInputHandler;
             _gridRepository = gridRepository;
             _turretController = turretController;
+            _cameraController = cameraController;
         }
 
         public void OnEnter()
@@ -56,6 +59,8 @@ namespace Forma.Runtime.GameStates
         async UniTaskVoid SpawnGrid()
         {
             await _gridController.SpawnGrid();
+            
+            _cameraController.ShowOverview();
 
             _toggleGridInputHandler.Enable();
             _clickGridTileInputHandler.Enable();
