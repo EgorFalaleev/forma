@@ -132,6 +132,7 @@ GameObject:
   - component: {fileID: 330585544}
   - component: {fileID: 330585547}
   - component: {fileID: 330585548}
+  - component: {fileID: 330585549}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -289,6 +290,20 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   CustomBlends: {fileID: 0}
+--- !u!114 &330585549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330585543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b9552310a414bd581ba86ac535788d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Runtime::Forma.Runtime.Core.Features.Camera.CameraController
+  _followCamera: {fileID: 1241942857}
+  _overviewCamera: {fileID: 1235520755}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -527,7 +542,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 937192489}
-  - component: {fileID: 937192490}
   m_Layer: 0
   m_Name: Cameras
   m_TagString: Untagged
@@ -552,20 +566,6 @@ Transform:
   - {fileID: 1235520753}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &937192490
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 937192488}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b9552310a414bd581ba86ac535788d5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Runtime::Forma.Runtime.Core.Features.Camera.CameraController
-  _followCamera: {fileID: 1241942857}
-  _overviewCamera: {fileID: 1235520755}
 --- !u!1 &941986766
 GameObject:
   m_ObjectHideFlags: 0
@@ -849,7 +849,7 @@ MonoBehaviour:
     TypeName: 
   autoRun: 1
   autoInjectGameObjects: []
-  _cameraController: {fileID: 937192490}
+  _cameraController: {fileID: 330585549}
   _hexGridConfig: {fileID: 11400000, guid: 8fad15143544b2444a78c42a13c9294b, type: 2}
   _turretConfig: {fileID: 11400000, guid: e6f16c8961c52164888f5f15bb7e5dba, type: 2}
   _gameStatePanel: {fileID: 1443611220}
