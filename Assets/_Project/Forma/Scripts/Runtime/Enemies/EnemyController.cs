@@ -1,24 +1,29 @@
-﻿using UnityEngine;
+﻿using System.Threading;
+using Cysharp.Threading.Tasks;
 
 namespace Forma.Runtime.Enemies
 {
     public class EnemyController
     {
-        readonly EnemyFactory _enemyFactory;
-        readonly EnemyRepository _enemyRepository;
-        readonly Transform _parent;
+        readonly EnemySpawner _enemySpawner;
+        CancellationTokenSource _cancellationTokenSource;
 
-        public EnemyController(EnemyFactory enemyFactory, EnemyRepository enemyRepository)
+        public EnemyController(EnemySpawner enemySpawner)
         {
-            _enemyFactory = enemyFactory;
-            _enemyRepository = enemyRepository;
-            _parent = new GameObject("Enemies").transform;
+            _enemySpawner = enemySpawner;
         }
 
-        public void Spawn(Vector3 position)
+        public async UniTaskVoid StartSpawning()
         {
-            Enemy enemy = _enemyFactory.Create(position, _parent);
-            _enemyRepository.Register(enemy);
+            _cancellationTokenSource = new();
+            await _enemySpawner.SpawnWaveWithDelay(5, 1f, _cancellationTokenSource.Token);
         }
+
+        public void StopSpawning()
+        {
+            _cancellationTokenSource?.Cancel();
+            _cancellationTokenSource?.Dispose();
+            _cancellationTokenSource = null;
+        }        
     }
 }
