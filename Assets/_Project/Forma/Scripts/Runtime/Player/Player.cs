@@ -5,7 +5,8 @@ namespace Forma.Runtime.Player
 {
     public class Player : MonoBehaviour
     {
-        [SerializeField] CharacterMovement _movement;
+        [SerializeField] RigidbodyMovement _movement;
+        [SerializeField] float _speed = 5f;
 
         IMoveInput _moveInput;
 
@@ -14,9 +15,13 @@ namespace Forma.Runtime.Player
             _moveInput = moveInput;
         }
 
-        void Update()
+        void FixedUpdate()
         {
-            _movement.Move(_moveInput.MoveDirection);
+            var delta = _moveInput.MoveDirection * _speed;
+            _movement.Move(delta);
+        }
+
+        {
         }
     }
 }

@@ -5,8 +5,9 @@ namespace Forma.Runtime.Enemies
 {
     public class Enemy : MonoBehaviour
     {
-        [SerializeField] CharacterMovement _movement;
-        
+        [SerializeField] RigidbodyMovement _movement;
+        [SerializeField] float _speed = 5f;
+
         IMoveInput _moveInput;
         
         public void Construct(IMoveInput moveInput)
@@ -14,9 +15,10 @@ namespace Forma.Runtime.Enemies
             _moveInput = moveInput;
         }
 
-        void Update()
+        void FixedUpdate()
         {
-            _movement.Move(_moveInput.MoveDirection);
+            var delta = _moveInput.MoveDirection * _speed;
+            _movement.Move(delta);
         }
     }
 }

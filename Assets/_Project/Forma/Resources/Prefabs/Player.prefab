@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 60120477396058653}
   - component: {fileID: 3351545972871972435}
-  - component: {fileID: 8095305385754626110}
-  - component: {fileID: 4354214537437386250}
+  - component: {fileID: 1305470229134294728}
+  - component: {fileID: 1327648274174566334}
   - component: {fileID: 1111884715213322731}
   - component: {fileID: 4610171879326327637}
   m_Layer: 7
@@ -49,8 +49,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd5ae06cad1e4d37891c00478066044a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Runtime::Forma.Runtime.Player.Player
-  _movement: {fileID: 8095305385754626110}
---- !u!114 &8095305385754626110
+  _movement: {fileID: 1305470229134294728}
+  _health: {fileID: 1327648274174566334}
+  _speed: 5
+--- !u!114 &1305470229134294728
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -59,36 +61,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 7094827137096971830}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 656bc0b9269e486b83e598682bd47062, type: 3}
+  m_Script: {fileID: 11500000, guid: 327a2624a68ef344ea758eb4cba67785, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Runtime::Forma.Runtime.Movement.CharacterMovement
-  _characterController: {fileID: 4354214537437386250}
-  _speed: 5
---- !u!143 &4354214537437386250
-CharacterController:
+  m_EditorClassIdentifier: Runtime::RigidbodyMovement
+  _rigidbody: {fileID: 4610171879326327637}
+--- !u!114 &1327648274174566334
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7094827137096971830}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Height: 2
-  m_Radius: 0.5
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 852d0c39025952840ba1f8c89a77d45a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Runtime::Health
+  _max: 10
 --- !u!136 &1111884715213322731
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -135,7 +124,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
