@@ -76,6 +76,10 @@ namespace Forma.Runtime.Composition.Core
                .AsSelf();
 
             builder
+               .Register<EnemySpawner>(Lifetime.Singleton)
+               .AsSelf();
+
+            builder
                .Register<EnemyController>(Lifetime.Singleton)
                .AsSelf();
         }

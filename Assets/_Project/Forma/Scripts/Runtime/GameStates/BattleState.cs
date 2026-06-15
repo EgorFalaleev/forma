@@ -41,11 +41,13 @@ namespace Forma.Runtime.GameStates
                .Subscribe(SpawnGrid)
                .AddTo(_disposables);
 
-            _enemyController.Spawn(new Vector3(5f, 1f, 0f));
+            _enemyController.StartSpawning().Forget();
         }
 
         public void OnExit()
         {
+            _enemyController.StopSpawning();
+
             _moveInputHandler.Disable();
             _toggleGridInputHandler.Disable();
 
