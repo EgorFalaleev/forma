@@ -8,6 +8,7 @@ namespace Forma.Runtime.Player
     {
         [SerializeField] RigidbodyMovement _movement;
         [SerializeField] Health _health;
+        [SerializeField] Attack _attack;
 
         IMoveInput _moveInput;
         CompositeDisposable _disposables = new();
@@ -18,6 +19,7 @@ namespace Forma.Runtime.Player
 
             _health.Construct(playerConfig.Health);
             _movement.Construct(playerConfig.Movement);
+            _attack.Construct(playerConfig.Attack);
 
             _health.OnDied.Subscribe(OnDied).AddTo(_disposables);
         }

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 60120477396058653}
   - component: {fileID: 3351545972871972435}
   - component: {fileID: 1305470229134294728}
+  - component: {fileID: 7122917079662128965}
   - component: {fileID: 1327648274174566334}
   - component: {fileID: 1111884715213322731}
   - component: {fileID: 4610171879326327637}
@@ -51,7 +52,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Runtime::Forma.Runtime.Player.Player
   _movement: {fileID: 1305470229134294728}
   _health: {fileID: 1327648274174566334}
-  _speed: 5
+  _attack: {fileID: 7122917079662128965}
 --- !u!114 &1305470229134294728
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65,6 +66,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Runtime::RigidbodyMovement
   _rigidbody: {fileID: 4610171879326327637}
+--- !u!114 &7122917079662128965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7094827137096971830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bc957c6b238ada479becd482874fd8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Runtime::Attack
 --- !u!114 &1327648274174566334
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77,7 +90,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 852d0c39025952840ba1f8c89a77d45a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Runtime::Health
-  _max: 10
 --- !u!136 &1111884715213322731
 CapsuleCollider:
   m_ObjectHideFlags: 0

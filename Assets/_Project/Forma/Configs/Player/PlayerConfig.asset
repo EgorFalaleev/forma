@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Runtime::PlayerConfig
   <Health>k__BackingField: {fileID: 11400000, guid: f56de3d13e0ccdd4b988193cda95738c, type: 2}
   <Movement>k__BackingField: {fileID: 11400000, guid: 89c8e9eb88a3c4c48bef0e33f91f38cb, type: 2}
+  <Attack>k__BackingField: {fileID: 11400000, guid: 096f7528c50a49b42832b25d6874fbce, type: 2}

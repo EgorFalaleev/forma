@@ -5,4 +5,5 @@ public class EnemyConfig : ScriptableObject
 {
     [field: SerializeField] public MovementConfig Movement { get; private set; }
     [field: SerializeField] public AttackConfig Attack { get; private set; }
+    [field: SerializeField] public HealthConfig Health { get; private set; }
 }

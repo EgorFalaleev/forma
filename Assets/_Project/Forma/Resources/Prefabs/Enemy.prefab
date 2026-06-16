@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2139997051562586123}
   - component: {fileID: 7250130683007588360}
   - component: {fileID: 8070420818877871538}
+  - component: {fileID: 8943477301586066562}
   - component: {fileID: 2903182854526920634}
   - component: {fileID: 2710827116527530870}
   m_Layer: 0
@@ -51,6 +52,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Runtime::Forma.Runtime.Enemies.Enemy
   _movement: {fileID: 7250130683007588360}
   _attack: {fileID: 8070420818877871538}
+  _health: {fileID: 8943477301586066562}
 --- !u!114 &7250130683007588360
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -76,6 +78,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bc957c6b238ada479becd482874fd8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Runtime::Attack
+--- !u!114 &8943477301586066562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 441036599156069158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 852d0c39025952840ba1f8c89a77d45a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Runtime::Health
 --- !u!65 &2903182854526920634
 BoxCollider:
   m_ObjectHideFlags: 0
