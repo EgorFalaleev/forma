@@ -22,6 +22,8 @@ namespace Forma.Runtime.Composition.Core
         [SerializeField] HexGridConfig _hexGridConfig;
         [SerializeField] TurretConfig _turretConfig;
         [SerializeField] WavesConfig _wavesConfig;
+        [SerializeField] EnemyConfig _enemyConfig;
+        [SerializeField] PlayerConfig _playerConfig;
 
         [SerializeField] GameStatePanel _gameStatePanel;
 
@@ -41,6 +43,8 @@ namespace Forma.Runtime.Composition.Core
             builder.RegisterInstance(_hexGridConfig);
             builder.RegisterInstance(_turretConfig);
             builder.RegisterInstance(_wavesConfig);
+            builder.RegisterInstance(_enemyConfig);
+            builder.RegisterInstance(_playerConfig);
 
             RegisterServices(builder);
 

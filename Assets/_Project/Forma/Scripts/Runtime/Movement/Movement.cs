@@ -4,7 +4,12 @@ namespace Forma.Runtime.Movement
 {
     public class Movement : MonoBehaviour
     {
-        [SerializeField] float _speed = 5f;
+        float _speed;
+
+        public void Construct(MovementConfig movementConfig)
+        {
+            _speed = movementConfig.Speed;
+        }
 
         public void Move(Vector3 direction)
         {

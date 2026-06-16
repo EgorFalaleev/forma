@@ -7,10 +7,12 @@ namespace Forma.Runtime.Player
     public class PlayerFactory
     {
         readonly IMoveInput _moveInput;
+        readonly PlayerConfig _playerConfig;
 
-        public PlayerFactory(IMoveInput moveInput)
+        public PlayerFactory(IMoveInput moveInput, PlayerConfig playerConfig)
         {
             _moveInput = moveInput;
+            _playerConfig = playerConfig;
         }
 
         public Player Create(Vector3 spawnPosition)
@@ -23,7 +25,7 @@ namespace Forma.Runtime.Player
                 Quaternion.identity
             );
 
-            player.Construct(_moveInput);
+            player.Construct(_moveInput, _playerConfig);
 
             return player;
         }

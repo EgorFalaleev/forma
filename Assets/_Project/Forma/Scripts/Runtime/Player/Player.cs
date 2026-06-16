@@ -8,22 +8,23 @@ namespace Forma.Runtime.Player
     {
         [SerializeField] RigidbodyMovement _movement;
         [SerializeField] Health _health;
-        [SerializeField] float _speed = 5f;
 
         IMoveInput _moveInput;
         CompositeDisposable _disposables = new();
 
-        public void Construct(IMoveInput moveInput)
+        public void Construct(IMoveInput moveInput, PlayerConfig playerConfig)
         {
             _moveInput = moveInput;
+
+            _health.Construct(playerConfig.Health);
+            _movement.Construct(playerConfig.Movement);
 
             _health.OnDied.Subscribe(OnDied).AddTo(_disposables);
         }
 
         void FixedUpdate()
         {
-            var delta = _moveInput.MoveDirection * _speed;
-            _movement.Move(delta);
+            _movement.Move(_moveInput.MoveDirection);
         }
 
         
