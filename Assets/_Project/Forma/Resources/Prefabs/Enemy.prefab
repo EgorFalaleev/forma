@@ -50,7 +50,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Runtime::Forma.Runtime.Enemies.Enemy
   _movement: {fileID: 7250130683007588360}
-  _speed: 4
+  _attack: {fileID: 8070420818877871538}
 --- !u!114 &7250130683007588360
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -76,7 +76,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bc957c6b238ada479becd482874fd8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Runtime::Attack
-  _damage: 1
 --- !u!65 &2903182854526920634
 BoxCollider:
   m_ObjectHideFlags: 0

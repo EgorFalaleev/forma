@@ -3,7 +3,12 @@ using UnityEngine;
 [RequireComponent(typeof(Collider))]
 public class Attack : MonoBehaviour
 {
-    [SerializeField] int _damage;
+    int _damage;
+
+    public void Construct(AttackConfig attackConfig)
+    {
+        _damage = attackConfig.Damage;
+    }
 
     void OnCollisionEnter(Collision collision)
     {

@@ -6,6 +6,7 @@ namespace Forma.Runtime.Enemies
     public class Enemy : MonoBehaviour
     {
         [SerializeField] RigidbodyMovement _movement;
+        [SerializeField] Attack _attack;
 
         IMoveInput _moveInput;
         
@@ -14,6 +15,7 @@ namespace Forma.Runtime.Enemies
             _moveInput = moveInput;
 
             _movement.Construct(enemyConfig.Movement);
+            _attack.Construct(enemyConfig.Attack);
         }
 
         void FixedUpdate()
