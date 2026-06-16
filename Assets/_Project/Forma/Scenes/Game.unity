@@ -852,6 +852,7 @@ MonoBehaviour:
   _cameraController: {fileID: 330585549}
   _hexGridConfig: {fileID: 11400000, guid: 8fad15143544b2444a78c42a13c9294b, type: 2}
   _turretConfig: {fileID: 11400000, guid: e6f16c8961c52164888f5f15bb7e5dba, type: 2}
+  _wavesConfig: {fileID: 11400000, guid: 4d5926fbc6b31e9459414f376fda4643, type: 2}
   _gameStatePanel: {fileID: 1443611220}
 --- !u!4 &1005497273
 Transform:
