@@ -9,7 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70d0360d697b4e23a05fa6daf59c7c8e, type: 3}
-  m_Name: EnemyMovementConfig
-  m_EditorClassIdentifier: Runtime::Forma.Runtime.Core.Features.Movement.Configs.MovementConfig
-  <Speed>k__BackingField: 5
+  m_Script: {fileID: 11500000, guid: 78e56efdf097f794ca152fca218db491, type: 3}
+  m_Name: Waves
+  m_EditorClassIdentifier: Runtime::WavesConfig
+  <Waves>k__BackingField:
+  - Amount: 3
+    SpawnDelay: 1
