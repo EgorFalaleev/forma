@@ -13,3 +13,6 @@ MonoBehaviour:
   m_Name: PlayerAttackConfig
   m_EditorClassIdentifier: Runtime::AttackConfig
   <Damage>k__BackingField: 1
+  <TargetLayerMask>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 256
