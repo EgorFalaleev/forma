@@ -5,14 +5,12 @@ public class Health : MonoBehaviour
 {
     public Observable<Unit> OnDied => _onDied;
 
-    [SerializeField] int _max = 10;
-
     ReactiveProperty<int> _current = new();
     Subject<Unit> _onDied = new();
 
-    void Start()
+    public void Construct(HealthConfig healthConfig)
     {
-        _current.Value = _max;
+        _current.Value = healthConfig.MaxHealth;
     }
 
     public void TakeDamage(int amount)

@@ -5,6 +5,8 @@ namespace Forma.Runtime.Turret.Configs
     [CreateAssetMenu(menuName = "Forma/Configs/Turret")]
     public class TurretConfig : ScriptableObject
     {
+        [field: SerializeField] public MovementConfig Movement { get; private set; }
+
         [field: SerializeField]
         public TurretAnimationConfig Animation { get; private set; }
 

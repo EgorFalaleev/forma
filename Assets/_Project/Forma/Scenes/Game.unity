@@ -207,7 +207,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -853,6 +853,8 @@ MonoBehaviour:
   _hexGridConfig: {fileID: 11400000, guid: 8fad15143544b2444a78c42a13c9294b, type: 2}
   _turretConfig: {fileID: 11400000, guid: e6f16c8961c52164888f5f15bb7e5dba, type: 2}
   _wavesConfig: {fileID: 11400000, guid: 4d5926fbc6b31e9459414f376fda4643, type: 2}
+  _enemyConfig: {fileID: 11400000, guid: 2a1592ef7e6481946a9c578702d2cd7f, type: 2}
+  _playerConfig: {fileID: 11400000, guid: 60b10e51ad3795144908dccaf3b23239, type: 2}
   _gameStatePanel: {fileID: 1443611220}
 --- !u!4 &1005497273
 Transform:

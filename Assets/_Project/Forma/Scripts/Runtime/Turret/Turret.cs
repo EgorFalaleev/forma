@@ -36,6 +36,8 @@ namespace Forma.Runtime.Turret
                .OnTransformExited
                .Subscribe(OnTargetExited)
                .AddTo(_disposables);
+
+            _movement.Construct(turretConfig.Movement);
         }
 
         void Update()

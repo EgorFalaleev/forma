@@ -8,10 +8,12 @@ namespace Forma.Runtime.Enemies
     public class EnemyFactory
     {
         readonly IPlayerProvider _playerProvider;
+        readonly EnemyConfig _enemyConfig;
 
-        public EnemyFactory(IPlayerProvider playerProvider)
+        public EnemyFactory(IPlayerProvider playerProvider, EnemyConfig enemyConfig)
         {
             _playerProvider = playerProvider;
+            _enemyConfig = enemyConfig;
         }
         
         public Enemy Create(Vector3 position, Transform parent)
@@ -30,7 +32,7 @@ namespace Forma.Runtime.Enemies
                 instance.transform
             );
             
-            instance.Construct(moveInput);
+            instance.Construct(moveInput, _enemyConfig);
             
             return instance;
         }
