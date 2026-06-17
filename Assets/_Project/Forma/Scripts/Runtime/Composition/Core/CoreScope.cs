@@ -63,6 +63,10 @@ namespace Forma.Runtime.Composition.Core
         void RegisterTurret(IContainerBuilder builder)
         {
             builder
+               .Register<TurretRepository>(Lifetime.Singleton)
+               .AsSelf();
+
+            builder
                .Register<TurretFactory>(Lifetime.Singleton)
                .AsSelf();
 

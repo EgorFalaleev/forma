@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8750124149495563635}
   - component: {fileID: 548367526646942163}
   - component: {fileID: 4375346670411758564}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -101,7 +101,7 @@ GameObject:
   - component: {fileID: 6429777970981004405}
   - component: {fileID: 6738779007690187503}
   - component: {fileID: 5568445199286998390}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -192,7 +192,7 @@ GameObject:
   - component: {fileID: 7507394799326335423}
   - component: {fileID: 5427025434412750663}
   - component: {fileID: 1291268581331997061}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: TriggerZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -259,7 +259,9 @@ GameObject:
   - component: {fileID: 7447255385103820311}
   - component: {fileID: 1104948218046694759}
   - component: {fileID: 6051500881809914904}
-  m_Layer: 0
+  - component: {fileID: 1018742012578965093}
+  - component: {fileID: 885562301809073320}
+  m_Layer: 9
   m_Name: Turret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -297,6 +299,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Runtime::Forma.Runtime.Turret.Turret
   _movement: {fileID: 1104948218046694759}
   _triggerZone: {fileID: 5427025434412750663}
+  _health: {fileID: 885562301809073320}
+  _attack: {fileID: 1018742012578965093}
 --- !u!114 &1104948218046694759
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -309,7 +313,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af8d66b6199948159e611bcf3e7c4d12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Runtime::Forma.Runtime.Movement.RigidbodyMovement
-  _speed: 5
 --- !u!65 &6051500881809914904
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -331,6 +334,30 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1018742012578965093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8241579034000971635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bc957c6b238ada479becd482874fd8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Runtime::Attack
+--- !u!114 &885562301809073320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8241579034000971635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 852d0c39025952840ba1f8c89a77d45a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Runtime::Health
 --- !u!1 &8363518201456961466
 GameObject:
   m_ObjectHideFlags: 0
@@ -340,7 +367,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 972054845268556831}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}

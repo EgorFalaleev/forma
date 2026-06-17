@@ -1,10 +1,10 @@
 ﻿using Forma.Runtime.Camera;
 using Forma.Runtime.Enemies;
+using Forma.Runtime.HexGrid;
 using Forma.Runtime.Input;
 using Forma.Runtime.StateMachine.States;
 using Forma.Runtime.StateMachine.Triggers;
 using R3;
-using UnityEngine;
 
 namespace Forma.Runtime.GameStates
 {
@@ -16,17 +16,21 @@ namespace Forma.Runtime.GameStates
         readonly ToggleGridInputHandler _toggleGridInputHandler;
         readonly EnemyController _enemyController;
         readonly CameraController _cameraController;
+        readonly TurretRepository _turretRepository;
+        readonly TileController _tileController;
         readonly CompositeDisposable _disposables = new();
         readonly Trigger _onGridSpawnRequested = new();
 
         public BattleState(MoveInputHandler moveInputHandler,
             ToggleGridInputHandler toggleGridInputHandler,
-            EnemyController enemyController, CameraController cameraController)
+            EnemyController enemyController, CameraController cameraController, TurretRepository turretRepository, TileController tileController)
         {
             _moveInputHandler = moveInputHandler;
             _toggleGridInputHandler = toggleGridInputHandler;
             _enemyController = enemyController;
             _cameraController = cameraController;
+            _turretRepository = turretRepository;
+            _tileController = tileController;
         }
 
         public void OnEnter()
@@ -40,6 +44,8 @@ namespace Forma.Runtime.GameStates
                .OnGridToggled
                .Subscribe(SpawnGrid)
                .AddTo(_disposables);
+
+            _turretRepository.OnTurretDestroyed.Subscribe(OnTurretDestroyed).AddTo(_disposables);
 
             _enemyController.StartSpawning().Forget();
         }
@@ -57,6 +63,15 @@ namespace Forma.Runtime.GameStates
         void SpawnGrid(Unit _)
         {
             _onGridSpawnRequested.Fire();
+        }
+
+        void OnTurretDestroyed(Turret.Turret turret)
+        {
+            var turretCoordinates = _turretRepository.GetCoordinates(turret);
+
+            _turretRepository.Unregister(turret);
+
+            _tileController.UnoccupyTile(turretCoordinates);
         }
     }
 }

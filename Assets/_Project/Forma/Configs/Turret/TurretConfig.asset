@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: TurretConfig
   m_EditorClassIdentifier: Core::Forma.Runtime.Core.Features.Turret.Configs.TurretConfig
   <Movement>k__BackingField: {fileID: 11400000, guid: 93749cc393a1a36488e87601dca38c76, type: 2}
+  <Health>k__BackingField: {fileID: 11400000, guid: 7b287678981b8ba49a6e34a58756bd47, type: 2}
+  <Attack>k__BackingField: {fileID: 11400000, guid: eaff3c2d8dc7e15419801e28c4b4f397, type: 2}
   <Animation>k__BackingField: {fileID: 11400000, guid: 7dd210575f21dd24ea664f1b8107bfec, type: 2}
   <RotationSpeed>k__BackingField: 200

@@ -37,7 +37,21 @@ namespace Forma.Runtime.HexGrid
             _gridRepository.SetOccupied(tileCoordinates);
 
             tile.PrepareInactive();
-            
+
+            UpdateNeighbours(tileCoordinates);
+        }
+
+        public void UnoccupyTile(HexCubeCoordinates tileCoordinates)
+        {
+            _gridRepository.SetUnoccupied(tileCoordinates);
+
+            _gridRepository.GetView(tileCoordinates).PrepareActive();
+
+            UpdateNeighbours(tileCoordinates);
+        }
+
+        void UpdateNeighbours(HexCubeCoordinates tileCoordinates)
+        {
             HexCubeCoordinates[] tileNeighbours = tileCoordinates.GetNeighbours();
 
             foreach (HexCubeCoordinates neighbourCoordinates in tileNeighbours)

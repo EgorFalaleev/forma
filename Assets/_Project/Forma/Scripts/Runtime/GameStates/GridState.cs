@@ -110,7 +110,8 @@ namespace Forma.Runtime.GameStates
             Vector3 selectedTilePosition = selectedTile.transform.position;
 
             _turretController.PlaceTurret(
-                new Vector2(selectedTilePosition.x, selectedTilePosition.z)
+                new Vector2(selectedTilePosition.x, selectedTilePosition.z),
+                _gridRepository.GetCoordinates(selectedTile)
             );
 
             _tileController.Reset();

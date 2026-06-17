@@ -54,6 +54,9 @@ namespace Forma.Runtime.HexGrid
         public void SetOccupied(HexCubeCoordinates coordinates)
             => _occupiedTiles.Add(coordinates);
 
+        public void SetUnoccupied(HexCubeCoordinates coordinates)
+            => _occupiedTiles.Remove(coordinates);
+
         HexTileStatus GetTileStatus(HexCubeCoordinates coordinates)
         {
             if (_occupiedTiles.Contains(coordinates))

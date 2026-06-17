@@ -9,15 +9,20 @@ namespace Forma.Runtime.Turret
 {
     public class Turret : MonoBehaviour
     {
+        public Observable<Turret> OnDied => _onDied;
+
         [SerializeField] Movement.Movement _movement;
         [SerializeField] TriggerZone _triggerZone;
+        [SerializeField] Health _health;
+        [SerializeField] Attack _attack;
 
         IMoveInput _moveInput;
         TurretConfig _turretConfig;
         TurretAnimationConfig _animationConfig;
         Tween _currentTween;
         Transform _currentTarget;
-        CompositeDisposable _disposables;
+        CompositeDisposable _disposables = new();
+        Subject<Turret> _onDied = new();
 
         public void Construct(IMoveInput moveInput, TurretConfig turretConfig)
         {
@@ -25,7 +30,9 @@ namespace Forma.Runtime.Turret
             _turretConfig = turretConfig;
             _animationConfig = turretConfig.Animation;
 
-            _disposables = new CompositeDisposable();
+            _movement.Construct(turretConfig.Movement);
+            _health.Construct(turretConfig.Health);
+            _attack.Construct(turretConfig.Attack);
 
             _triggerZone
                .OnTransformEntered
@@ -37,7 +44,7 @@ namespace Forma.Runtime.Turret
                .Subscribe(OnTargetExited)
                .AddTo(_disposables);
 
-            _movement.Construct(turretConfig.Movement);
+            _health.OnDied.Subscribe(Die).AddTo(_disposables);
         }
 
         void Update()
@@ -54,6 +61,13 @@ namespace Forma.Runtime.Turret
         {
             _disposables.Dispose();
         }
+
+        void Die(Unit unit)
+        {
+            _onDied.OnNext(this);
+            Destroy(gameObject);
+        }
+
 
         void TrackTarget()
         {
