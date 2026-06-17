@@ -15,20 +15,24 @@ namespace Forma.Runtime.Turret
         [SerializeField] TriggerZone _triggerZone;
         [SerializeField] Health _health;
         [SerializeField] Attack _attack;
+        [SerializeField] Transform _shootPoint;
 
         IMoveInput _moveInput;
         TurretConfig _turretConfig;
         TurretAnimationConfig _animationConfig;
+        ProjectileFactory _projectileFactory;
         Tween _currentTween;
         Transform _currentTarget;
         CompositeDisposable _disposables = new();
         Subject<Turret> _onDied = new();
+        float _timer;
 
-        public void Construct(IMoveInput moveInput, TurretConfig turretConfig)
+        public void Construct(IMoveInput moveInput, TurretConfig turretConfig, ProjectileFactory projectileFactory)
         {
             _moveInput = moveInput;
             _turretConfig = turretConfig;
             _animationConfig = turretConfig.Animation;
+            _projectileFactory = projectileFactory;
 
             _movement.Construct(turretConfig.Movement);
             _health.Construct(turretConfig.Health);
@@ -55,6 +59,7 @@ namespace Forma.Runtime.Turret
                 return;
 
             TrackTarget();
+            TryFireAtTarget();
         }
 
         void OnDestroy()
@@ -157,6 +162,23 @@ namespace Forma.Runtime.Turret
                     ease: Ease.Linear
                 )
             );
+        }
+
+        void TryFireAtTarget()
+        {
+            _timer += Time.deltaTime;
+
+            if (_timer < _turretConfig.ShootDelaySeconds)
+                return;
+
+            Vector3 directionToTarget = (_currentTarget.transform.position - transform.position).normalized;
+
+            if (Vector3.Dot(transform.forward, directionToTarget) < 0.9f)
+                return;
+
+            _timer = 0f;
+
+            _projectileFactory.Create(_shootPoint.position, _currentTarget.transform.position);
         }
     }
 }

@@ -5,6 +5,7 @@ using Forma.Runtime.HexGrid;
 using Forma.Runtime.HexGrid.Configs;
 using Forma.Runtime.Input;
 using Forma.Runtime.Player;
+using Forma.Runtime.Projectiles.Configs;
 using Forma.Runtime.Turret;
 using Forma.Runtime.Turret.Configs;
 using Forma.Runtime.UI;
@@ -24,6 +25,7 @@ namespace Forma.Runtime.Composition.Core
         [SerializeField] WavesConfig _wavesConfig;
         [SerializeField] EnemyConfig _enemyConfig;
         [SerializeField] PlayerConfig _playerConfig;
+        [SerializeField] ProjectileConfig _projectileConfig;
 
         [SerializeField] GameStatePanel _gameStatePanel;
 
@@ -45,6 +47,7 @@ namespace Forma.Runtime.Composition.Core
             builder.RegisterInstance(_wavesConfig);
             builder.RegisterInstance(_enemyConfig);
             builder.RegisterInstance(_playerConfig);
+            builder.RegisterInstance(_projectileConfig);
 
             RegisterServices(builder);
 
@@ -52,12 +55,20 @@ namespace Forma.Runtime.Composition.Core
             RegisterPlayer(builder);
             RegisterCamera(builder);
             RegisterEnemy(builder);
+            RegisterProjectile(builder);
             RegisterTurret(builder);
         }
 
         void RegisterCamera(IContainerBuilder builder)
         {
             builder.RegisterComponent(_cameraController);
+        }
+
+        void RegisterProjectile(IContainerBuilder builder)
+        {
+            builder
+               .Register<ProjectileFactory>(Lifetime.Singleton)
+               .AsSelf();
         }
 
         void RegisterTurret(IContainerBuilder builder)

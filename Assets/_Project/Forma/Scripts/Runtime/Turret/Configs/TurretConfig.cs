@@ -15,5 +15,9 @@ namespace Forma.Runtime.Turret.Configs
         [field: Min(0f)]
         [field: SerializeField]
         public float RotationSpeed { get; private set; }
+
+        [field: Min(0f)]
+        [field: SerializeField]
+        public float ShootDelaySeconds { get; private set; }
     }
 }

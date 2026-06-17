@@ -10,11 +10,13 @@ namespace Forma.Runtime.Turret
     {
         readonly IPlayerProvider _playerProvider;
         readonly TurretConfig _turretConfig;
+        readonly ProjectileFactory _projectileFactory;
 
-        public TurretFactory(IPlayerProvider playerProvider, TurretConfig turretConfig)
+        public TurretFactory(IPlayerProvider playerProvider, TurretConfig turretConfig, ProjectileFactory projectileFactory)
         {
             _playerProvider = playerProvider;
             _turretConfig = turretConfig;
+            _projectileFactory = projectileFactory;
         }
 
         public Turret Create(Vector3 position, Transform parent)
@@ -34,7 +36,7 @@ namespace Forma.Runtime.Turret
                 position - _playerProvider.Transform.position
             );
 
-            turret.Construct(moveInput, _turretConfig);
+            turret.Construct(moveInput, _turretConfig, _projectileFactory);
 
             return turret;
         }

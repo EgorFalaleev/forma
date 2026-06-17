@@ -17,3 +17,4 @@ MonoBehaviour:
   <Attack>k__BackingField: {fileID: 11400000, guid: eaff3c2d8dc7e15419801e28c4b4f397, type: 2}
   <Animation>k__BackingField: {fileID: 11400000, guid: 7dd210575f21dd24ea664f1b8107bfec, type: 2}
   <RotationSpeed>k__BackingField: 200
+  <ShootDelaySeconds>k__BackingField: 1

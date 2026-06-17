@@ -855,6 +855,7 @@ MonoBehaviour:
   _wavesConfig: {fileID: 11400000, guid: 4d5926fbc6b31e9459414f376fda4643, type: 2}
   _enemyConfig: {fileID: 11400000, guid: 2a1592ef7e6481946a9c578702d2cd7f, type: 2}
   _playerConfig: {fileID: 11400000, guid: 60b10e51ad3795144908dccaf3b23239, type: 2}
+  _projectileConfig: {fileID: 11400000, guid: cdf92c01182ebff47b992dff1b84b41a, type: 2}
   _gameStatePanel: {fileID: 1443611220}
 --- !u!4 &1005497273
 Transform:

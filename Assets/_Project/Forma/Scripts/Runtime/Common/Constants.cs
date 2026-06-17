@@ -32,6 +32,7 @@ namespace Forma.Runtime.Common
             public static readonly string Tile = $"{Prefabs}/Tile";
             public static readonly string Turret = $"{Prefabs}/Turret";
             public static readonly string Enemy = $"{Prefabs}/Enemy";
+            public static readonly string Projectile = $"{Prefabs}/Projectile";
         }
     }
 }
