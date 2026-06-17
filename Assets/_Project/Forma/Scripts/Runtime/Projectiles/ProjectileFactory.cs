@@ -19,9 +19,12 @@ public class ProjectileFactory
         var resource = Resources.Load<Projectile>(Constants.Resources.Projectile);
 
         var direction = (targetPosition - position).normalized;
+
         var moveInput = new ConstantDirectionMoveInput(direction);
 
-        Projectile instance = Object.Instantiate(resource, position, Quaternion.identity, _parent);
+        var rotation = Quaternion.LookRotation(direction);
+
+        Projectile instance = Object.Instantiate(resource, position, rotation, _parent);
 
         instance.Construct(_projectileConfig, moveInput);
 
