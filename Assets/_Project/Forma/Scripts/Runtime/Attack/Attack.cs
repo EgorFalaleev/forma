@@ -12,10 +12,20 @@ public class Attack : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (!IsValidTargetLayer(collision.gameObject.layer))
+        TryDealDamage(collision.gameObject);
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        TryDealDamage(other.gameObject);
+    }
+
+    void TryDealDamage(GameObject target)
+    {
+        if (!IsValidTargetLayer(target.layer))
             return;
 
-        if (collision.gameObject.TryGetComponent(out Health health))
+        if (target.TryGetComponent(out Health health))
             health.TakeDamage(_attackConfig.Damage);
     }
 
