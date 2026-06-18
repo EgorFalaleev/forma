@@ -1,5 +1,6 @@
 using Forma.Runtime.Movement;
 using Forma.Runtime.Projectiles.Configs;
+using R3;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour
@@ -8,6 +9,7 @@ public class Projectile : MonoBehaviour
     [SerializeField] Attack _attack;
 
     IMoveInput _moveInput;
+    CompositeDisposable _disposables = new();
 
     public void Construct(ProjectileConfig projectileConfig, IMoveInput moveInput)
     {
@@ -15,10 +17,24 @@ public class Projectile : MonoBehaviour
 
         _movement.Construct(projectileConfig.Movement);
         _attack.Construct(projectileConfig.Attack);
+
+        _attack.OnHit.Subscribe(OnHit).AddTo(_disposables);
     }
+
+    
 
     void Update()
     {
         _movement.Move(_moveInput.MoveDirection);
+    }
+
+    void OnDestroy()
+    {
+        _disposables.Dispose();
+    }
+
+    void OnHit(Unit _)
+    {
+        Destroy(gameObject);
     }
 }
