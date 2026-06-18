@@ -175,6 +175,11 @@ namespace Forma.Runtime.Composition.Core
                .Register<PlaceTurretInputHandler>(Lifetime.Singleton)
                .AsImplementedInterfaces()
                .AsSelf();
+
+            builder
+               .Register<TimerSystem>(Lifetime.Singleton)
+               .AsImplementedInterfaces()
+               .AsSelf();
         }
     }
 }
