@@ -1,5 +1,4 @@
-﻿using Forma.Runtime.HexGrid;
-using R3;
+﻿using R3;
 using UnityEngine.InputSystem;
 
 namespace Forma.Runtime.Input
@@ -31,8 +30,6 @@ namespace Forma.Runtime.Input
         }
 
         void OnToggleGridInputActionPerformed(InputAction.CallbackContext _)
-        {
-            _onGridToggled.OnNext(Unit.Default);
-        }
+            => _onGridToggled.OnNext(Unit.Default);
     }
 }

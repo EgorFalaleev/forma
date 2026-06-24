@@ -9,7 +9,7 @@ namespace Forma.Runtime.GameStates
     public class StartBattleState : IState
     {
         public ITrigger OnBattleStarted => _onBattleStarted;
-        
+
         readonly PlayerFactory _playerFactory;
         readonly PlayerRepository _playerRepository;
         readonly CameraController _cameraController;
@@ -29,9 +29,9 @@ namespace Forma.Runtime.GameStates
         {
             Player.Player player = _playerFactory.Create(new Vector3(10f, 1f, 0f));
             _playerRepository.Register(player);
-            
+
             _cameraController.Initialize();
-            
+
             _onBattleStarted.Fire();
         }
 

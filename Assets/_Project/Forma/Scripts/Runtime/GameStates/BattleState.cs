@@ -1,9 +1,11 @@
 ﻿using Forma.Runtime.Camera;
 using Forma.Runtime.Enemies;
 using Forma.Runtime.HexGrid;
+using Forma.Runtime.HexGrid.Data;
 using Forma.Runtime.Input;
 using Forma.Runtime.StateMachine.States;
 using Forma.Runtime.StateMachine.Triggers;
+using Forma.Runtime.Turret;
 using R3;
 
 namespace Forma.Runtime.GameStates
@@ -23,7 +25,8 @@ namespace Forma.Runtime.GameStates
 
         public BattleState(MoveInputHandler moveInputHandler,
             ToggleGridInputHandler toggleGridInputHandler,
-            EnemyController enemyController, CameraController cameraController, TurretRepository turretRepository, TileController tileController)
+            EnemyController enemyController, CameraController cameraController,
+            TurretRepository turretRepository, TileController tileController)
         {
             _moveInputHandler = moveInputHandler;
             _toggleGridInputHandler = toggleGridInputHandler;
@@ -36,7 +39,7 @@ namespace Forma.Runtime.GameStates
         public void OnEnter()
         {
             _cameraController.ShowFollow();
-            
+
             _moveInputHandler.Enable();
             _toggleGridInputHandler.Enable();
 
@@ -45,9 +48,14 @@ namespace Forma.Runtime.GameStates
                .Subscribe(SpawnGrid)
                .AddTo(_disposables);
 
-            _turretRepository.OnTurretDestroyed.Subscribe(OnTurretDestroyed).AddTo(_disposables);
+            _turretRepository
+               .OnTurretDestroyed
+               .Subscribe(OnTurretDestroyed)
+               .AddTo(_disposables);
 
-            _enemyController.StartSpawning().Forget();
+            _enemyController
+               .StartSpawning()
+               .Forget();
         }
 
         public void OnExit()
@@ -61,13 +69,12 @@ namespace Forma.Runtime.GameStates
         }
 
         void SpawnGrid(Unit _)
-        {
-            _onGridSpawnRequested.Fire();
-        }
+            => _onGridSpawnRequested.Fire();
 
         void OnTurretDestroyed(Turret.Turret turret)
         {
-            var turretCoordinates = _turretRepository.GetCoordinates(turret);
+            HexCubeCoordinates turretCoordinates =
+                _turretRepository.GetCoordinates(turret);
 
             _turretRepository.Unregister(turret);
 

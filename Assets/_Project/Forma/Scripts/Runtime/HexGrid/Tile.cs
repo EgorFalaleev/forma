@@ -41,10 +41,7 @@ namespace Forma.Runtime.HexGrid
                 ? ShadowCastingMode.On
                 : ShadowCastingMode.Off;
 
-            _animator.Construct(
-                _hexTileConfig.AnimationConfig,
-                _materialPropertyBlock
-            );
+            _animator.Construct(_hexTileConfig.AnimationConfig, _materialPropertyBlock);
         }
 
         public void DrawMesh()
@@ -54,29 +51,19 @@ namespace Forma.Runtime.HexGrid
         }
 
         public void Select()
-        {
-            _animator.PlaySelect();
-        }
+            => _animator.PlaySelect();
 
         public void Unselect()
-        {
-            _animator.PlayUnselect();
-        }
+            => _animator.PlayUnselect();
 
         public void PrepareActive()
-        {
-            _animator.UpdateColor(_baseColor, _hexTileConfig.Material.color);
-        }
+            => _animator.UpdateColor(_baseColor, _hexTileConfig.Material.color);
 
         public void PrepareInactive()
-        {
-            _animator.UpdateColor(_baseColor, _hexTileConfig.InactiveColor);
-        }
+            => _animator.UpdateColor(_baseColor, _hexTileConfig.InactiveColor);
 
         public void UpdatePosition(Vector3 position)
-        {
-            transform.position = position;
-        }
+            => transform.position = position;
 
         void ConfigureFaces()
         {

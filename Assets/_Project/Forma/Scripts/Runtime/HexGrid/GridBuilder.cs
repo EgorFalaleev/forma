@@ -44,10 +44,8 @@ namespace Forma.Runtime.HexGrid
         }
 
         Dictionary<HexCubeCoordinates, Vector3> CalculateGridLayout()
-        {
-            return CalculateHexCoordinates()
+            => CalculateHexCoordinates()
                .ToDictionary(coord => coord, GetPositionFromCubeCoordinates);
-        }
 
         Vector3 GetPositionFromCubeCoordinates(HexCubeCoordinates coord)
         {

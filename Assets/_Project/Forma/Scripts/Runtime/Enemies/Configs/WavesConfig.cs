@@ -1,7 +1,10 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Forma/Configs/Enemy/Waves")]
-public class WavesConfig : ScriptableObject
+namespace Forma.Runtime.Enemies.Configs
 {
-    [field: SerializeField] public WaveData[] Waves { get; private set; }
+    [CreateAssetMenu(menuName = "Forma/Configs/Enemy/Waves")]
+    public class WavesConfig : ScriptableObject
+    {
+        [field: SerializeField] public WaveData[] Waves { get; private set; }
+    }
 }

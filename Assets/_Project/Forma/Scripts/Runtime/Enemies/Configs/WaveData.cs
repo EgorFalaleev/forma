@@ -1,8 +1,11 @@
-using System;  
+using System;
 
-[Serializable]
-public class WaveData
+namespace Forma.Runtime.Enemies.Configs
 {
-    public int Amount;
-    public float SpawnDelay;
+    [Serializable]
+    public class WaveData
+    {
+        public int Amount;
+        public float SpawnDelay;
+    }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using Cysharp.Threading.Tasks;
+using Forma.Runtime.Enemies.Configs;
 
 namespace Forma.Runtime.Enemies
 {
@@ -17,11 +18,15 @@ namespace Forma.Runtime.Enemies
 
         public async UniTaskVoid StartSpawning()
         {
-            _cancellationTokenSource = new();
+            _cancellationTokenSource = new CancellationTokenSource();
 
             WaveData nextWave = _wavesConfig.Waves[0];
 
-            await _enemySpawner.SpawnWaveWithDelay(nextWave.Amount, nextWave.SpawnDelay, _cancellationTokenSource.Token);
+            await _enemySpawner.SpawnWaveWithDelay(
+                nextWave.Amount,
+                nextWave.SpawnDelay,
+                _cancellationTokenSource.Token
+            );
         }
 
         public void StopSpawning()
@@ -29,6 +34,6 @@ namespace Forma.Runtime.Enemies
             _cancellationTokenSource?.Cancel();
             _cancellationTokenSource?.Dispose();
             _cancellationTokenSource = null;
-        }        
+        }
     }
 }

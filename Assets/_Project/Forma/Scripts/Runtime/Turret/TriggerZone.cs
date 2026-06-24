@@ -13,13 +13,9 @@ namespace Forma.Runtime.Turret
         readonly Subject<Transform> _onTransformExited = new();
 
         void OnTriggerEnter(Collider other)
-        {
-            _onTransformEntered.OnNext(other.transform);
-        }
+            => _onTransformEntered.OnNext(other.transform);
 
         void OnTriggerExit(Collider other)
-        {
-            _onTransformExited.OnNext(other.transform);
-        }
+            => _onTransformExited.OnNext(other.transform);
     }
 }

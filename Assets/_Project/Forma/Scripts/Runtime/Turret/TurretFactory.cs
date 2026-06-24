@@ -1,6 +1,7 @@
 ﻿using Forma.Runtime.Common;
 using Forma.Runtime.Movement;
 using Forma.Runtime.Player;
+using Forma.Runtime.Projectiles;
 using Forma.Runtime.Turret.Configs;
 using UnityEngine;
 
@@ -12,7 +13,8 @@ namespace Forma.Runtime.Turret
         readonly TurretConfig _turretConfig;
         readonly ProjectileFactory _projectileFactory;
 
-        public TurretFactory(IPlayerProvider playerProvider, TurretConfig turretConfig, ProjectileFactory projectileFactory)
+        public TurretFactory(IPlayerProvider playerProvider, TurretConfig turretConfig,
+            ProjectileFactory projectileFactory)
         {
             _playerProvider = playerProvider;
             _turretConfig = turretConfig;

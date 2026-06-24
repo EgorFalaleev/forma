@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using Forma.Runtime.Attack.Configs;
+using Forma.Runtime.Health.Configs;
+using Forma.Runtime.Movement.Configs;
+using UnityEngine;
 
 namespace Forma.Runtime.Turret.Configs
 {

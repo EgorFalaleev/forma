@@ -1,33 +1,42 @@
 using Forma.Runtime.Common;
+using Forma.Runtime.Movement;
 using Forma.Runtime.Projectiles.Configs;
 using UnityEngine;
 
-public class ProjectileFactory
+namespace Forma.Runtime.Projectiles
 {
-    readonly ProjectileConfig _projectileConfig;
-    readonly Transform _parent;
-
-    public ProjectileFactory(ProjectileConfig projectileConfig)
+    public class ProjectileFactory
     {
-        _projectileConfig = projectileConfig;
+        readonly ProjectileConfig _projectileConfig;
+        readonly Transform _parent;
 
-        _parent = new GameObject("Projectiles").transform;
-    }
+        public ProjectileFactory(ProjectileConfig projectileConfig)
+        {
+            _projectileConfig = projectileConfig;
 
-    public Projectile Create(Vector3 position, Vector3 targetPosition)
-    {
-        var resource = Resources.Load<Projectile>(Constants.Resources.Projectile);
+            _parent = new GameObject("Projectiles").transform;
+        }
 
-        var direction = (targetPosition - position).normalized;
+        public Projectile Create(Vector3 position, Vector3 targetPosition)
+        {
+            var resource = Resources.Load<Projectile>(Constants.Resources.Projectile);
 
-        var moveInput = new ConstantDirectionMoveInput(direction);
+            Vector3 direction = (targetPosition - position).normalized;
 
-        var rotation = Quaternion.LookRotation(direction);
+            var moveInput = new ConstantDirectionMoveInput(direction);
 
-        Projectile instance = Object.Instantiate(resource, position, rotation, _parent);
+            Quaternion rotation = Quaternion.LookRotation(direction);
 
-        instance.Construct(_projectileConfig, moveInput);
+            Projectile instance = Object.Instantiate(
+                resource,
+                position,
+                rotation,
+                _parent
+            );
 
-        return instance;
+            instance.Construct(_projectileConfig, moveInput);
+
+            return instance;
+        }
     }
 }

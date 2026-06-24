@@ -3,38 +3,36 @@ using Forma.Runtime.Projectiles.Configs;
 using R3;
 using UnityEngine;
 
-public class Projectile : MonoBehaviour
+namespace Forma.Runtime.Projectiles
 {
-    [SerializeField] Movement _movement;
-    [SerializeField] Attack _attack;
-
-    IMoveInput _moveInput;
-    CompositeDisposable _disposables = new();
-
-    public void Construct(ProjectileConfig projectileConfig, IMoveInput moveInput)
+    public class Projectile : MonoBehaviour
     {
-        _moveInput = moveInput;
+        [SerializeField] Movement.Movement _movement;
+        [SerializeField] Attack.Attack _attack;
 
-        _movement.Construct(projectileConfig.Movement);
-        _attack.Construct(projectileConfig.Attack);
+        IMoveInput _moveInput;
+        readonly CompositeDisposable _disposables = new();
 
-        _attack.OnHit.Subscribe(OnHit).AddTo(_disposables);
-    }
+        public void Construct(ProjectileConfig projectileConfig, IMoveInput moveInput)
+        {
+            _moveInput = moveInput;
 
-    
+            _movement.Construct(projectileConfig.Movement);
+            _attack.Construct(projectileConfig.Attack);
 
-    void Update()
-    {
-        _movement.Move(_moveInput.MoveDirection);
-    }
+            _attack
+               .OnHit
+               .Subscribe(OnHit)
+               .AddTo(_disposables);
+        }
 
-    void OnDestroy()
-    {
-        _disposables.Dispose();
-    }
+        void Update()
+            => _movement.Move(_moveInput.MoveDirection);
 
-    void OnHit(Unit _)
-    {
-        Destroy(gameObject);
+        void OnDestroy()
+            => _disposables.Dispose();
+
+        void OnHit(Unit _)
+            => Destroy(gameObject);
     }
 }

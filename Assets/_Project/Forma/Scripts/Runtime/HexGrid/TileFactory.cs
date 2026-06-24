@@ -14,7 +14,7 @@ namespace Forma.Runtime.HexGrid
         {
             _objectResolver = objectResolver;
         }
-        
+
         public Tile Create(HexCubeCoordinates coordinates, Transform parent)
         {
             var resource = Resources.Load<Tile>(Constants.Resources.Tile);

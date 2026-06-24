@@ -1,5 +1,6 @@
 ﻿using Forma.Runtime.Common;
 using Forma.Runtime.Movement;
+using Forma.Runtime.Player.Configs;
 using UnityEngine;
 
 namespace Forma.Runtime.Player

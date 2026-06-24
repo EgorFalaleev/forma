@@ -4,36 +4,44 @@ using R3;
 using UnityEngine;
 using VContainer.Unity;
 
-public class TimerSystem : ITickable
+namespace Forma.Runtime.Timer
 {
-    readonly List<Timer> _timers = new();
-    readonly CompositeDisposable _disposables = new();
-
-    public void Tick()
+    public class TimerSystem : ITickable
     {
-        foreach (Timer timer in _timers)
+        readonly List<Timer> _timers = new();
+        readonly CompositeDisposable _disposables = new();
+
+        public void Tick()
         {
-            if (!timer.IsActive)
-                continue;
+            foreach (Timer timer in _timers)
+            {
+                if (!timer.IsActive)
+                    continue;
 
-            timer.Update(Time.deltaTime);
+                timer.Update(Time.deltaTime);
+            }
         }
-    }
 
-    public Timer CreateTimer(float duration, Action<Timer> callback = null)
-    {
-        var timer = new Timer(duration, callback);
+        public Timer CreateTimer(float duration, Action<Timer> callback = null)
+        {
+            var timer = new Timer(duration, callback);
 
-        timer.OnTimerCanceled.Subscribe(RemoveTimer).AddTo(_disposables);
-        timer.OnTimerFinished.Subscribe(RemoveTimer).AddTo(_disposables);
+            timer
+               .OnTimerCanceled
+               .Subscribe(RemoveTimer)
+               .AddTo(_disposables);
 
-        _timers.Add(timer);
+            timer
+               .OnTimerFinished
+               .Subscribe(RemoveTimer)
+               .AddTo(_disposables);
 
-        return timer;
-    }
+            _timers.Add(timer);
 
-    void RemoveTimer(Timer timer)
-    {
-        _timers.Remove(timer);
+            return timer;
+        }
+
+        void RemoveTimer(Timer timer)
+            => _timers.Remove(timer);
     }
 }

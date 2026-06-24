@@ -46,20 +46,16 @@ namespace Forma.Runtime.GameStates
         }
 
         public void OnEnter()
-        {
-            SpawnGrid()
+            => SpawnGrid()
                .Forget();
-        }
 
         public void OnExit()
-        {
-            _disposables.Clear();
-        }
+            => _disposables.Clear();
 
         async UniTaskVoid SpawnGrid()
         {
             await _gridController.SpawnGrid();
-            
+
             _cameraController.ShowOverview();
 
             _toggleGridInputHandler.Enable();
@@ -93,9 +89,7 @@ namespace Forma.Runtime.GameStates
         }
 
         void OnClickedTile(Tile tile)
-        {
-            _tileController.ProcessTileSelection(tile);
-        }
+            => _tileController.ProcessTileSelection(tile);
 
         void OnPlaceTurretClicked(Unit _)
         {

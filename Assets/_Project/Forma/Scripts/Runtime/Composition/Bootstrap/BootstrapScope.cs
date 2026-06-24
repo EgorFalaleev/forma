@@ -6,8 +6,6 @@ namespace Forma.Runtime.Composition.Bootstrap
     public class BootstrapScope : LifetimeScope
     {
         protected override void Configure(IContainerBuilder builder)
-        {
-            builder.RegisterEntryPoint<BootstrapFlow>();
-        }
+            => builder.RegisterEntryPoint<BootstrapFlow>();
     }
 }

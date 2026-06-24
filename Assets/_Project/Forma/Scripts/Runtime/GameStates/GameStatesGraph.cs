@@ -22,7 +22,8 @@ namespace Forma.Runtime.GameStates
             TileController tileController, TileSelector tileSelector,
             PlaceTurretInputHandler placeTurretInputHandler,
             GridRepository gridRepository, TurretController turretController,
-            EnemyController enemyController, CameraController cameraController, TurretRepository turretRepository)
+            EnemyController enemyController, CameraController cameraController,
+            TurretRepository turretRepository)
         {
             _stateMachine = new StateMachine.StateMachine();
 

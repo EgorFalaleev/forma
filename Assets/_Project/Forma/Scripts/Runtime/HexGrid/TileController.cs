@@ -26,9 +26,7 @@ namespace Forma.Runtime.HexGrid
         }
 
         public void Reset()
-        {
-            _tileSelector.Unselect();
-        }
+            => _tileSelector.Unselect();
 
         public void OccupyTile(Tile tile)
         {
@@ -45,7 +43,9 @@ namespace Forma.Runtime.HexGrid
         {
             _gridRepository.SetUnoccupied(tileCoordinates);
 
-            _gridRepository.GetView(tileCoordinates).PrepareActive();
+            _gridRepository
+               .GetView(tileCoordinates)
+               .PrepareActive();
 
             UpdateNeighbours(tileCoordinates);
         }

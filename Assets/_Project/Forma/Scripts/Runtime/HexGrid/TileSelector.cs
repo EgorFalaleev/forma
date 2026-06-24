@@ -4,7 +4,7 @@
     {
         public Tile SelectedTile => _selectedTile;
         public bool HasSelectedTile => _selectedTile != null;
-        
+
         Tile _selectedTile;
 
         public void ProcessTileSelection(Tile tile)

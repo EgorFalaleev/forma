@@ -10,7 +10,7 @@ namespace Forma.Runtime.HexGrid
         readonly int _emissionColor = Shader.PropertyToID("_EmissionColor");
 
         [SerializeField] MeshRenderer _meshRenderer;
-        
+
         HexTileAnimationConfig _hexTileAnimationConfig;
         MaterialPropertyBlock _materialPropertyBlock;
         float _initialPositionY;
@@ -70,8 +70,6 @@ namespace Forma.Runtime.HexGrid
         }
 
         void UpdateEmissionColor(Color color)
-        {
-            UpdateColor(_emissionColor, color);
-        }
+            => UpdateColor(_emissionColor, color);
     }
 }

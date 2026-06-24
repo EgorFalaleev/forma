@@ -1,43 +1,41 @@
+using Forma.Runtime.Attack.Configs;
 using R3;
 using UnityEngine;
 
-[RequireComponent(typeof(Collider))]
-public class Attack : MonoBehaviour
+namespace Forma.Runtime.Attack
 {
-    public Observable<Unit> OnHit => _onHit;
-
-    Subject<Unit> _onHit = new();
-    AttackConfig _attackConfig;
-
-    public void Construct(AttackConfig attackConfig)
+    [RequireComponent(typeof(Collider))]
+    public class Attack : MonoBehaviour
     {
-        _attackConfig = attackConfig;
-    }
+        public Observable<Unit> OnHit => _onHit;
 
-    void OnCollisionEnter(Collision collision)
-    {
-        TryDealDamage(collision.gameObject);
-    }
+        readonly Subject<Unit> _onHit = new();
+        AttackConfig _attackConfig;
 
-    void OnTriggerEnter(Collider other)
-    {
-        TryDealDamage(other.gameObject);
-    }
-
-    void TryDealDamage(GameObject target)
-    {
-        if (!IsValidTargetLayer(target.layer))
-            return;
-
-        if (target.TryGetComponent(out Health health))
-        {                
-            health.TakeDamage(_attackConfig.Damage);
-            _onHit.OnNext(Unit.Default);
+        public void Construct(AttackConfig attackConfig)
+        {
+            _attackConfig = attackConfig;
         }
-    }
 
-    bool IsValidTargetLayer(int targetLayer)
-    {
-        return (_attackConfig.TargetLayerMask & (1 << targetLayer)) != 0;
+        void OnCollisionEnter(Collision collision)
+            => TryDealDamage(collision.gameObject);
+
+        void OnTriggerEnter(Collider other)
+            => TryDealDamage(other.gameObject);
+
+        void TryDealDamage(GameObject target)
+        {
+            if (!IsValidTargetLayer(target.layer))
+                return;
+
+            if (target.TryGetComponent(out Health.Health health))
+            {
+                health.TakeDamage(_attackConfig.Damage);
+                _onHit.OnNext(Unit.Default);
+            }
+        }
+
+        bool IsValidTargetLayer(int targetLayer)
+            => (_attackConfig.TargetLayerMask & (1 << targetLayer)) != 0;
     }
 }

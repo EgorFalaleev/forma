@@ -1,20 +1,24 @@
+using Forma.Runtime.Movement.Configs;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
-public class RigidbodyMovement: MonoBehaviour
+namespace Forma.Runtime.Movement
 {
-    [SerializeField] Rigidbody _rigidbody;
-
-    float _speed;
-
-    public void Construct(MovementConfig movementConfig)
+    [RequireComponent(typeof(Rigidbody))]
+    public class RigidbodyMovement : MonoBehaviour
     {
-        _speed = movementConfig.Speed;   
-    }
+        [SerializeField] Rigidbody _rigidbody;
 
-    public void Move(Vector3 direction)
-    { 
-        Vector3 velocity = direction * _speed;
-        _rigidbody.linearVelocity = velocity;
-    }   
+        float _speed;
+
+        public void Construct(MovementConfig movementConfig)
+        {
+            _speed = movementConfig.Speed;
+        }
+
+        public void Move(Vector3 direction)
+        {
+            Vector3 velocity = direction * _speed;
+            _rigidbody.linearVelocity = velocity;
+        }
+    }
 }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Forma.Runtime.Movement.Configs;
+using UnityEngine;
 
 namespace Forma.Runtime.Movement
 {

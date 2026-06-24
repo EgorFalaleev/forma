@@ -11,7 +11,7 @@ namespace Forma.Runtime.HexGrid.Configs
 
         [field: SerializeField]
         public float DelayBetweenRings { get; private set; } = 0.1f;
-        
+
         [field: SerializeField] public Ease Easing { get; private set; }
     }
 }

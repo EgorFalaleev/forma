@@ -11,7 +11,6 @@ namespace Forma.Runtime.Turret
         readonly TurretRepository _turretRepository;
         readonly Transform _turretsParent;
 
-
         public TurretController(TurretFactory turretFactory,
             PlayerRepository playerRepository, TurretRepository turretRepository)
         {
@@ -28,13 +27,13 @@ namespace Forma.Runtime.Turret
                 _playerRepository.Transform.position.y,
                 positionXZ.y
             );
-            
+
             Turret turret = _turretFactory.Create(spawnPosition, _turretsParent);
 
             _turretRepository.Register(turret, coordinates);
 
             turret.gameObject.SetActive(false);
-            
+
             turret.PlaySpawnAnimation();
         }
     }

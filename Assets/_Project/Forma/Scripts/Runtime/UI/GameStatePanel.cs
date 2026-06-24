@@ -1,5 +1,4 @@
-﻿using System;
-using Forma.Runtime.StateMachine.States;
+﻿using Forma.Runtime.StateMachine.States;
 using TMPro;
 using UnityEngine;
 
@@ -10,7 +9,7 @@ namespace Forma.Runtime.UI
         [SerializeField] TMP_Text _stateNameText;
 
         StateMachine.StateMachine _stateMachine;
-        
+
         public void Construct(StateMachine.StateMachine stateMachine)
         {
             _stateMachine = stateMachine;
@@ -18,14 +17,10 @@ namespace Forma.Runtime.UI
         }
 
         void OnDestroy()
-        {
-            _stateMachine.OnStateChanged -= UpdateState;
-        }
+            => _stateMachine.OnStateChanged -= UpdateState;
 
         void UpdateState(IState state)
-        {
-            _stateNameText.text = state.GetType()
+            => _stateNameText.text = state.GetType()
                .Name;
-        }
     }
 }

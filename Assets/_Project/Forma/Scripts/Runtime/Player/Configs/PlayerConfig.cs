@@ -1,9 +1,15 @@
+using Forma.Runtime.Attack.Configs;
+using Forma.Runtime.Health.Configs;
+using Forma.Runtime.Movement.Configs;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Forma/Configs/Player")]
-public class PlayerConfig : ScriptableObject
+namespace Forma.Runtime.Player.Configs
 {
-    [field: SerializeField] public HealthConfig Health { get; private set; }
-    [field: SerializeField] public MovementConfig Movement { get; private set; }
-    [field: SerializeField] public AttackConfig Attack { get; private set; }
+    [CreateAssetMenu(menuName = "Forma/Configs/Player")]
+    public class PlayerConfig : ScriptableObject
+    {
+        [field: SerializeField] public HealthConfig Health { get; private set; }
+        [field: SerializeField] public MovementConfig Movement { get; private set; }
+        [field: SerializeField] public AttackConfig Attack { get; private set; }
+    }
 }

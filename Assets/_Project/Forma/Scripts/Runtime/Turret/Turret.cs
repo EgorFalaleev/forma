@@ -1,5 +1,6 @@
 ﻿using Forma.Runtime.Enemies;
 using Forma.Runtime.Movement;
+using Forma.Runtime.Projectiles;
 using Forma.Runtime.Turret.Configs;
 using PrimeTween;
 using R3;
@@ -13,8 +14,8 @@ namespace Forma.Runtime.Turret
 
         [SerializeField] Movement.Movement _movement;
         [SerializeField] TriggerZone _triggerZone;
-        [SerializeField] Health _health;
-        [SerializeField] Attack _attack;
+        [SerializeField] Health.Health _health;
+        [SerializeField] Attack.Attack _attack;
         [SerializeField] Transform _shootPoint;
 
         IMoveInput _moveInput;
@@ -27,7 +28,8 @@ namespace Forma.Runtime.Turret
         Subject<Turret> _onDied = new();
         float _timer;
 
-        public void Construct(IMoveInput moveInput, TurretConfig turretConfig, ProjectileFactory projectileFactory)
+        public void Construct(IMoveInput moveInput, TurretConfig turretConfig,
+            ProjectileFactory projectileFactory)
         {
             _moveInput = moveInput;
             _turretConfig = turretConfig;
@@ -48,7 +50,10 @@ namespace Forma.Runtime.Turret
                .Subscribe(OnTargetExited)
                .AddTo(_disposables);
 
-            _health.OnDied.Subscribe(Die).AddTo(_disposables);
+            _health
+               .OnDied
+               .Subscribe(Die)
+               .AddTo(_disposables);
         }
 
         void Update()
@@ -63,16 +68,13 @@ namespace Forma.Runtime.Turret
         }
 
         void OnDestroy()
-        {
-            _disposables.Dispose();
-        }
+            => _disposables.Dispose();
 
         void Die(Unit unit)
         {
             _onDied.OnNext(this);
             Destroy(gameObject);
         }
-
 
         void TrackTarget()
         {
@@ -94,7 +96,8 @@ namespace Forma.Runtime.Turret
 
         void OnTargetEntered(Transform target)
         {
-            if (_currentTarget == null && target.TryGetComponent(out Enemy _))
+            if (_currentTarget == null
+             && target.TryGetComponent(out Enemy _))
             {
                 CancelAnimation();
                 _currentTarget = target;
@@ -171,14 +174,18 @@ namespace Forma.Runtime.Turret
             if (_timer < _turretConfig.ShootDelaySeconds)
                 return;
 
-            Vector3 directionToTarget = (_currentTarget.transform.position - transform.position).normalized;
+            Vector3 directionToTarget =
+                (_currentTarget.transform.position - transform.position).normalized;
 
             if (Vector3.Dot(transform.forward, directionToTarget) < 0.9f)
                 return;
 
             _timer = 0f;
 
-            _projectileFactory.Create(_shootPoint.position, _currentTarget.transform.position);
+            _projectileFactory.Create(
+                _shootPoint.position,
+                _currentTarget.transform.position
+            );
         }
     }
 }

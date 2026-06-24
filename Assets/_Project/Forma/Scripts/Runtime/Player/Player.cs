@@ -1,4 +1,5 @@
 ﻿using Forma.Runtime.Movement;
+using Forma.Runtime.Player.Configs;
 using R3;
 using UnityEngine;
 
@@ -7,11 +8,11 @@ namespace Forma.Runtime.Player
     public class Player : MonoBehaviour
     {
         [SerializeField] RigidbodyMovement _movement;
-        [SerializeField] Health _health;
-        [SerializeField] Attack _attack;
+        [SerializeField] Health.Health _health;
+        [SerializeField] Attack.Attack _attack;
 
         IMoveInput _moveInput;
-        CompositeDisposable _disposables = new();
+        readonly CompositeDisposable _disposables = new();
 
         public void Construct(IMoveInput moveInput, PlayerConfig playerConfig)
         {
@@ -21,18 +22,16 @@ namespace Forma.Runtime.Player
             _movement.Construct(playerConfig.Movement);
             _attack.Construct(playerConfig.Attack);
 
-            _health.OnDied.Subscribe(OnDied).AddTo(_disposables);
+            _health
+               .OnDied
+               .Subscribe(OnDied)
+               .AddTo(_disposables);
         }
 
         void FixedUpdate()
-        {
-            _movement.Move(_moveInput.MoveDirection);
-        }
+            => _movement.Move(_moveInput.MoveDirection);
 
-        
         void OnDied(Unit _)
-        {
-            Destroy(gameObject);
-        }
+            => Destroy(gameObject);
     }
 }

@@ -4,7 +4,9 @@ using UnityEngine.InputSystem;
 
 namespace Forma.Runtime.Input
 {
-    public class MoveInputHandler : BaseInputHandler, IMoveInput
+    public class MoveInputHandler
+        : BaseInputHandler,
+          IMoveInput
     {
         public Vector3 MoveDirection => _moveDirection;
 
@@ -41,8 +43,6 @@ namespace Forma.Runtime.Input
         }
 
         void OnMoveInputCanceled(InputAction.CallbackContext _)
-        {
-            _moveDirection = Vector3.zero;
-        }
+            => _moveDirection = Vector3.zero;
     }
 }

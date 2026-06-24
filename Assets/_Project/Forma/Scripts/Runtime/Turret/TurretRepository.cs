@@ -1,33 +1,29 @@
 using System.Collections.Generic;
 using Forma.Runtime.HexGrid.Data;
-using Forma.Runtime.Turret;
 using R3;
 
-public class TurretRepository
+namespace Forma.Runtime.Turret
 {
-    public Observable<Turret> OnTurretDestroyed => _onTurretDestroyed;
-
-    readonly Dictionary<Turret, HexCubeCoordinates> _turrets = new();
-    readonly Subject<Turret> _onTurretDestroyed = new();
-
-    public void Register(Turret turret, HexCubeCoordinates coordinates)
+    public class TurretRepository
     {
-        _turrets.Add(turret, coordinates);
-        turret.OnDied.Subscribe(FireTurretDestroyed);
-    }
+        public Observable<Turret> OnTurretDestroyed => _onTurretDestroyed;
 
-    public void Unregister(Turret turret)
-    {
-        _turrets.Remove(turret);
-    }
+        readonly Dictionary<Turret, HexCubeCoordinates> _turrets = new();
+        readonly Subject<Turret> _onTurretDestroyed = new();
 
-    public HexCubeCoordinates GetCoordinates(Turret turret)
-    {
-        return _turrets[turret];
-    }
+        public void Register(Turret turret, HexCubeCoordinates coordinates)
+        {
+            _turrets.Add(turret, coordinates);
+            turret.OnDied.Subscribe(FireTurretDestroyed);
+        }
 
-    void FireTurretDestroyed(Turret turret)
-    {
-        _onTurretDestroyed.OnNext(turret);
+        public void Unregister(Turret turret)
+            => _turrets.Remove(turret);
+
+        public HexCubeCoordinates GetCoordinates(Turret turret)
+            => _turrets[turret];
+
+        void FireTurretDestroyed(Turret turret)
+            => _onTurretDestroyed.OnNext(turret);
     }
 }

@@ -1,7 +1,12 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Forma/Configs/Health")]
-public class HealthConfig : ScriptableObject
+namespace Forma.Runtime.Health.Configs
 {
-    [field: Min(1)] [field: SerializeField] public int MaxHealth { get; private set; }
+    [CreateAssetMenu(menuName = "Forma/Configs/Health")]
+    public class HealthConfig : ScriptableObject
+    {
+        [field: Min(1)]
+        [field: SerializeField]
+        public int MaxHealth { get; private set; }
+    }
 }

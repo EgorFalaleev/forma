@@ -8,8 +8,8 @@ namespace Forma.Runtime.StateMachine
 {
     public class StateMachine
     {
-        public event Action<IState> OnStateChanged; 
-        
+        public event Action<IState> OnStateChanged;
+
         readonly Dictionary<Type, StateNode> _nodes = new();
 
         readonly IDictionary<ITrigger, Action> _triggersEventsSubscriptions =
@@ -75,7 +75,7 @@ namespace Forma.Runtime.StateMachine
             _current = _nodes[state.GetType()];
 
             SubscribeTriggers();
-            
+
             OnStateChanged?.Invoke(state);
         }
 
@@ -121,9 +121,7 @@ namespace Forma.Runtime.StateMachine
             }
 
             public void AddTransition(IState nextState, ITrigger trigger)
-            {
-                _transitions.Add(new Transition(nextState, trigger));
-            }
+                => _transitions.Add(new Transition(nextState, trigger));
         }
     }
 }

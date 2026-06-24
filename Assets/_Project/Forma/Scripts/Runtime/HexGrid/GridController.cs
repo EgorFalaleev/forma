@@ -39,9 +39,7 @@ namespace Forma.Runtime.HexGrid
         }
 
         public async UniTask DespawnGrid()
-        {
-            await _gridAnimator.PlayDespawn();
-        }
+            => await _gridAnimator.PlayDespawn();
 
         void WarmUp()
         {

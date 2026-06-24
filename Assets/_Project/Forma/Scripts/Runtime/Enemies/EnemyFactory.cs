@@ -1,4 +1,5 @@
 ﻿using Forma.Runtime.Common;
+using Forma.Runtime.Enemies.Configs;
 using Forma.Runtime.Movement;
 using Forma.Runtime.Player;
 using UnityEngine;
@@ -15,7 +16,7 @@ namespace Forma.Runtime.Enemies
             _playerProvider = playerProvider;
             _enemyConfig = enemyConfig;
         }
-        
+
         public Enemy Create(Vector3 position, Transform parent)
         {
             var resource = Resources.Load<Enemy>(Constants.Resources.Enemy);
@@ -31,9 +32,9 @@ namespace Forma.Runtime.Enemies
                 _playerProvider,
                 instance.transform
             );
-            
+
             instance.Construct(moveInput, _enemyConfig);
-            
+
             return instance;
         }
     }

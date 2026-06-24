@@ -15,7 +15,10 @@ namespace Forma.Runtime.HexGrid.Configs
 
         [field: SerializeField] public bool IsFlatTopped { get; private set; }
         [field: SerializeField] public bool ShouldCastShadows { get; private set; }
-        [field: SerializeField] public HexTileAnimationConfig AnimationConfig { get; private set; }
+
+        [field: SerializeField]
+        public HexTileAnimationConfig AnimationConfig { get; private set; }
+
         [field: SerializeField] public Color InactiveColor { get; private set; }
 
         void OnValidate()

@@ -6,7 +6,7 @@ namespace Forma.Runtime.Player
     public class PlayerRepository : IPlayerProvider
     {
         public Transform Transform => _player.transform;
-        
+
         Player _player;
 
         public void Register(Player player)
@@ -20,8 +20,6 @@ namespace Forma.Runtime.Player
         }
 
         public void Unregister()
-        {
-            _player = null;
-        }
+            => _player = null;
     }
 }

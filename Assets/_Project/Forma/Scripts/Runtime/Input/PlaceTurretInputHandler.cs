@@ -6,7 +6,7 @@ namespace Forma.Runtime.Input
     public class PlaceTurretInputHandler : BaseInputHandler
     {
         public Observable<Unit> OnPlaceTurretClicked => _onPlaceTurretClicked;
-        
+
         readonly InputAction _placeTurretInputAction;
         readonly Subject<Unit> _onPlaceTurretClicked = new();
 
@@ -30,8 +30,6 @@ namespace Forma.Runtime.Input
         }
 
         void OnPlaceTurretInputPerformed(InputAction.CallbackContext _)
-        {
-            _onPlaceTurretClicked.OnNext(Unit.Default);
-        }
+            => _onPlaceTurretClicked.OnNext(Unit.Default);
     }
 }

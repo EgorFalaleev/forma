@@ -23,8 +23,9 @@ namespace Forma.Runtime.Movement
 
         Vector3 CalculateMoveDirection()
         {
-            Vector3 targetToOrigin =
-                _playerProvider.Transform.position + _offset - _origin.position;
+            Vector3 targetToOrigin = _playerProvider.Transform.position
+              + _offset
+              - _origin.position;
 
             return targetToOrigin.sqrMagnitude < SqrDistanceThreshold
                 ? Vector3.zero

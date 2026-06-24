@@ -1,14 +1,16 @@
-using Forma.Runtime.Movement;
 using UnityEngine;
 
-public class ConstantDirectionMoveInput : IMoveInput
+namespace Forma.Runtime.Movement
 {
-    public Vector3 MoveDirection => _moveDirection; 
-
-    readonly Vector3 _moveDirection;
-
-    public ConstantDirectionMoveInput(Vector3 moveDirection)
+    public class ConstantDirectionMoveInput : IMoveInput
     {
-        _moveDirection = moveDirection;
+        public Vector3 MoveDirection => _moveDirection;
+
+        readonly Vector3 _moveDirection;
+
+        public ConstantDirectionMoveInput(Vector3 moveDirection)
+        {
+            _moveDirection = moveDirection;
+        }
     }
 }
