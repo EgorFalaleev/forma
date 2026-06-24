@@ -12,15 +12,7 @@ namespace Forma.Runtime.Timer
         readonly CompositeDisposable _disposables = new();
 
         public void Tick()
-        {
-            foreach (Timer timer in _timers)
-            {
-                if (!timer.IsActive)
-                    continue;
-
-                timer.Update(Time.deltaTime);
-            }
-        }
+            => TickTimers(_timers.ToArray());
 
         public Timer CreateTimer(float duration, Action<Timer> callback = null)
         {
@@ -43,5 +35,16 @@ namespace Forma.Runtime.Timer
 
         void RemoveTimer(Timer timer)
             => _timers.Remove(timer);
+
+        void TickTimers(IEnumerable<Timer> timers)
+        {
+            foreach (Timer timer in timers)
+            {
+                if (!timer.IsActive)
+                    continue;
+
+                timer.Update(Time.deltaTime);
+            }
+        }
     }
 }
