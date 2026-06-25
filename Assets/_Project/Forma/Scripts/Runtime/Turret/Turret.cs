@@ -1,6 +1,7 @@
 ﻿using Forma.Runtime.Enemies;
 using Forma.Runtime.Movement;
 using Forma.Runtime.Projectiles;
+using Forma.Runtime.Timer;
 using Forma.Runtime.Turret.Configs;
 using PrimeTween;
 using R3;
@@ -18,23 +19,25 @@ namespace Forma.Runtime.Turret
         [SerializeField] Attack.Attack _attack;
         [SerializeField] Transform _shootPoint;
 
+        readonly CompositeDisposable _disposables = new();
+        readonly Subject<Turret> _onDied = new();
         IMoveInput _moveInput;
         TurretConfig _turretConfig;
         TurretAnimationConfig _animationConfig;
         ProjectileFactory _projectileFactory;
         Tween _currentTween;
         Transform _currentTarget;
-        CompositeDisposable _disposables = new();
-        Subject<Turret> _onDied = new();
-        float _timer;
+        Timer.Timer _shootTimer;
+        TimerSystem _timerSystem;
 
         public void Construct(IMoveInput moveInput, TurretConfig turretConfig,
-            ProjectileFactory projectileFactory)
+            ProjectileFactory projectileFactory, TimerSystem timerSystem)
         {
             _moveInput = moveInput;
             _turretConfig = turretConfig;
             _animationConfig = turretConfig.Animation;
             _projectileFactory = projectileFactory;
+            _timerSystem = timerSystem;
 
             _movement.Construct(turretConfig.Movement);
             _health.Construct(turretConfig.Health);
@@ -54,6 +57,8 @@ namespace Forma.Runtime.Turret
                .OnDied
                .Subscribe(Die)
                .AddTo(_disposables);
+
+            StartShootingCooldown();
         }
 
         void Update()
@@ -64,11 +69,23 @@ namespace Forma.Runtime.Turret
                 return;
 
             TrackTarget();
-            TryFireAtTarget();
         }
 
         void OnDestroy()
-            => _disposables.Dispose();
+        {
+            _shootTimer?.Cancel();
+            _disposables.Dispose();
+        }
+
+        void StartShootingCooldown()
+        {
+            _shootTimer = _timerSystem.CreateTimer(
+                _turretConfig.ShootDelaySeconds,
+                TryFireAtTarget
+            );
+
+            _shootTimer.Start();
+        }
 
         void Die(Unit unit)
         {
@@ -101,6 +118,8 @@ namespace Forma.Runtime.Turret
             {
                 CancelAnimation();
                 _currentTarget = target;
+
+                _shootTimer.Start();
             }
         }
 
@@ -110,6 +129,8 @@ namespace Forma.Runtime.Turret
             {
                 _currentTarget = null;
                 StartIdleRotation();
+
+                _shootTimer.Pause();
             }
         }
 
@@ -169,18 +190,18 @@ namespace Forma.Runtime.Turret
 
         void TryFireAtTarget()
         {
-            _timer += Time.deltaTime;
+            _shootTimer = null;
+            
+            StartShootingCooldown();
 
-            if (_timer < _turretConfig.ShootDelaySeconds)
+            if (_currentTarget == null)
                 return;
-
+            
             Vector3 directionToTarget =
                 (_currentTarget.transform.position - transform.position).normalized;
 
             if (Vector3.Dot(transform.forward, directionToTarget) < 0.9f)
                 return;
-
-            _timer = 0f;
 
             _projectileFactory.Create(
                 _shootPoint.position,
