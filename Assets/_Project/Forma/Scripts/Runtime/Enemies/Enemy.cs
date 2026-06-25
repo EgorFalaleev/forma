@@ -1,5 +1,6 @@
-﻿using Forma.Runtime.Enemies.Configs;
-using Forma.Runtime.Movement;
+﻿using Forma.Runtime.Components;
+using Forma.Runtime.Components.MoveInput;
+using Forma.Runtime.Enemies.Configs;
 using R3;
 using UnityEngine;
 
@@ -8,8 +9,8 @@ namespace Forma.Runtime.Enemies
     public class Enemy : MonoBehaviour
     {
         [SerializeField] RigidbodyMovement _movement;
-        [SerializeField] Attack.Attack _attack;
-        [SerializeField] Health.Health _health;
+        [SerializeField] Attack _attack;
+        [SerializeField] Health _health;
 
         readonly CompositeDisposable _disposables = new();
         IMoveInput _moveInput;

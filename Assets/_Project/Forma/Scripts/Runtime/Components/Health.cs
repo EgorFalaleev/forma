@@ -1,8 +1,8 @@
-using Forma.Runtime.Health.Configs;
+using Forma.Runtime.Components.Configs;
 using R3;
 using UnityEngine;
 
-namespace Forma.Runtime.Health
+namespace Forma.Runtime.Components
 {
     public class Health : MonoBehaviour
     {

@@ -1,7 +1,7 @@
 ﻿using Forma.Runtime.Player;
 using UnityEngine;
 
-namespace Forma.Runtime.Movement
+namespace Forma.Runtime.Components.MoveInput
 {
     public class OffsetFollowMoveInput : IMoveInput
     {

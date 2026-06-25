@@ -1,4 +1,5 @@
-﻿using Forma.Runtime.Movement;
+﻿using Forma.Runtime.Components;
+using Forma.Runtime.Components.MoveInput;
 using Forma.Runtime.Player.Configs;
 using R3;
 using UnityEngine;
@@ -8,8 +9,8 @@ namespace Forma.Runtime.Player
     public class Player : MonoBehaviour
     {
         [SerializeField] RigidbodyMovement _movement;
-        [SerializeField] Health.Health _health;
-        [SerializeField] Attack.Attack _attack;
+        [SerializeField] Health _health;
+        [SerializeField] Attack _attack;
 
         IMoveInput _moveInput;
         readonly CompositeDisposable _disposables = new();

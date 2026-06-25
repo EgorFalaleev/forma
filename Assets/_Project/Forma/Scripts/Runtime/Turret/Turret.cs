@@ -1,5 +1,6 @@
-﻿using Forma.Runtime.Enemies;
-using Forma.Runtime.Movement;
+﻿using Forma.Runtime.Components;
+using Forma.Runtime.Components.MoveInput;
+using Forma.Runtime.Enemies;
 using Forma.Runtime.Projectiles;
 using Forma.Runtime.Timer;
 using Forma.Runtime.Turret.Configs;
@@ -13,10 +14,10 @@ namespace Forma.Runtime.Turret
     {
         public Observable<Turret> OnDied => _onDied;
 
-        [SerializeField] Movement.Movement _movement;
+        [SerializeField] Components.Movement _movement;
         [SerializeField] TriggerZone _triggerZone;
-        [SerializeField] Health.Health _health;
-        [SerializeField] Attack.Attack _attack;
+        [SerializeField] Health _health;
+        [SerializeField] Attack _attack;
         [SerializeField] Transform _shootPoint;
 
         readonly CompositeDisposable _disposables = new();

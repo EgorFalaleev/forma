@@ -1,7 +1,7 @@
 ﻿using R3;
 using UnityEngine;
 
-namespace Forma.Runtime.Turret
+namespace Forma.Runtime.Components
 {
     [RequireComponent(typeof(Collider))]
     public class TriggerZone : MonoBehaviour

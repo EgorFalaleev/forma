@@ -1,7 +1,7 @@
-using Forma.Runtime.Movement.Configs;
+using Forma.Runtime.Components.Configs;
 using UnityEngine;
 
-namespace Forma.Runtime.Movement
+namespace Forma.Runtime.Components
 {
     [RequireComponent(typeof(Rigidbody))]
     public class RigidbodyMovement : MonoBehaviour

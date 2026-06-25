@@ -1,6 +1,4 @@
-using Forma.Runtime.Attack.Configs;
-using Forma.Runtime.Health.Configs;
-using Forma.Runtime.Movement.Configs;
+using Forma.Runtime.Components.Configs;
 using UnityEngine;
 
 namespace Forma.Runtime.Player.Configs

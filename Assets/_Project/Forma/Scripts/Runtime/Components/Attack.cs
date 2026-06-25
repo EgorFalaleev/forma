@@ -1,8 +1,8 @@
-using Forma.Runtime.Attack.Configs;
+using Forma.Runtime.Components.Configs;
 using R3;
 using UnityEngine;
 
-namespace Forma.Runtime.Attack
+namespace Forma.Runtime.Components
 {
     [RequireComponent(typeof(Collider))]
     public class Attack : MonoBehaviour
@@ -28,7 +28,7 @@ namespace Forma.Runtime.Attack
             if (!IsValidTargetLayer(target.layer))
                 return;
 
-            if (target.TryGetComponent(out Health.Health health))
+            if (target.TryGetComponent(out Health health))
             {
                 health.TakeDamage(_attackConfig.Damage);
                 _onHit.OnNext(Unit.Default);

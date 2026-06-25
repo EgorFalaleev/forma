@@ -1,5 +1,5 @@
 ﻿using Forma.Runtime.Common;
-using Forma.Runtime.Movement;
+using Forma.Runtime.Components.MoveInput;
 using Forma.Runtime.Player.Configs;
 using UnityEngine;
 

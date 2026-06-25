@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Forma.Runtime.Health.Configs
+namespace Forma.Runtime.Components.Configs
 {
     [CreateAssetMenu(menuName = "Forma/Configs/Health")]
     public class HealthConfig : ScriptableObject

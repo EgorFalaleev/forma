@@ -1,4 +1,5 @@
-using Forma.Runtime.Movement;
+using Forma.Runtime.Components;
+using Forma.Runtime.Components.MoveInput;
 using Forma.Runtime.Projectiles.Configs;
 using Forma.Runtime.Timer;
 using R3;
@@ -8,8 +9,8 @@ namespace Forma.Runtime.Projectiles
 {
     public class Projectile : MonoBehaviour
     {
-        [SerializeField] Movement.Movement _movement;
-        [SerializeField] Attack.Attack _attack;
+        [SerializeField] Components.Movement _movement;
+        [SerializeField] Attack _attack;
 
         readonly CompositeDisposable _disposables = new();
         IMoveInput _moveInput;

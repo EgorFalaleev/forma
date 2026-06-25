@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Forma.Runtime.Attack.Configs
+namespace Forma.Runtime.Components.Configs
 {
     [CreateAssetMenu(menuName = "Forma/Configs/Attack")]
     public class AttackConfig : ScriptableObject

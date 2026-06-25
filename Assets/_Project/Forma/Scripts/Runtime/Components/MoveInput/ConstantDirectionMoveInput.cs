@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Forma.Runtime.Movement
+namespace Forma.Runtime.Components.MoveInput
 {
     public class ConstantDirectionMoveInput : IMoveInput
     {

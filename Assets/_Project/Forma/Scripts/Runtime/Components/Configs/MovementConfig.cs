@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Forma.Runtime.Movement.Configs
+namespace Forma.Runtime.Components.Configs
 {
     [CreateAssetMenu(menuName = "Forma/Configs/Movement")]
     public class MovementConfig : ScriptableObject

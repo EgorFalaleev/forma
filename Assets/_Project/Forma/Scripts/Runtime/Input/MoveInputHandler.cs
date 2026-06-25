@@ -1,4 +1,4 @@
-﻿using Forma.Runtime.Movement;
+﻿using Forma.Runtime.Components.MoveInput;
 using UnityEngine;
 using UnityEngine.InputSystem;
 

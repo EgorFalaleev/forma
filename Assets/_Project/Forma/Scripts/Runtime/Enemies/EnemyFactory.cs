@@ -1,6 +1,6 @@
 ﻿using Forma.Runtime.Common;
+using Forma.Runtime.Components.MoveInput;
 using Forma.Runtime.Enemies.Configs;
-using Forma.Runtime.Movement;
 using Forma.Runtime.Player;
 using UnityEngine;
 

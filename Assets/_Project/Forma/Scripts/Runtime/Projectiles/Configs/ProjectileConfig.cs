@@ -1,5 +1,4 @@
-using Forma.Runtime.Attack.Configs;
-using Forma.Runtime.Movement.Configs;
+using Forma.Runtime.Components.Configs;
 using UnityEngine;
 
 namespace Forma.Runtime.Projectiles.Configs
