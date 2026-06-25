@@ -1,5 +1,6 @@
 using Forma.Runtime.Movement;
 using Forma.Runtime.Projectiles.Configs;
+using Forma.Runtime.Timer;
 using R3;
 using UnityEngine;
 
@@ -10,10 +11,12 @@ namespace Forma.Runtime.Projectiles
         [SerializeField] Movement.Movement _movement;
         [SerializeField] Attack.Attack _attack;
 
-        IMoveInput _moveInput;
         readonly CompositeDisposable _disposables = new();
+        IMoveInput _moveInput;
+        Timer.Timer _lifetimeTimer;
 
-        public void Construct(ProjectileConfig projectileConfig, IMoveInput moveInput)
+        public void Construct(ProjectileConfig projectileConfig, IMoveInput moveInput,
+            TimerSystem timerSystem)
         {
             _moveInput = moveInput;
 
@@ -24,15 +27,28 @@ namespace Forma.Runtime.Projectiles
                .OnHit
                .Subscribe(OnHit)
                .AddTo(_disposables);
+
+            _lifetimeTimer = timerSystem.CreateTimer(
+                projectileConfig.LifetimeSeconds,
+                DestroySelf
+            );
+            
+            _lifetimeTimer.Start();
         }
 
         void Update()
             => _movement.Move(_moveInput.MoveDirection);
 
         void OnDestroy()
-            => _disposables.Dispose();
+        {
+            _lifetimeTimer?.Cancel();
+            _disposables.Dispose();
+        }
 
         void OnHit(Unit _)
+            => DestroySelf();
+
+        void DestroySelf()
             => Destroy(gameObject);
     }
 }

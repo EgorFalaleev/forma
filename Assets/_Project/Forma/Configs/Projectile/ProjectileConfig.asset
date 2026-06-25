@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 716bd5accd652ab4881c731d0415291f, type: 3}
   m_Name: ProjectileConfig
   m_EditorClassIdentifier: Runtime::Forma.Runtime.Projectiles.Configs.ProjectileConfig
-  <LifetimeSeconds>k__BackingField: 0
+  <LifetimeSeconds>k__BackingField: 5
   <Movement>k__BackingField: {fileID: 11400000, guid: da4f885cd748e2f499b91813ce2b7dcd, type: 2}
   <Attack>k__BackingField: {fileID: 11400000, guid: 0b2833d2b77be5f4fa69b93b6bc1f102, type: 2}
