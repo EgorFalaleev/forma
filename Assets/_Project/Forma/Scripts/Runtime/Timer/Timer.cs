@@ -10,13 +10,13 @@ namespace Forma.Runtime.Timer
         public bool IsActive => _isActive;
 
         readonly float _duration;
-        readonly Action<Timer> _callback;
+        readonly Action _callback;
         readonly Subject<Timer> _onTimerCanceled = new();
         readonly Subject<Timer> _onTimerFinished = new();
         bool _isActive;
         float _elapsed;
 
-        public Timer(float duration, Action<Timer> callback)
+        public Timer(float duration, Action callback)
         {
             _duration = duration;
             _callback = callback;
@@ -47,7 +47,7 @@ namespace Forma.Runtime.Timer
 
         void Finish()
         {
-            _callback?.Invoke(this);
+            _callback?.Invoke();
             _onTimerFinished.OnNext(this);
         }
     }

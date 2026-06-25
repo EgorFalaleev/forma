@@ -14,7 +14,7 @@ namespace Forma.Runtime.Timer
         public void Tick()
             => TickTimers(_timers.ToArray());
 
-        public Timer CreateTimer(float duration, Action<Timer> callback = null)
+        public Timer CreateTimer(float duration, Action callback = null)
         {
             var timer = new Timer(duration, callback);
 
