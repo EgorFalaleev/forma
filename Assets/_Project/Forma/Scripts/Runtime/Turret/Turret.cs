@@ -1,4 +1,5 @@
-﻿using Forma.Runtime.Components;
+﻿using System;
+using Forma.Runtime.Components;
 using Forma.Runtime.Components.MoveInput;
 using Forma.Runtime.Enemies;
 using Forma.Runtime.Projectiles;
@@ -14,7 +15,7 @@ namespace Forma.Runtime.Turret
     {
         public Observable<Turret> OnDied => _onDied;
 
-        [SerializeField] Components.Movement _movement;
+        [SerializeField] RigidbodyMovement _movement;
         [SerializeField] TriggerZone _triggerZone;
         [SerializeField] Health _health;
         [SerializeField] Attack _attack;
@@ -64,13 +65,14 @@ namespace Forma.Runtime.Turret
 
         void Update()
         {
-            _movement.Move(_moveInput.MoveDirection);
-
             if (_currentTarget == null)
                 return;
 
             TrackTarget();
         }
+
+        void FixedUpdate()
+            => _movement.Move(_moveInput.MoveDirection);
 
         void OnDestroy()
         {
@@ -192,12 +194,12 @@ namespace Forma.Runtime.Turret
         void TryFireAtTarget()
         {
             _shootTimer = null;
-            
+
             StartShootingCooldown();
 
             if (_currentTarget == null)
                 return;
-            
+
             Vector3 directionToTarget =
                 (_currentTarget.transform.position - transform.position).normalized;
 

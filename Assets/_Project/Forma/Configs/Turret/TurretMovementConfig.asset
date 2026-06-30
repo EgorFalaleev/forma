@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcd61e923381fdf4884d43dc54d9c995, type: 3}
   m_Name: TurretMovementConfig
   m_EditorClassIdentifier: Runtime::MovementConfig
-  <Speed>k__BackingField: 4.5
+  <Speed>k__BackingField: 4.8
