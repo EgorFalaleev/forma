@@ -16,9 +16,15 @@ namespace Forma.Runtime.Player
             _playerConfig = playerConfig;
         }
 
-        public Player Create(Vector3 spawnPosition)
+        public Player Create()
         {
             var resource = Resources.Load<Player>(Constants.Resources.Player);
+
+            var spawnPosition = new Vector3(
+                _playerConfig.SpawnPositionXZ.x,
+                1f,
+                _playerConfig.SpawnPositionXZ.y
+            );
 
             Player player = Object.Instantiate(
                 resource,
