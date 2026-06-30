@@ -8,6 +8,8 @@ namespace Forma.Runtime.Enemies
 {
     public class Enemy : MonoBehaviour
     {
+        public Health Health => _health;
+        
         [SerializeField] RigidbodyMovement _movement;
         [SerializeField] Attack _attack;
         [SerializeField] Health _health;

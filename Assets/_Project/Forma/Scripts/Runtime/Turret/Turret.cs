@@ -1,5 +1,4 @@
-﻿using System;
-using Forma.Runtime.Components;
+﻿using Forma.Runtime.Components;
 using Forma.Runtime.Components.MoveInput;
 using Forma.Runtime.Enemies;
 using Forma.Runtime.Projectiles;
@@ -117,10 +116,16 @@ namespace Forma.Runtime.Turret
         void OnTargetEntered(Transform target)
         {
             if (_currentTarget == null
-             && target.TryGetComponent(out Enemy _))
+             && target.TryGetComponent(out Enemy enemy))
             {
                 CancelAnimation();
                 _currentTarget = target;
+
+                enemy
+                   .Health
+                   .OnDied
+                   .Subscribe(ResetTarget)
+                   .AddTo(_disposables);
 
                 _shootTimer.Start();
             }
@@ -129,12 +134,18 @@ namespace Forma.Runtime.Turret
         void OnTargetExited(Transform target)
         {
             if (target == _currentTarget)
-            {
-                _currentTarget = null;
-                StartIdleRotation();
+                ResetTarget();
+        }
 
-                _shootTimer.Pause();
-            }
+        void ResetTarget(Unit _)
+            => ResetTarget();
+
+        void ResetTarget()
+        {
+            _currentTarget = null;
+            StartIdleRotation();
+
+            _shootTimer.Pause();
         }
 
         public void PlaySpawnAnimation()
