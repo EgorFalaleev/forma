@@ -15,3 +15,5 @@ MonoBehaviour:
   <Waves>k__BackingField:
   - Amount: 3
     SpawnDelay: 1
+  <MinRadius>k__BackingField: 10
+  <MaxRadius>k__BackingField: 15

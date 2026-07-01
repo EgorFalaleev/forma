@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using Forma.Runtime.Enemies.Configs;
 using Forma.Runtime.Player;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -12,14 +13,16 @@ namespace Forma.Runtime.Enemies
         readonly EnemyFactory _enemyFactory;
         readonly EnemyRepository _enemyRepository;
         readonly IPlayerProvider _playerProvider;
+        readonly WavesConfig _wavesConfig;
         readonly Transform _parent;
 
         public EnemySpawner(EnemyFactory enemyFactory, EnemyRepository enemyRepository,
-            IPlayerProvider playerProvider)
+            IPlayerProvider playerProvider, WavesConfig wavesConfig)
         {
             _enemyFactory = enemyFactory;
             _enemyRepository = enemyRepository;
             _playerProvider = playerProvider;
+            _wavesConfig = wavesConfig;
             _parent = new GameObject("Enemies").transform;
         }
 
@@ -52,8 +55,8 @@ namespace Forma.Runtime.Enemies
         {
             Vector3 position = GetRandomPosition(
                 _playerProvider.Transform.position,
-                5f,
-                10f
+                _wavesConfig.MinRadius,
+                _wavesConfig.MaxRadius
             );
 
             Enemy enemy = _enemyFactory.Create(position, _parent);
